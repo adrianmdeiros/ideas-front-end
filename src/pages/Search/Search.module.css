@@ -1,0 +1,5 @@
+.searchBoxContainer{
+    margin-left: 2rem;
+    text-align: center;
+    flex-grow: 1;
+}

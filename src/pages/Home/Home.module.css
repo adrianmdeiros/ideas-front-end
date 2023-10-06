@@ -1,0 +1,131 @@
+.link{
+    text-decoration: none;
+    color: #FF7A00;
+}
+
+.bottom{
+    margin-top: 1.4rem;
+    text-align: center;
+}
+
+.top{
+    text-align: left;
+    font-style: italic;
+}
+
+.step{
+    width: 100%;
+    max-width: 29rem;
+    border-radius: 1.2rem;;
+    padding: 1.8rem;
+}
+
+.container{
+    max-height: 100vh;
+}
+
+
+.banner{
+    margin-bottom: 3.8rem;
+}
+
+.banner img{
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 50rem;
+    object-fit: cover;
+    opacity: 30%;
+}
+
+.banner p{
+    width: 90%;
+    text-align: center;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #dddddd;
+}
+
+.stepsContainer{
+    display: grid;
+    place-content: center;
+    padding: 1.8rem;
+    text-align: center;
+    gap: 4.2rem;
+}
+
+
+
+
+.step1{
+    border: .2rem solid #FF7A00;
+}
+.step2{
+    border: .2rem solid #00a3ff;
+}
+.step3{
+    border: .2rem solid #ad00ff;
+}
+.step4{
+    border: .2rem solid #2f9e41;
+}
+
+.step1 .top{
+    color: #FF7A00;
+}
+
+.step1 .middle{
+    color: #FF7A00
+}
+
+.step2 .top{
+    color: #00a3ff;
+}
+
+.step2 .middle{
+    color: #00a3ff
+}
+
+.step3 .top{
+    color: #ad00ff;
+}
+
+.step3 .middle{
+    color: #ad00ff
+}
+
+.step4 .top{
+    color: #2f9e41;
+}
+
+.step4 .middle{
+    color: #2f9e41
+}
+
+.footer{
+    display: grid;
+    text-align: center;
+    background-color: #252525;
+    padding: 1.8rem;
+    gap: 1.4rem;
+}
+
+.stepsWrapper{
+    display: grid;
+    gap: 2.8rem;
+}
+
+@media only screen and (min-width: 480px){
+    .stepsWrapper{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+
+
+
+
+

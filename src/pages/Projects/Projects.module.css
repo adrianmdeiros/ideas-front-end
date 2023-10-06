@@ -1,0 +1,22 @@
+
+.container{
+    padding: 0 2rem;
+}
+
+.projectsContainer{
+    display: grid;
+    gap: 1.8rem;
+    margin-top: 9rem;
+}
+
+.img{
+    max-width: 32rem;
+    max-height: 32rem;
+    height: auto;
+    width: auto;
+    opacity: 50%;
+}
+
+
+
+

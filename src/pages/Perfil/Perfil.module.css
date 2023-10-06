@@ -1,0 +1,74 @@
+
+.userContainer{
+    background-color: #252525;
+    margin-top: 6rem;
+    padding: 2rem;
+    display: grid;
+    gap: 2.8rem;
+    border-radius: 0 0 1rem 1rem;
+}
+
+
+.arrowLeft{
+    color: #f5f5f5;
+}
+
+.title{
+    text-align: center;
+    flex-grow: 1;
+    margin-right: 2rem;
+}
+
+
+.top{
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+}
+
+.userPhoto{
+    height: 6.4rem;
+    width: 6.4rem;
+    border-radius: 50%;
+    border: .2rem solid #f5f5f5
+}
+
+.middle{
+    padding: 2.4rem;
+    border-radius: 1em;
+    background-color: #2c2c2c;
+}
+
+.bottom{
+    display: grid;
+    gap: .6rem;
+}
+
+.contact{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer{
+    display: grid;
+   text-align: center;
+   gap: 1.8rem;
+   margin-top: 2.8rem;
+   font-weight: bold;
+   padding: 0 2rem;
+}
+
+.footer a{
+    text-decoration: none;
+    color: #555555;
+}
+.footer a:last-child{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: rgb(156, 0, 0);
+    padding: 1.4rem 1rem;
+}
+

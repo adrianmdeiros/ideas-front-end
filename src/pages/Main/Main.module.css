@@ -1,0 +1,37 @@
+hr{
+    border: none;
+    height: .1rem;
+    background-color: #252525;
+}
+
+
+.container{
+    min-height: 100vh;
+    min-width: 100%;
+    padding: 2rem;
+}
+
+
+.feed{
+    display: grid;
+    overflow-y: auto;
+    margin-top: 2.8rem;
+}
+
+.postsContainer{
+    display: grid;
+    gap: 2.8rem;
+}
+
+.img{
+    max-width: 24rem;
+    max-height: 24rem;
+    height: auto;
+    width: auto;
+    opacity: 50%;
+}
+
+
+
+
+

@@ -1,0 +1,79 @@
+.container{
+    background-color: #252525;
+    padding: 2rem;
+    height: 100vh;
+}
+
+.projectContainer{
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.8rem;
+}
+
+.title{
+    text-align: center;
+    flex-grow: 1;
+}
+
+.top{
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+}
+
+.userPhoto{
+    height: 6.4rem;
+    width: 6.4rem;
+    border-radius: 50%;
+    border: .2rem solid #f5f5f5
+}
+
+.middle{
+    display: grid;
+    gap: 1.4rem;
+    padding: 1.8rem;
+    border-radius: 1em;
+    background-color: #2c2c2c;
+}
+
+.middle p{
+    margin: 0 1rem;
+    color: #ccc;
+}
+
+.projectReqContainer{
+    display: flex;
+    gap: 1.2rem;
+    justify-content: right;
+}
+
+.projectReq{
+    display: flex;
+    align-items: center;
+    margin-top: 1.2rem;
+}
+
+.projectTypeColor{
+    height: 1.4rem;
+    width: 1.4rem;
+    border-radius: 50%;
+    background-color: rgb(0, 195, 255);
+}
+
+
+.bottom{
+    display: grid;
+    gap: .6rem;
+}
+
+
+.bottom h4{
+    margin: 1rem 0;
+}
+
+.contact{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
