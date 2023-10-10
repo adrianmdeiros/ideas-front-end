@@ -1,17 +1,20 @@
 import React from "react"
-import { StyledClickableIcon } from "./style";
+import { StyledClickableIcon, StyledLabel } from "./style";
 
-type Props = {
+export type Props = {
+    label?: string;
     icon?: React.ReactElement;
     onClick: () => void;
+    display?: string
 }
 
-const ClickableIcon: React.FC<Props> = ({icon, onClick}) => {
+const ClickableIcon: React.FC<Props> = ({icon, onClick, label, display}) => {
   
 
   return (
-    <StyledClickableIcon onClick={onClick}>
-        {icon}
+    <StyledClickableIcon display={display} onClick={onClick}>
+      <div>{icon}</div>
+      <StyledLabel>{label}</StyledLabel>
     </StyledClickableIcon>
   )
 }

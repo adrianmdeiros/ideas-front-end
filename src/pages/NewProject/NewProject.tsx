@@ -123,13 +123,17 @@ const NewProject: React.FC = () => {
             <label htmlFor="pibit" className={styles.type}>
               PIBIT
             </label>
+            <input name="projectType" type="radio" id="pivic" className={styles.checkbox} />
+            <label htmlFor="pivic" className={styles.type}>
+              PIVIC
+            </label>
             <input name="projectType" type="radio" id="monografia" className={styles.checkbox} />
             <label htmlFor="monografia" className={styles.type}>
-              Monografia
+              MONOGRAFIA
             </label>
             <input name="projectType" type="radio" id="outro" className={styles.checkbox} />
             <label htmlFor="outro" className={styles.type}>
-              Outro
+              OUTRO
             </label>
           </div>
           <Button
