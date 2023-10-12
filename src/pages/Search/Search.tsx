@@ -1,31 +1,26 @@
 import { ArrowLeft } from "react-feather";
-import ClickableIcon from "../../components/ClickableIcon/ClickableIcon";
 import Header from "../../components/Header/Header";
 import GlobalStyle from "../../styles/global";
 import Input from "../../components/Input/Input";
 import styles from './Search.module.css'
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import NavLink from "../../components/NavLink/NavLink";
 
 
 const Search: React.FC = () => {
   const [searchText, setSearchText] = useState('')
 
 
-  const navigate = useNavigate()
-  const handleNavigate = () => {
-    navigate(-1)
-  };
-
 
   return (
     <>
       <GlobalStyle />
       <Header height="8rem" position="fixed" padding="0 2rem" backgroundColor="#101010">
-        <ClickableIcon
+        <NavLink
+          to={"#"}
           icon={<ArrowLeft />}
-          onClick={() => handleNavigate()}
-        ></ClickableIcon>
+          onClick={() => history.back()}
+        ></NavLink>
         <div className={styles.searchBoxContainer}>
           <Input
             id="search"

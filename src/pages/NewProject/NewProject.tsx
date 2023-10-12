@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import Header from "../../components/Header/Header";
-import ClickableIcon from "../../components/ClickableIcon/ClickableIcon";
+import NavLink from "../../components/NavLink/NavLink";
 import { ArrowLeft, Minus, Plus } from "react-feather";
 import styles from "./NewProject.module.css";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import GlobalStyle from "../../styles/global";
-import { useNavigate } from "react-router-dom";
 
 const NewProject: React.FC = () => {
   const [numberOfStudents, setNumberOfStudents] = useState(1);
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
 
-  const addStudent = () => {
-    setNumberOfStudents(numberOfStudents + 1);
+  const addStudent = (e: any) => {
+    e.preventDefault()
+    if(numberOfStudents < 5){
+      setNumberOfStudents(numberOfStudents + 1);
+    }
   };
 
-  const removeStudent = () => {
+  const removeStudent = (e: any) => {
+    e.preventDefault()
     if (numberOfStudents > 1) {
       setNumberOfStudents(numberOfStudents - 1);
     }
@@ -31,11 +34,6 @@ const NewProject: React.FC = () => {
     setProjectDescription(e.target.value);
   };
 
-  const navigate = useNavigate()
-  
-  const handleNavigate = () => {
-    navigate(-1)
-  }
   return (
     <>
       <GlobalStyle />
@@ -46,17 +44,19 @@ const NewProject: React.FC = () => {
           position="fixed"
           padding="0 2rem"
         >
-          <ClickableIcon
+          <NavLink
+            to={"#"}
             icon={<ArrowLeft />}
-            onClick={handleNavigate}
+            onClick={() => history.back()}
           />
           <h3 className={styles.title}>Novo Projeto</h3>
         </Header>
 
-        <div className={styles.projectForm}>
+        <form className={styles.projectForm}>
           <div className={styles.projectTitleContainer}>
             <label htmlFor="title">Titulo</label>
             <Input
+              required={true}
               name="title"
               type="text"
               id="title"
@@ -73,6 +73,7 @@ const NewProject: React.FC = () => {
           <div className={styles.description}>
             <label htmlFor="descriptionContainer">Descrição</label>
             <textarea
+              required={true}
               className={styles.descriptionText}
               name="description"
               id="description"
@@ -137,16 +138,16 @@ const NewProject: React.FC = () => {
             </label>
           </div>
           <Button
+            type="submit"
             backgroundColor="#f5f5f5"
             borderRadius=".5rem"
             color="#101010"
             hover="#dedede"
             width="100%"
-            onClick={handleNavigate}
           >
             Publicar
           </Button>
-        </div>
+        </form>
       </div>
     </>
   );

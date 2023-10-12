@@ -12,12 +12,9 @@ type SignInData = {
 type User = {
   nome_usual: string;
   email: string;
+  phone: string;
   url_foto_150x200: string;
   tipo_vinculo: string;
-  vinculo: {
-    campus: string;
-    curso: string;
-  };
 };
 
 export interface AuthContextType {
@@ -46,12 +43,19 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const tokens = cookies.get('tokens')
 
     if(tokens){
-      getUserData().then(data => setUser(data)).catch(() => getNewTokens(tokens.refresh))
+      verifyToken(tokens.access)
+      .then(() => {
+        getUserData()
+        .then(data => setUser(data))
+        .catch(() => getNewTokens(tokens.refresh)
+        .then(() => getUserData()
+          .then((data) => setUser(data))))
+          .catch(() => navigate('/login'))
+      })
     }
 
-
     
-  }, [])
+    }, [])
 
 
   const signIn = async ({ matricula, password }: SignInData) => {
@@ -75,7 +79,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const getUserData = async () => {
     const { data } = await suapi.get('minhas-informacoes/meus-dados/')
     return data 
-    
+  }
+
+  const verifyToken = async (tokenToVerify: string) => {
+    const { data } = await suapi.post('autenticacao/token/verify/', {
+      token: tokenToVerify
+    })  
+
+    return data
   }
 
   const getNewTokens = async (refreshToken: string) => {

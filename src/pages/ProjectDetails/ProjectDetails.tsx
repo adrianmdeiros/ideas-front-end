@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import GlobalStyle from "../../styles/global";
-import ClickableIcon from "../../components/ClickableIcon/ClickableIcon";
+import ClickableIcon from "../../components/NavLink/NavLink";
 import { ArrowLeft, Mail, Phone, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
 import Button from "../../components/Button/Button";

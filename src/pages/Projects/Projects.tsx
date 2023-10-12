@@ -29,7 +29,7 @@ const Projects = () => {
         <main>
           <div className={styles.projectsContainer}>
             <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-            <AlertCircle />
+            <AlertCircle size={32}/>
               <p>Os projetos que você adicionar ficarão aqui...</p>
             </div>
             {/* <Post /> */}

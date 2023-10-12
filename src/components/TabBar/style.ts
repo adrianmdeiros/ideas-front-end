@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const StyledNavBar = styled.nav`
     height: 7rem;
     position: fixed;
@@ -14,8 +15,8 @@ export const StyledNavBar = styled.nav`
 `
 
 export const Perfil = styled.img`
-    height: 3.2rem;
-    width: 3.2rem;
+    height: 4.8rem;
+    width: 4.8rem;
     border-radius: 50%;
     border: .2rem solid #f5f5f5;
 ` 
@@ -32,3 +33,4 @@ export const StyledSideMenu = styled.nav`
     margin-top: 8rem;
     background-color: #151515;
 `
+

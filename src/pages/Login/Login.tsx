@@ -5,31 +5,31 @@ import Logo from "../../assets/LogoHome.svg";
 import Button from "../../components/Button/Button";
 import { useContext } from "react";
 import { useForm } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm()
   const { signIn } = useContext(AuthContext)
 
-  const navigate = useNavigate()
 
   const handleSignIn = async (data: any) => {
-    // if (!data) {
-    //   return new Promise((_resolve, reject) => {
-    //     reject( Error("Argumentos inválidos.") );
-    //   });
-    // }
-    // try{
-    //   await signIn(data)
-    // }catch(error){  
-    //   if (error) {
-    //     throw new Error("Falha na autenticação.");
-    //   }
-    //   throw new Error("Falha na tentativa de autenticação.");
-    // }
-    navigate('/main')
+    if (!data) {
+      return new Promise((_resolve, reject) => {
+        reject( Error("Argumentos inválidos.") );
+      });
+    }
+    try{
+      await signIn(data)
+    }catch(error){  
+      if (error) {
+        // alert('Matricula ou senha incorretos!')
+        throw new Error("Falha na autenticação.");
+      }
+      throw new Error("Falha na tentativa de autenticação.");
+    }
   };
+
 
   return (
     <>
@@ -44,6 +44,7 @@ const Login: React.FC = () => {
               <div className={styles.field}>
                 <label htmlFor="matricula">Matrícula</label>
                 <input
+                required={true}
                 className={styles.input}
                 type="text"
                 id="matricula"
@@ -53,6 +54,7 @@ const Login: React.FC = () => {
               <div className={styles.field}>
                 <label htmlFor="password">Senha</label>
                 <input
+                  required={true}
                   className={styles.input}
                   type="password"
                   id="password"
