@@ -19,8 +19,9 @@ type User = {
 
 export interface AuthContextType {
   isAuthenticated: boolean;
-  user: User;
-  signIn: (data: SignInData) => Promise<void>;
+  user: User | null;
+  signIn: (data: SignInData) => Promise<boolean>;
+  signOut: () => void
 }
 
 export const AuthContext = createContext<AuthContextType>(
@@ -33,7 +34,7 @@ type AuthProviderProps = {
 
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [ user, setUser ] = useState<User>({} as User);
+  const [ user, setUser ] = useState<User | null>({} as User);
   const navigate = useNavigate()
   const cookies = new Cookies()
   const isAuthenticated = !!user;
@@ -74,7 +75,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     setUser(userData);
     navigate('/main')
+    return true
   };
+
+  const signOut = () => {
+    const cookies = new Cookies()
+    setUser(null)
+    cookies.remove('tokens')
+  }
 
   const getUserData = async () => {
     const { data } = await suapi.get('minhas-informacoes/meus-dados/')
@@ -101,7 +109,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

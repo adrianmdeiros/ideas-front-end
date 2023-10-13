@@ -11,7 +11,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm()
   const { signIn } = useContext(AuthContext)
-
+  
 
   const handleSignIn = async (data: any) => {
     if (!data) {

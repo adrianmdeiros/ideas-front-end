@@ -6,20 +6,20 @@ import NavLink from "../../components/NavLink/NavLink";
 import TabBar from "../../components/TabBar/TabBar";
 import Header from "../../components/Header/Header";
 import { AuthContext } from "../../contexts/AuthContext";
-import Cookies from "universal-cookie";
 import Button from "../../components/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 
 
 const Perfil: React.FC = () => {
-  const { user } = useContext(AuthContext)
-
+  const { user, signOut } = useContext(AuthContext)
+  const navigate = useNavigate()
   
   const userPhoto = `https://suap.ifma.edu.br${user?.url_foto_150x200}`
 
-  const handleLogOut = () => {
-    const cookies = new Cookies()
-    cookies.remove('tokens')
+  const handleLogOut = async () => {
+    await signOut()
+    navigate('/login')
   }
 
   return (

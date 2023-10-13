@@ -8,6 +8,7 @@ import Perfil from "../pages/Perfil/Perfil";
 import ProjectDetails from "../pages/ProjectDetails/ProjectDetails";
 import NewProject from "../pages/NewProject/NewProject";
 import App from "../App";
+import { RequireAuth } from "../contexts/RequireAuth";
 
 const Router = createBrowserRouter([
   {
@@ -20,31 +21,49 @@ const Router = createBrowserRouter([
       },
       {
         path: '/login',
-        element: <Login/>
+        element: <Login />
       },
       {
         path: '/main',
-        element: <Main />
+        element: 
+        <RequireAuth>
+          <Main />
+        </RequireAuth>
       },
       {
         path: "/projects",
-        element: <Projects/>
+        element: 
+        <RequireAuth>
+          <Projects/>
+        </RequireAuth>
       },
       {
         path: '/perfil',
-        element: <Perfil/>
+        element: 
+        <RequireAuth>
+          <Perfil/>
+        </RequireAuth>
       },
       {
         path: '/search',
-        element: <Search/>
+        element: 
+        <RequireAuth>
+          <Search/>
+        </RequireAuth>
       },
       {
         path: '/details',
-        element: <ProjectDetails />
+        element: 
+        <RequireAuth>
+          <ProjectDetails />
+        </RequireAuth>
       },
       {
         path: '/create',
-        element: <NewProject/>
+        element: 
+        <RequireAuth>
+          <NewProject/>
+        </RequireAuth>
       }
     ]
   },

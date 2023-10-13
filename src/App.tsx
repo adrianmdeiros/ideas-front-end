@@ -5,8 +5,8 @@ import AuthProvider from "./contexts/AuthContext";
 function App() {
   return (
     <>
+    <GlobalStyle />
     <AuthProvider>
-      <GlobalStyle />
       <Outlet/>
     </AuthProvider>
     </>
