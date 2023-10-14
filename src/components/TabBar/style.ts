@@ -15,22 +15,20 @@ export const StyledNavBar = styled.nav`
 `
 
 export const Perfil = styled.img`
-    height: 4.8rem;
-    width: 4.8rem;
+    height: 4.2rem;
+    width: 4.2rem;
     border-radius: 50%;
     border: .2rem solid #f5f5f5;
 ` 
 
 export const StyledSideMenu = styled.nav`
-    width: auto;
-    height: 100vh;
-    display: grid;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    width: fit-content;
+    /* height: 100vh; */
+    display: flex;
+    flex-direction: column;
     padding: 2rem;
-    margin-top: 8rem;
+    justify-content: space-between;
     background-color: #151515;
+    font-size: 500;
 `
 

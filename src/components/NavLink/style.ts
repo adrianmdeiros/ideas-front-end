@@ -6,11 +6,12 @@ export const StyledNavLink = styled(NavLink)<Props>`
     text-decoration: none;
     color: #505050;
     height: fit-content;
-    gap: 1rem;
+    display: ${props => props.display};
     align-items: center;
+    gap: 1rem;
     text-align: center;
     cursor: pointer;
-    padding: 1rem;
+    padding: .8rem;
     border-radius: .8rem;
     :hover{
         background-color: #252525;
@@ -21,6 +22,5 @@ export const StyledNavLink = styled(NavLink)<Props>`
 `
 
 export const StyledLabel = styled.label`
-    font-size: 1.4rem;
     cursor: pointer;
 `

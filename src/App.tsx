@@ -7,7 +7,7 @@ function App() {
     <>
     <GlobalStyle />
     <AuthProvider>
-      <Outlet/>
+      <Outlet />
     </AuthProvider>
     </>
   )

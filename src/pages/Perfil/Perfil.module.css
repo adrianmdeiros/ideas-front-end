@@ -1,44 +1,72 @@
 
+.body{
+    height: 100vh;
+    min-width: 100%;
+}
+
+
+.email, .phone{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    /* justify-content: space-between; */
+}
+
 .userContainer{
-    background-color: #252525;
-    margin-top: 6rem;
-    padding: 2rem;
+    /* background-color: #252525; */
+    /* padding: 2rem; */
     display: grid;
     gap: 2.8rem;
-    border-radius: 0 0 1rem 1rem;
+    
 }
+
 
 
 .arrowLeft{
     color: #f5f5f5;
 }
 
-.title{
-    text-align: center;
-    flex-grow: 1;
-    margin-right: 2rem;
+
+.bio{
+    display: flex;
+    gap: 2rem;
+    
 }
 
+.card{
+    display: grid;
+    gap: 2rem;
+    background-color: #2c2c2c;
+    padding: 2rem;
+    border-radius: 0 0 1rem 1rem ;
+}
 
 .top{
+    width: 100%;
     display: flex;
     align-items: center;
+    /* gap: 1rem; */
     gap: 2.4rem;
 }
 
 .userPhoto{
-    height: 6.4rem;
-    width: 6.4rem;
+    height: 10rem;
+    width: 10rem;
     border-radius: 50%;
-    border: .2rem solid #f5f5f5
 }
 
 .middle{
+    width: 100%;
     padding: 2.4rem;
-    border-radius: 1em;
+    border-radius: 1rem;
     background-color: #2c2c2c;
+    max-width: 32rem;
+    
 }
-
+.middle p{
+    word-break: break-all;
+}
 .bottom{
     display: grid;
     gap: .6rem;
@@ -52,23 +80,21 @@
 
 .footer{
     display: grid;
-   text-align: center;
-   gap: 1.8rem;
-   margin-top: 2.8rem;
-   font-weight: bold;
-   padding: 0 2rem;
+    gap: 1.8rem;
+    margin-top: 2.8rem;
+    font-weight: bold;
+    padding: 0 2rem;
+    place-content: center;
 }
 
 .footer a{
     text-decoration: none;
-    color: #555555;
+    /* color: #555555; */
 }
 .footer a:last-child{
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 1rem;
-    color: rgb(156, 0, 0);
-    padding: 1.4rem 1rem;
+    color: rgb(216, 0, 0);
 }
 

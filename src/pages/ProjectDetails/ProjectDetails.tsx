@@ -1,19 +1,15 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import GlobalStyle from "../../styles/global";
-import ClickableIcon from "../../components/NavLink/NavLink";
 import { ArrowLeft, Mail, Phone, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
 import Button from "../../components/Button/Button";
-import { useNavigate } from "react-router-dom";
+import NavLink from "../../components/NavLink/NavLink";
 
 type Props = {};
 
 const ProjectDetails: React.FC<Props> = () => {
-  const navigate = useNavigate()
-  const handleNavigate = () => {
-    navigate(-1)
-  };
+ 
 
   const handleZap = () => {
     alert("mandar pro zap");
@@ -23,6 +19,8 @@ const ProjectDetails: React.FC<Props> = () => {
     "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80";
   return (
     <>
+    <div className={styles.body}>
+
       <GlobalStyle />
       <div className={styles.container}>
         <Header
@@ -31,7 +29,7 @@ const ProjectDetails: React.FC<Props> = () => {
           backgroundColor="#101010"
           padding="0 2rem"
         >
-          <ClickableIcon icon={<ArrowLeft />} onClick={handleNavigate} />
+          <NavLink icon={<ArrowLeft />} onClick={() => history.back()} to={"#"} />
           <h3 className={styles.title}>Detalhes do projeto</h3>
         </Header>
         <main>
@@ -88,6 +86,8 @@ const ProjectDetails: React.FC<Props> = () => {
           </div>
         </main>
       </div>
+    </div>
+
     </>
   );
 };

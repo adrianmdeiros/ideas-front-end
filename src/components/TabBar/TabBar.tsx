@@ -1,35 +1,25 @@
 import NavLink from "../NavLink/NavLink";
 import { Home as HomeIcon, Search, BookOpen } from "react-feather";
-import { Perfil, StyledNavBar, StyledSideMenu } from "./style";
-import React, { useContext, useEffect, useState } from "react";
+import { Perfil, StyledNavBar} from "./style";
+import React, { useContext  } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
+
+
 const TabBar: React.FC = () => {
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
   const { user } = useContext(AuthContext);
   const userPhoto = `https://suap.ifma.edu.br${user?.url_foto_150x200}`;
 
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setIsLargeScreen(window.innerWidth > 600);
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-
   return (
     <>
-      {isLargeScreen ? (
+      {/* {isLargeScreen ? (
         <StyledSideMenu>
           <div>
-            <NavLink to={"/main"} icon={<HomeIcon />} label="Home" />
-            <NavLink to={"/projects"} icon={<BookOpen />} label="Projetos" />
-            <NavLink to={"/search"} icon={<Search />} label="Buscar" />
+            <img src={Logo} alt="Logo"/>
+            <NavLink to={"/main"} icon={<HomeIcon />} label="Home" display={"flex"}/>
+            <NavLink to={"/projects"} icon={<BookOpen />} label="Projetos" display={"flex"}/>
+            <NavLink to={"/search"} icon={<Search />} label="Buscar" display={"flex"}/>
           </div>
           <div>
             <NavLink
@@ -38,7 +28,7 @@ const TabBar: React.FC = () => {
             />
           </div>
         </StyledSideMenu>
-      ) : (
+      ) : ( */}
         <StyledNavBar>
           <NavLink to={"/main"} icon={<HomeIcon />} label="Home" />
           <NavLink to={"/projects"} icon={<BookOpen />} label="Projetos" />
@@ -48,7 +38,7 @@ const TabBar: React.FC = () => {
             icon={<Perfil src={userPhoto} alt="Foto de perfil" />}
           />
         </StyledNavBar>
-      )}
+      {/* )} */}
     </>
   );
 };

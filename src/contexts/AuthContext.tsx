@@ -1,8 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import suapi from "../api/suapi";
-
 
 type SignInData = {
   matricula: string;
@@ -21,92 +19,83 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   signIn: (data: SignInData) => Promise<boolean>;
-  signOut: () => void
+  signOut: () => void;
 }
 
-export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType
-);
+export const AuthContext = createContext<AuthContextType>(null!);
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
-
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [ user, setUser ] = useState<User | null>({} as User);
-  const navigate = useNavigate()
-  const cookies = new Cookies()
+  const [user, setUser] = useState<User | null>(null);
+  const cookies = new Cookies();
   const isAuthenticated = !!user;
-  
-  
+
   useEffect(() => {
-    const tokens = cookies.get('tokens')
+    validateUser();
+  }, []);
 
-    if(tokens){
-      verifyToken(tokens.access)
-      .then(() => {
-        getUserData()
-        .then(data => setUser(data))
-        .catch(() => getNewTokens(tokens.refresh)
-        .then(() => getUserData()
-          .then((data) => setUser(data))))
-          .catch(() => navigate('/login'))
-      })
+  const validateUser = async () => {
+    const token = cookies.get("token");
+    const refreshToken = cookies.get("refresh");
+
+    if (token || refreshToken) {
+      try {
+        setUser(await getUserData(token));
+      } catch (e) {
+        await getNewToken(refreshToken)
+      }
     }
-
-    
-    }, [])
-
+  };
 
   const signIn = async ({ matricula, password }: SignInData) => {
-    const { data } = await suapi.post("autenticacao/token/", {
+    const response = await suapi.post("autenticacao/token/", {
       username: matricula,
       password: password,
     });
 
-    const tokens = data
+    const tokens = response.data;
 
-    cookies.set('tokens', tokens);
+    if (tokens) {
+      setUser(await getUserData(tokens.access));
+      setTokens(tokens);
+      return true;
+    }
+    return false;
+  };
 
-    suapi.defaults.headers['Authorization'] = `Bearer ${tokens.access}`
+  const getUserData = async (token: string) => {
+    const response = await suapi.get("minhas-informacoes/meus-dados/", {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
+
+  const setTokens = (tokens: any) => {
+    cookies.set("token", tokens.access);
+    cookies.set("refresh", tokens.refresh);
+  };
+
+  const getNewToken = async (refreshToken: string) => {
+    const response = await suapi.post("autenticacao/token/refresh/", {
+      refresh: refreshToken,
+    });
+    cookies.set("token", response.data.access);
     
-    const userData = await getUserData()
-
-    setUser(userData);
-    navigate('/main')
-    return true
+    const user = await getUserData(response.data.access)
+    setUser(user)
+    return response.data;
   };
 
   const signOut = () => {
-    const cookies = new Cookies()
-    setUser(null)
-    cookies.remove('tokens')
-  }
-
-  const getUserData = async () => {
-    const { data } = await suapi.get('minhas-informacoes/meus-dados/')
-    return data 
-  }
-
-  const verifyToken = async (tokenToVerify: string) => {
-    const { data } = await suapi.post('autenticacao/token/verify/', {
-      token: tokenToVerify
-    })  
-
-    return data
-  }
-
-  const getNewTokens = async (refreshToken: string) => {
-    const { data } = await suapi.post('autenticacao/token/refresh/', {
-      refresh: refreshToken
-    })
-
-    const newTokens = data
-    
-    cookies.set('tokens', newTokens)
-  }
-
+    setUser(null);
+    cookies.remove("token");
+    cookies.remove("refresh");
+  };
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>

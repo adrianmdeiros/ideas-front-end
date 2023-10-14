@@ -17,13 +17,15 @@ const Projects = () => {
 
   return (
     <>
+    <div className={styles.body}>
       <GlobalStyle />
+      <TabBar />
       <div className={styles.container}>
-        <Header height="8rem" position="fixed" padding="0 2rem" backgroundColor="#101010" zIndex="1">
-          <h3>Meus Projetos</h3>
-          <Button backgroundColor="#ff7a00" borderRadius=".5rem" color="#f5f5f5" hover="#dd8c00" height="3.8rem" onClick={handleNavigate}>
+        <Header  height="9rem" position="fixed" padding="2rem" backgroundColor="#101010" zIndex="1">
+          <h2>Meus Projetos</h2>
+          <Button backgroundColor="#ff7a00" borderRadius=".5rem" color="#f5f5f5" hover="#dedede" height="4.2rem" onClick={handleNavigate}>
             Novo
-            <Plus color="#f5f5f5"/>
+            <Plus size={18}/>
           </Button>
         </Header>
         <main>
@@ -36,7 +38,7 @@ const Projects = () => {
           </div>
         </main>
       </div>
-      <TabBar />
+    </div>
     </>
   );
 };

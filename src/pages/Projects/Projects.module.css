@@ -6,7 +6,7 @@
 .projectsContainer{
     display: grid;
     gap: 1.8rem;
-    margin-top: 9rem;
+    margin-top: 12rem;
 }
 
 .img{
@@ -16,7 +16,5 @@
     width: auto;
     opacity: 50%;
 }
-
-
 
 

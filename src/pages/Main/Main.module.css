@@ -6,8 +6,8 @@ hr{
 }
 
 
-.container{
-    min-height: 100vh;
+.body{
+    height: 100vh;
     min-width: 100%;
     padding: 2rem;
 }
@@ -16,9 +16,8 @@ hr{
 .feed{
     display: grid;
     overflow-y: auto;
-    margin-top: 2.8rem;
+    margin-top: 9rem;    
 }
-
 .postsContainer{
     display: grid;
     gap: 2.8rem;
@@ -31,8 +30,6 @@ hr{
     width: auto;
     opacity: 50%;
 }
-
-
 
 
 

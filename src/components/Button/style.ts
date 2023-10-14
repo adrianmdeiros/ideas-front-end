@@ -5,7 +5,7 @@ import { BtnProps } from "./Button";
 export const StyledButton = styled.button<BtnProps>`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1rem;
   margin: ${props => props.margin};
   width: ${props => props.width};

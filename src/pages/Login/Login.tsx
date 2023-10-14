@@ -5,29 +5,24 @@ import Logo from "../../assets/LogoHome.svg";
 import Button from "../../components/Button/Button";
 import { useContext } from "react";
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { LogIn } from "react-feather";
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm()
   const { signIn } = useContext(AuthContext)
-  
+  const navigate = useNavigate()
 
   const handleSignIn = async (data: any) => {
-    if (!data) {
-      return new Promise((_resolve, reject) => {
-        reject( Error("Argumentos inválidos.") );
-      });
-    }
-    try{
-      await signIn(data)
-    }catch(error){  
-      if (error) {
-        // alert('Matricula ou senha incorretos!')
-        throw new Error("Falha na autenticação.");
+      try{
+        const isLogged = await signIn(data)
+        if(isLogged){
+          navigate('/main')
+        }
+      }catch(e){
+        alert('Matrícula ou senha incorretas!')
       }
-      throw new Error("Falha na tentativa de autenticação.");
-    }
   };
 
 
@@ -71,6 +66,7 @@ const Login: React.FC = () => {
                 borderRadius={".8rem"}
               >
                 Entrar
+                <LogIn size={16}/>
               </Button>
             </form>
             <div className={styles.bottom}>

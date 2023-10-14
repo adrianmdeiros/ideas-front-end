@@ -48,7 +48,7 @@ const Router = createBrowserRouter([
         path: '/search',
         element: 
         <RequireAuth>
-          <Search/>
+          <Search />
         </RequireAuth>
       },
       {
@@ -62,7 +62,7 @@ const Router = createBrowserRouter([
         path: '/create',
         element: 
         <RequireAuth>
-          <NewProject/>
+          <NewProject />
         </RequireAuth>
       }
     ]

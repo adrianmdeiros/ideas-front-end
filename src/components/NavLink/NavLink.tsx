@@ -7,11 +7,12 @@ export type Props = {
     color?: string
     to: string
     onClick?: () => void
+    display?: string;
 }
 
-const NavLink: React.FC<Props> = ({icon, label, to, onClick}) => {
+const NavLink: React.FC<Props> = ({icon, label, to, onClick, display}) => {
   return (
-    <StyledNavLink to={to} onClick={onClick}  >
+    <StyledNavLink to={to} onClick={onClick} display={display} >
       <div>{icon}</div>
       <StyledLabel>{label}</StyledLabel>
     </StyledNavLink>

@@ -1,5 +1,18 @@
 .searchBoxContainer{
-    margin-left: 2rem;
     text-align: center;
     flex-grow: 1;
+    display: flex;
+    gap: 1rem;
+}
+
+.cardsContainer{
+    /* padding: 2rem; */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: auto;
+}
+
+.container{
+    padding: 2rem;
 }
