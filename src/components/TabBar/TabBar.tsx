@@ -10,7 +10,6 @@ const TabBar: React.FC = () => {
   const { user } = useContext(AuthContext);
   const userPhoto = `https://suap.ifma.edu.br${user?.url_foto_150x200}`;
 
-
   return (
     <>
       {/* {isLargeScreen ? (

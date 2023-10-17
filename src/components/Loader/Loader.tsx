@@ -1,8 +1,13 @@
-import styles from './Loader.module.css'
+import { StyledLoader } from './style'
 
-const Loader = () => {
+
+export type LoaderProps = {
+  color?: string
+}
+
+const Loader: React.FC<LoaderProps> = ({color}) => {
   return (
-    <div className={styles.customLoader}></div>
+    <StyledLoader color={color}></StyledLoader>
   )
 }
 

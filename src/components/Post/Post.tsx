@@ -24,11 +24,11 @@ type PostProps = {
   description: string
   numberOfStudents: number
   projectType: string
-  postDate: string
+  postDate: number
 }
 
-const Post: React.FC<PostProps> = ({userName, title, description, numberOfStudents, projectType, postDate}) => {
-  const perfilImage = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80"
+const Post: React.FC<PostProps> = ({userName, title, description, numberOfStudents, projectType, postDate, avatarUrl}) => {
+  const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`
   const navigate = useNavigate()
   
   const handleNavigate = () => {
@@ -43,7 +43,7 @@ const Post: React.FC<PostProps> = ({userName, title, description, numberOfStuden
           <StyledUserPhoto src={perfilImage} />
           <StyledTitle>{userName}</StyledTitle>
         </StyledAutor>
-        <StyledP>{postDate}</StyledP>
+        <StyledP>{postDate}m</StyledP>
       </StyledTop>
       <StyledProject>
         <StyledMiddle >
@@ -54,7 +54,7 @@ const Post: React.FC<PostProps> = ({userName, title, description, numberOfStuden
           <StyledReqContainer >
             <StyledProjectReq >
               <User size={18} />
-              <StyledP>{numberOfStudents}</StyledP>
+              <StyledP>{numberOfStudents} Alunos</StyledP>
             </StyledProjectReq>
             <StyledProjectReq >
               <StyledColorTypeProject/>

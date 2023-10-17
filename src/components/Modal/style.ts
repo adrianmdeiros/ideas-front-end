@@ -28,6 +28,7 @@ export const StyledModal = styled.div`
     transform: translate(-50%, -50%);
     overflow-y: auto;
     max-height: 90vh ;
+    z-index: 999;
 
     &::-webkit-scrollbar {
         width: .6rem; /* Largura da barra de rolagem */

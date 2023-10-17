@@ -12,7 +12,7 @@ const Modal: React.FC<ModalProps> = ({ setOpenModal, isOpen, children }) => {
     return (
       <>
         <GlobalStyle />
-        <StyledContainer onClick={setOpenModal}>
+        <StyledContainer>
           <StyledModal>
             <CloseButton onClick={setOpenModal}/>
             {children}

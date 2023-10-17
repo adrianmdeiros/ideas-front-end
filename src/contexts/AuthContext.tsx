@@ -7,7 +7,7 @@ type SignInData = {
   password: string;
 };
 
-type User = {
+export type User = {
   nome_usual: string;
   email: string;
   phone: string;
