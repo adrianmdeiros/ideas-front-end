@@ -8,6 +8,7 @@ import NavLink from "../../components/NavLink/NavLink";
 import Card from "../../components/Tag/Tag";
 import Button from "../../components/Button/Button";
 import { Search as SearchIcon } from 'react-feather'
+import TabBar from "../../components/TabBar/TabBar";
 
 const Search: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -15,6 +16,7 @@ const Search: React.FC = () => {
   return (
     <>
       <GlobalStyle />
+      <TabBar/>
       <Header height="8rem" padding="0 2rem" backgroundColor="#101010">
         <NavLink
           to={"#"}
@@ -32,7 +34,7 @@ const Search: React.FC = () => {
             onChange={(e) => setSearchText(e.target.value)}
             value={searchText}
           />
-          <Button color="#101010" hover="#dedede" backgroundColor="#f5f5f5" borderRadius=".8rem" height="4rem" width="5rem" >
+          <Button color="#101010" hover="#dedede" backgroundColor="#f5f5f5" borderRadius=".8rem"  >
               <SearchIcon size={18}/>
           </Button>
         </div>

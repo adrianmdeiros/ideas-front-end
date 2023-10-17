@@ -1,8 +1,8 @@
-// import styles from './Loader.module.css'
+import styles from './Loader.module.css'
 
 const Loader = () => {
   return (
-   <p>Carregando...</p>
+    <div className={styles.customLoader}></div>
   )
 }
 

@@ -6,14 +6,15 @@ import Projects from "../pages/Projects/Projects";
 import Search from "../pages/Search/Search";
 import Perfil from "../pages/Perfil/Perfil";
 import ProjectDetails from "../pages/ProjectDetails/ProjectDetails";
-import NewProject from "../pages/NewProject/NewProject";
 import App from "../App";
 import { RequireAuth } from "../contexts/RequireAuth";
+import NotFound from "../pages/NotFound/NotFound";
 
 const Router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <NotFound />,
     children: [
       {
         path: '/',
@@ -56,13 +57,6 @@ const Router = createBrowserRouter([
         element: 
         <RequireAuth>
           <ProjectDetails />
-        </RequireAuth>
-      },
-      {
-        path: '/create',
-        element: 
-        <RequireAuth>
-          <NewProject />
         </RequireAuth>
       }
     ]

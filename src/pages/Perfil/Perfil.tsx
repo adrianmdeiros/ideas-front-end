@@ -13,8 +13,8 @@ const Perfil: React.FC = () => {
 
   const userPhoto = `https://suap.ifma.edu.br${user?.url_foto_150x200}`;
 
-  const handleLogOut = () => {
-    signOut();
+  const handleLogOut = async () => {
+    await signOut();
     navigate("/login");
   };
 

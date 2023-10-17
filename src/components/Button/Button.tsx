@@ -22,7 +22,7 @@ const Button: React.FC<BtnProps> = ({
   hover,
   borderRadius,
   children,
-  type
+  type,
 }) => {
   return (
     <StyledButton

@@ -30,11 +30,11 @@ const Home: React.FC = () => {
           <Button
             backgroundColor={"#FF7A00"}
             color={"#f5f5f5"}
-            // width={"10%"}
-            height={"4.2rem"}
+            width={"12rem"}
+            height={"4.8rem"}
             hover={"#e46e00"}
             onClick={handleLogin}
-            borderRadius={'.5rem'}
+            borderRadius={'.8rem'}
           >
             Entrar
             <LogIn />
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         <main>
           <div className={styles.banner}>
             <img src={Banner} alt="banner-principal" />
-            <p>Encontre oportunidades de projeto de pesquisa!</p>
+            <h2>Encontre oportunidades de projeto de pesquisa!</h2>
           </div>
           <div className={styles.stepsContainer}>
             <h1>Como funciona?</h1>

@@ -2,22 +2,27 @@ import GlobalStyle from "../../styles/global";
 import styles from "./Main.module.css";
 import Header from "../../components/Header/Header";
 import TabBar from "../../components/TabBar/TabBar";
-import { AlertCircle } from "react-feather";
+import { AlertCircle, User } from "react-feather";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from 'react'
 
+
+
+
 const Main: React.FC= () => {
   const { user } = useContext(AuthContext)
-
+  
   return (
     <div className={styles.body}>
       <GlobalStyle />
       <TabBar />
       <div className={styles.container}>
         <Header position="fixed" padding="2rem"  height="9rem" backgroundColor="#101010">
-          {/* <img src={Logo} alt="logo" />  */}
           <h2>Descubra</h2>
-          <p>Bem-vindo(a), <br /> {user?.nome_usual}</p>
+          <div style={{display:'flex', gap:'1rem'}}>
+            <User size={38}/>
+            <p>Bem-vindo(a), <br /> {user?.nome_usual}</p>
+          </div>
         </Header>
           <main>
           <div className={styles.feed}>

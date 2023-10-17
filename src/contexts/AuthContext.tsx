@@ -28,6 +28,8 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
+
+
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const cookies = new Cookies();
@@ -76,7 +78,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const setTokens = (tokens: any) => {
-    cookies.set("token", tokens.access);
+    cookies.set("token", tokens.access, {httpOnly: true, secure: true});
     cookies.set("refresh", tokens.refresh);
   };
 
@@ -84,7 +86,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const response = await suapi.post("autenticacao/token/refresh/", {
       refresh: refreshToken,
     });
-    cookies.set("token", response.data.access);
+    cookies.set("token", response.data.access, {httpOnly: true, secure: true});
     
     const user = await getUserData(response.data.access)
     setUser(user)

@@ -3,22 +3,25 @@ import styles from './Login.module.css'
 import Banner from "../../assets/Banner.png";
 import Logo from "../../assets/LogoHome.svg";
 import Button from "../../components/Button/Button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import { LogIn } from "react-feather";
+import Loader from "../../components/Loader/Loader";
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm()
   const { signIn } = useContext(AuthContext)
   const navigate = useNavigate()
+  const [isLogging, setIsLogging] = useState(false)
 
   const handleSignIn = async (data: any) => {
-      try{
-        const isLogged = await signIn(data)
+    setIsLogging(true)
+    try{
+      const isLogged = await signIn(data)
         if(isLogged){
           navigate('/main')
+          setIsLogging(false)
         }
       }catch(e){
         alert('Matrícula ou senha incorretas!')
@@ -33,7 +36,9 @@ const Login: React.FC = () => {
       <div className={styles.container}>
           <div className={styles.loginContainer}>
             <div className={styles.top}>
+              <Link to={'/'}>
               <img src={Logo} alt="Logo do app" />
+              </Link>
             </div>
             <form className={styles.middle} onSubmit={handleSubmit(handleSignIn)}>
               <div className={styles.field}>
@@ -65,8 +70,7 @@ const Login: React.FC = () => {
                 hover={"#ccc"}
                 borderRadius={".8rem"}
               >
-                Entrar
-                <LogIn size={16}/>
+                {isLogging ? <Loader /> : <p>Entrar</p>}
               </Button>
             </form>
             <div className={styles.bottom}>
