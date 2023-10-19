@@ -8,13 +8,15 @@ export type Props = {
     to: string
     onClick?: () => void
     display?: string;
+    children?: React.ReactNode
 }
 
-const NavLink: React.FC<Props> = ({icon, label, to, onClick, display}) => {
+const NavLink: React.FC<Props> = ({children, icon, label, to, onClick, display}) => {
   return (
     <StyledNavLink to={to} onClick={onClick} display={display} >
       <div>{icon}</div>
       <StyledLabel>{label}</StyledLabel>
+      {children}
     </StyledNavLink>
   )
 }

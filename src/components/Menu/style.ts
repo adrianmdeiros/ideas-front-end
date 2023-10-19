@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StyledNavBar = styled.nav`
+export const StyledTabBar = styled.nav`
     height: 7rem;
     position: fixed;
     left: 0;
@@ -15,15 +15,16 @@ export const StyledNavBar = styled.nav`
 `
 
 export const Perfil = styled.img`
-    height: 4.2rem;
-    width: 4.2rem;
+    height: 4.8rem;
+    width: 4.8rem;
     border-radius: 50%;
-    border: .2rem solid #f5f5f5;
 ` 
 
 export const StyledSideMenu = styled.nav`
     width: fit-content;
-    /* height: 100vh; */
+    min-width: fit-content;
+    height: 100vh;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -31,4 +32,21 @@ export const StyledSideMenu = styled.nav`
     background-color: #151515;
     font-size: 500;
 `
+export const StyledPerfil = styled.div`
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 
+`
+
+export const StyledUserInfo = styled.div`
+    display: grid;
+    p{
+        text-align: start;
+    }
+`
+
+export const StyledNav = styled.nav`
+    display: grid;
+    gap: 1rem;
+`

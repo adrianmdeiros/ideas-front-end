@@ -1,5 +1,4 @@
 hr{
-    margin-top: 1.8rem;
     border: none;
     height: .1rem;
     background-color: #252525;
@@ -9,14 +8,23 @@ hr{
 .body{
     height: 100vh;
     min-width: 100%;
+    /* padding: 2rem; */
+}
+
+.container{
+    width: 100%;
     padding: 2rem;
+}
+
+.container h2{
+    margin-bottom: 1rem;
 }
 
 
 .feed{
     display: grid;
     overflow-y: auto;
-    margin-top: 9rem;    
+    margin-top: 4rem;    
 }
 .postsContainer{
     margin-bottom: 9rem;    
@@ -32,5 +40,16 @@ hr{
     opacity: 50%;
 }
 
+
+@media only screen and (min-width: 768px){
+    .body{
+        display: flex;
+        padding: 0;
+    }
+    .postsContainer{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
 
 

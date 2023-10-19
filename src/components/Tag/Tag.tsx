@@ -1,13 +1,13 @@
 import React from "react";
 import { StyledCard } from "./style";
 
-export type CardProps = {
+export type TagProps = {
   bgcolor?: string;
   children: React.ReactNode
 };
 
-const Card: React.FC<CardProps> = ({ children, bgcolor }) => {
+const Tag: React.FC<TagProps> = ({ children, bgcolor }) => {
   return <StyledCard bgcolor={bgcolor}>{children}</StyledCard>;
 };
 
-export default Card;
+export default Tag;

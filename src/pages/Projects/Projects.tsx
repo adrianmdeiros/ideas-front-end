@@ -2,52 +2,46 @@ import { AlertCircle, Minus, Plus } from "react-feather";
 import GlobalStyle from "../../styles/global";
 import styles from "./Projects.module.css";
 import Header from "../../components/Header/Header";
-import TabBar from "../../components/TabBar/TabBar";
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
 import { useState } from "react";
-import Input from "../../components/Input/Input";
+import Menu from "../../components/Menu/Menu";
+import { useForm } from "react-hook-form";
 
 const Projects = () => {
-  const [numberOfStudents, setNumberOfStudents] = useState(1);
-  const [projectTitle, setProjectTitle] = useState("");
-  const [projectDescription, setProjectDescription] = useState("");
+  const [studentsRequired, setStudentsRequired] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { register, handleSubmit, setValue } = useForm()
 
   const addStudent = (e: any) => {
     e.preventDefault();
-    if (numberOfStudents < 5) {
-      setNumberOfStudents(numberOfStudents + 1);
+    if (studentsRequired < 5) {
+      setStudentsRequired(studentsRequired + 1)
+      setValue('studentsRequired', studentsRequired + 1)
     }
   };
-
+  
   const removeStudent = (e: any) => {
     e.preventDefault();
-    if (numberOfStudents > 1) {
-      setNumberOfStudents(numberOfStudents - 1);
+    if (studentsRequired > 1) {      
+      setStudentsRequired(studentsRequired - 1)
+      setValue('studentsRequired', studentsRequired - 1)
     }
   };
 
-  const handleTituloChange = (e: any) => {
-    setProjectTitle(e.target.value);
-  };
 
-  const handleDescriptionChange = (e: any) => {
-    setProjectDescription(e.target.value);
-  };
+
+  const createProject = async (data: any) => {
+    console.log(data);
+  }
 
   return (
     <>
       <div className={styles.body}>
         <GlobalStyle />
-        <TabBar/>
+        <Menu />
         <div className={styles.container}>
-         <Header
-            height="9rem"
-            position="fixed"
-            padding="2rem"
-            backgroundColor="#101010"
-          >
+          <Header  padding="0 1rem" backgroundColor="#101010">
             <h2>Meus Projetos</h2>
             <Button
               backgroundColor="#ff7a00"
@@ -56,13 +50,13 @@ const Projects = () => {
               hover="#ff7b00e8"
               height="4.2rem"
               onClick={() => setIsModalOpen(true)}
-              >
+            >
               Novo
               <Plus size={18} />
             </Button>
           </Header>
-          <main>
             <div className={styles.projectsContainer}>
+              <hr />
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
@@ -70,36 +64,37 @@ const Projects = () => {
                 <p>Os projetos que você adicionar ficarão aqui...</p>
               </div>
             </div>
-              <div className={styles.modalContainer}>
-            <Modal isOpen={isModalOpen} setOpenModal={() => setIsModalOpen(!isModalOpen)}>
+            <div className={styles.modalContainer}>
+              <Modal
+                isOpen={isModalOpen}
+                setOpenModal={() => setIsModalOpen(!isModalOpen)}
+              >
                 <h2 className={styles.title}>Adicionar Projeto</h2>
-                <form className={styles.projectForm}>
+                <form className={styles.projectForm} onSubmit={handleSubmit(createProject)}>
                   <div className={styles.projectTitleContainer}>
                     <label htmlFor="title">Titulo</label>
-                    <input className={styles.input}
-                      type="text"
+                    <input
+                      {...register('title')}
                       id="title"
-                      name="title"
+                      type="text"
                       required={true}
                       placeholder="Digite o título do seu projeto..."
-                      onChange={handleTituloChange}
-                      value={projectTitle}
                       maxLength={100}
+                      className={styles.input}
                     />
                   </div>
                   <div className={styles.description}>
                     <label htmlFor="descriptionContainer">Descrição</label>
                     <textarea
-                      required={true}
-                      className={styles.descriptionText}
-                      name="description"
+                      {...register('description')}
                       id="description"
+                      name="description"
+                      placeholder="Descreva seu projeto..."
+                      required={true}
                       cols={30}
                       rows={6}
-                      value={projectDescription}
-                      placeholder="Descreva seu projeto..."
-                      onChange={handleDescriptionChange}
                       maxLength={500}
+                      className={styles.descriptionText}
                     />
                   </div>
                   <div className={styles.numberOfStudentsContainer}>
@@ -117,12 +112,14 @@ const Projects = () => {
                       >
                         <Minus />
                       </Button>
-                      <div
-                        id="numberOfStudents"
+                      <input
+                        {...register('studentsRequired')}
+                        type="number"
+                        id="studentsRequired"
                         className={styles.numberOfStudents}
-                      >
-                        {numberOfStudents}
-                      </div>
+                        disabled={true}
+                        value={studentsRequired}
+                      />
                       <Button
                         width="38%"
                         backgroundColor="#f5f5f5"
@@ -137,47 +134,55 @@ const Projects = () => {
                   </div>
                   <div id="projectType" className={styles.projectTypeContainer}>
                     <label htmlFor="projectType">Tipo do projeto</label>
-
                     <input
-                      name="projectType"
+                      {...register('pibic', { value: 'pibic'})}
+                      name="projectCategory"
                       type="radio"
                       id="pibic"
                       className={styles.checkbox}
-                    />
+                      />
                     <label htmlFor="pibic" className={styles.type}>
                       PIBIC
                     </label>
                     <input
-                      name="projectType"
+                      {...register('pibit', { value: 'pibit'})}
+                      name="projectCategory"
                       type="radio"
                       id="pibit"
+                      value='pibit'
                       className={styles.checkbox}
-                    />
+                      />
                     <label htmlFor="pibit" className={styles.type}>
                       PIBIT
                     </label>
                     <input
-                      name="projectType"
+                      {...register('pivic', { value: 'pivic'})}
+                      name="projectCategory"
                       type="radio"
                       id="pivic"
+                      value='pivic'
                       className={styles.checkbox}
-                    />
+                      />
                     <label htmlFor="pivic" className={styles.type}>
                       PIVIC
                     </label>
                     <input
-                      name="projectType"
+                      {...register('monografia', { value: 'monografia'})}
+                      name="projectCategory"
                       type="radio"
                       id="monografia"
+                      value='monografia'
                       className={styles.checkbox}
-                    />
+                      />
                     <label htmlFor="monografia" className={styles.type}>
                       MONOGRAFIA
                     </label>
                     <input
-                      name="projectType"
+                      {...register('outro', { value: 'outro'})}
+                      name="projectCategory"
                       type="radio"
                       id="outro"
+                      value='outro'
                       className={styles.checkbox}
                     />
                     <label htmlFor="outro" className={styles.type}>
@@ -195,9 +200,8 @@ const Projects = () => {
                     Publicar
                   </Button>
                 </form>
-            </Modal>
-              </div>
-          </main>
+              </Modal>
+            </div>
         </div>
       </div>
     </>

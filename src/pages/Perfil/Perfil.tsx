@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import styles from "./Perfil.module.css";
 import GlobalStyle from "../../styles/global";
-import { Edit, LogOut, Mail, Phone } from "react-feather";
-import TabBar from "../../components/TabBar/TabBar";
+import { LogOut, Mail, MoreVertical, Phone } from "react-feather";
 import Header from "../../components/Header/Header";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Menu from "../../components/Menu/Menu";
 
 const Perfil: React.FC = () => {
   const { user, signOut } = useContext(AuthContext);
@@ -22,55 +22,54 @@ const Perfil: React.FC = () => {
     <>
       <div className={styles.body}>
         <GlobalStyle />
-        <TabBar />
-        <Header padding="2rem" backgroundColor="#101010">
-          <h2 className={styles.title}>Meu Perfil</h2>
-        </Header>
-        <main>
-          <div className={styles.container}>
-            <div className={styles.userContainer}>
-                <div className={styles.card}>
-                  <div className={styles.top}>
-                    <img
-                      className={styles.userPhoto}
-                      src={userPhoto}
-                      alt="foto de perfil"
-                    />
-                    <div>
-                      <h3 className={styles.nome}>{user?.nome_usual} </h3>
-                      <p className={styles.vinculo}>{user?.tipo_vinculo} </p>
-                    </div>
-                  </div>
-                  
-                                <div className={styles.bottom}>
-                  <h4>Contatos</h4>
-                  <div className={styles.contact}>
-                    <Mail size={24} />
-                    <div className={styles.email}>
-                      <p>{user?.email ? user.email : "Email não encontrado"}</p>
-                      <Edit size={18} color="orange" />
-                    </div>
-                  </div>
-                  <div className={styles.contact}>
-                    <Phone size={24} />
-                    <div className={styles.phone}>
-                      <p>
-                        {user?.phone ? user.phone : "Telefone não encontrado"}
-                      </p>
-                      <Edit size={18} color="orange" />
-                    </div>
-                  </div>
-                                </div>
-                              </div>
+        <Menu />
+
+        <div className={styles.container}>
+          <Header padding="2rem">
+            <h2 className={styles.title}>Meu Perfil</h2>
+          </Header>
+          <hr />
+          <div className={styles.userContainer}>
+            <div className={styles.card}>
+              <div className={styles.top}>
+                <img
+                  className={styles.userPhoto}
+                  src={userPhoto}
+                  alt="foto de perfil"
+                />
+                <div>
+                  <h3 className={styles.nome}>{user?.nome_usual} </h3>
+                  <p className={styles.vinculo}>{user?.tipo_vinculo} </p>
                 </div>
-            <div className={styles.footer}>
-              <a href="http://localhost:5173/" onClick={handleLogOut}>
-                Sair
-                <LogOut size={18} />
-              </a>
+              </div>
+
+              <div className={styles.bottom}>
+                <div className={styles.contact}>
+                  <div className={styles.email}>
+                    <Mail size={24} />
+                    <p>Email</p>
+                  </div>
+                  <p>{user?.email ? user.email : "lima.adrian13@gmail.com"}</p>
+                  <MoreVertical size={48} cursor={'pointer'}/>
+                </div>
+                <div className={styles.contact}>
+                  <div className={styles.phone}>
+                    <Phone size={24} />
+                    <p>Telefone</p>
+                  </div>
+                  <p>{user?.phone ? user.phone : "98991650677"}</p>
+                  <MoreVertical size={32} cursor={'pointer'} />
+                </div>
+              </div>
             </div>
           </div>
-        </main>
+          <div className={styles.footer}>
+            <Link to={'/'} onClick={handleLogOut}>
+              Sair
+              <LogOut size={18} />
+            </Link>
+          </div>
+        </div>
       </div>
     </>
   );
