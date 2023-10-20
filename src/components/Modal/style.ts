@@ -8,7 +8,7 @@ export const StyledContainer = styled.div`
     left: 0;
     right: 0;
     background-color: rgb(0,0,0, 0.7);
-    z-index: 999;
+    z-index: 1;
 `
 
 export const CloseButton = styled(X)`
@@ -28,7 +28,9 @@ export const StyledModal = styled.div`
     transform: translate(-50%, -50%);
     overflow-y: auto;
     max-height: 90vh ;
-    z-index: 999;
+    z-index: 2;
+    
+    
 
     &::-webkit-scrollbar {
         width: .6rem; /* Largura da barra de rolagem */

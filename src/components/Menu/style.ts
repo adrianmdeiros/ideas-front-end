@@ -41,9 +41,9 @@ export const StyledPerfil = styled.div`
 
 export const StyledUserInfo = styled.div`
     display: grid;
-    p{
+    
         text-align: start;
-    }
+    
 `
 
 export const StyledNav = styled.nav`

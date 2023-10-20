@@ -7,7 +7,9 @@ export type LoaderProps = {
 
 const Loader: React.FC<LoaderProps> = ({color}) => {
   return (
-    <StyledLoader color={color}></StyledLoader>
+    <>
+      <StyledLoader color={color}></StyledLoader>
+    </>
   )
 }
 

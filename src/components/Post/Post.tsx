@@ -11,23 +11,24 @@ import {
   StyledReqContainer,
   StyledUserPhoto,
   StyledProject,
+  StyledDescription,
 } from "./style";
 import Button from "../Button/Button";
-import { User } from "react-feather";
+import { MoreVertical, User } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
-type PostProps = {
-  avatarUrl: string
-  userName: string
-  title: string
-  description: string
-  numberOfStudents: number
-  projectType: string
-  postDate: number
+export type PostProps = {
+  avatarUrl?: string
+  userName?: string
+  title?: string
+  description?: string
+  numberOfStudents?: number
+  projectType?: string
+  ccolor?: string
 }
 
-const Post: React.FC<PostProps> = ({userName, title, description, numberOfStudents, projectType, postDate, avatarUrl}) => {
+const Post: React.FC<PostProps> = ({ ccolor, userName, title, description, numberOfStudents, projectType, avatarUrl}) => {
   const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`
   const navigate = useNavigate()
   
@@ -36,19 +37,18 @@ const Post: React.FC<PostProps> = ({userName, title, description, numberOfStuden
   }
 
   return (
-    <>
-    <StyledPost>
+    <StyledPost> 
+      <StyledProject >
       <StyledTop >
         <StyledAutor >
           <StyledUserPhoto src={perfilImage} />
           <StyledTitle>{userName}</StyledTitle>
         </StyledAutor>
-        <StyledP>{postDate}m</StyledP>
+        <MoreVertical cursor={'pointer'}/>
       </StyledTop>
-      <StyledProject>
         <StyledMiddle >
           <StyledTitle>{title}</StyledTitle>
-          <StyledP>{description}</StyledP>
+          <StyledDescription ccolor={ccolor}>{description}</StyledDescription>
         </StyledMiddle>
         <StyledBottom>
           <StyledReqContainer >
@@ -57,7 +57,7 @@ const Post: React.FC<PostProps> = ({userName, title, description, numberOfStuden
               <StyledP>{numberOfStudents} Alunos</StyledP>
             </StyledProjectReq>
             <StyledProjectReq >
-              <StyledColorTypeProject/>
+              <StyledColorTypeProject ccolor={ccolor}/>
               <StyledP>{projectType}</StyledP>
             </StyledProjectReq>
           </StyledReqContainer>
@@ -75,8 +75,6 @@ const Post: React.FC<PostProps> = ({userName, title, description, numberOfStuden
         </StyledBottom>
       </StyledProject>
     </StyledPost>
-    <hr />
-    </>
   );
 };
 

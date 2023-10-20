@@ -2,10 +2,10 @@ import styled from 'styled-components'
 import { LoaderProps } from './Loader'
 
 export const StyledLoader = styled.div<LoaderProps>`
-   width: 32px;
-   height: 32px;
+   width: 3.8rem;
+   height: 3.8rem;
    border-radius: 50%;
-   border: 9px solid ${props => props.color};
+   border: .6rem solid ${props => props.color};
    animation: spinner-bulqg1 0.8s infinite linear alternate,
         spinner-oaa3wk 1.6s infinite linear;
         @keyframes spinner-bulqg1 {

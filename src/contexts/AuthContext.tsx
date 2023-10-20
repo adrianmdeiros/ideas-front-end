@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import suapi from "../api/suapi";
+import api from "../api/api";
 
 type SignInData = {
   matricula: string;
@@ -8,11 +9,17 @@ type SignInData = {
 };
 
 export type User = {
+  id: number
   nome_usual: string;
   email: string;
   phone: string;
   url_foto_150x200: string;
   tipo_vinculo: string;
+  vinculo: {
+    curso: string;
+    campus: string;
+  }
+  bio: string;
 };
 
 export interface AuthContextType {
@@ -59,9 +66,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     const tokens = response.data;
-
+    
     if (tokens) {
-      setUser(await getUserData(tokens.access));
+      const user = await getUserData(tokens.access)
+      setUser(user);
+      saveUser(user);
       setTokens(tokens);
       return true;
     }
@@ -81,6 +90,25 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     cookies.set("token", tokens.access, {httpOnly: true, secure: true});
     cookies.set("refresh", tokens.refresh);
   };
+
+
+  const saveUser = async (user: User) => {
+    try{
+      const response = await api.post('/users', {
+        id: user.id,
+        name: user.nome_usual,
+        email: user.email,
+        phone: user.phone,
+        avatarURL: user.url_foto_150x200,
+        bond: user.tipo_vinculo,
+        bio: user.bio
+      })
+      return response.data
+    }catch(err){
+      console.log(err);
+    }
+  }
+
 
   const getNewToken = async (refreshToken: string) => {
     const response = await suapi.post("autenticacao/token/refresh/", {

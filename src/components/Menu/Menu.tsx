@@ -15,7 +15,7 @@ const Menu: React.FC = () => {
   
   const handleLogOut = async () => {
     await signOut()
-    navigate('/login')
+    navigate('/')
   }
 
   useEffect(() => {
@@ -77,7 +77,9 @@ const Menu: React.FC = () => {
                 <p>{user?.tipo_vinculo}</p>
               </StyledUserInfo>
           </NavLink>
-            <LogOut size={24} color={'red'} onClick={handleLogOut} cursor={'pointer'}/>
+          
+            <LogOut size={24} color={'red'} onClick={handleLogOut} cursor={'pointer'} />
+          
           </StyledPerfil>
         </StyledSideMenu>
       )}

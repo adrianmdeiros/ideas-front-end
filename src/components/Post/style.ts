@@ -1,6 +1,11 @@
 import styled from "styled-components";
+import { PostProps } from "./Post";
 
 export const StyledPost = styled.div`
+    width: 100%;
+    @media (min-width: 768px){
+        width: 32rem;
+    }
 `
 
 export const StyledTop = styled.div`
@@ -28,16 +33,22 @@ export const StyledTitle = styled.h4`
 
 export const StyledP = styled.p`
 `
+export const StyledDescription = styled.p<PostProps>`
+    color: ${props => props.ccolor}
+`
 
 export const StyledProject = styled.div`
     border-radius: .8rem;
     padding: 1.8rem;
-    background-color: #252525;
+    background-color: #151515;
 `
 
 export const StyledMiddle = styled.div`
     display: grid;
     gap: 1rem;
+    border-radius: .8rem;
+    padding: 1rem;
+    background-color: #252525;
 `
 
 export const StyledReqContainer = styled.div`
@@ -53,11 +64,11 @@ export const StyledProjectReq = styled.div`
     margin-top: 1.2rem;
 `
 
-export const StyledColorTypeProject = styled.div`
+export const StyledColorTypeProject = styled.div<PostProps>`
     height: 1.4rem;
     width: 1.4rem;
     border-radius: 50%;
-    background-color: rgb(0, 195, 255);
+    background-color: ${props => props.ccolor};
 `
 
 export const StyledBottom = styled.div`

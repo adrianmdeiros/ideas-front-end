@@ -1,0 +1,38 @@
+hr{
+    margin-top: 1rem;
+}
+
+.container{
+    padding: 2rem;
+    width: 100%;
+}
+
+
+.projectsContainer{
+    display: grid;
+    gap: 1.8rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    overflow-y: auto;
+}
+
+.img{
+    max-width: 32rem;
+    max-height: 32rem;
+    height: auto;
+    width: auto;
+    opacity: 50%;
+}
+
+
+
+@media only screen and (min-width: 768px){
+    .body{
+        display: flex;
+        padding: 0;
+    }
+    .projectsContainer{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}

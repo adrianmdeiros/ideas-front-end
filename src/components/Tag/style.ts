@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { CardProps } from "./Tag";
+import { TagProps } from "./Tag";
 
-export const StyledCard = styled.div<CardProps>`
+export const StyledCard = styled.div<TagProps>`
     min-width: 14rem;
     display: grid;
     place-content: start;
@@ -12,7 +12,8 @@ export const StyledCard = styled.div<CardProps>`
     color: #505050;
     cursor: pointer;
     :hover{
-        border: .2rem solid ${props => props.bgcolor};
-        color: ${props => props.bgcolor};
+        border: .2rem solid ${props => props.color};
+        color: ${props => props.color};
     }
+
 `

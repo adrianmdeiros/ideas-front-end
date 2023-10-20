@@ -26,6 +26,7 @@ const Login: React.FC = () => {
         }
       }catch(e){
         alert('Matrícula ou senha incorretas!')
+        setIsLogging(false)
       }
   };
 

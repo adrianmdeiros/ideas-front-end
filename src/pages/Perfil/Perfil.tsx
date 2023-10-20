@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styles from "./Perfil.module.css";
 import GlobalStyle from "../../styles/global";
-import { LogOut, Mail, MoreVertical, Phone } from "react-feather";
+import { Edit, LogOut, Mail, Phone } from "react-feather";
 import Header from "../../components/Header/Header";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -36,29 +36,27 @@ const Perfil: React.FC = () => {
                   className={styles.userPhoto}
                   src={userPhoto}
                   alt="foto de perfil"
-                />
+                  />
                 <div>
-                  <h3 className={styles.nome}>{user?.nome_usual} </h3>
-                  <p className={styles.vinculo}>{user?.tipo_vinculo} </p>
+                  <h2 >{user?.nome_usual} </h2>
+                  <p>{user?.vinculo.curso}</p>
+                  <p>IFMA Campus - {user?.vinculo.campus}</p>
                 </div>
               </div>
-
               <div className={styles.bottom}>
                 <div className={styles.contact}>
                   <div className={styles.email}>
-                    <Mail size={24} />
-                    <p>Email</p>
+                    <Mail size={18} />
+                    <p>{user?.email ? user.email : "Adicione um email"}</p>
                   </div>
-                  <p>{user?.email ? user.email : "lima.adrian13@gmail.com"}</p>
-                  <MoreVertical size={48} cursor={'pointer'}/>
+                  <Edit cursor={'pointer'}/>
                 </div>
                 <div className={styles.contact}>
                   <div className={styles.phone}>
-                    <Phone size={24} />
-                    <p>Telefone</p>
+                    <Phone size={18} />
+                  <p>{user?.phone ? user.phone : "Adicione um telefone"}</p>
                   </div>
-                  <p>{user?.phone ? user.phone : "98991650677"}</p>
-                  <MoreVertical size={32} cursor={'pointer'} />
+                  <Edit  cursor={'pointer'} />
                 </div>
               </div>
             </div>
