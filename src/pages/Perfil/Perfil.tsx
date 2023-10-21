@@ -19,7 +19,7 @@ const Perfil: React.FC = () => {
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const { data: contacts, isFetching } = useFetch<User>(`http://localhost:3000/users/${user?.id}/contacts`)
+  const { data: contacts, isFetching } = useFetch<User>(`https://api-projif.vercel.app/users/${user?.id}/contacts`)
   
   const userPhoto = `https://suap.ifma.edu.br${user?.url_foto_150x200}`;
   const handleLogOut = async () => {

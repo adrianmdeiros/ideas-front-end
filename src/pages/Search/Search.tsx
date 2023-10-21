@@ -37,7 +37,7 @@ type Project = {
 
 const Search: React.FC = () => {
   const { data: categories } = useFetch<Category[]>(
-    "http://localhost:3000/categories"
+    "https://api-projif.vercel.app/categories"
   );
 
   const [searchText, setSearchText] = useState("");

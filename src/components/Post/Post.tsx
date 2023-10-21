@@ -56,12 +56,13 @@ const Post: React.FC<PostProps> = ({
   };
 
   const deletePost = async () => {
+    setIsModalOpen(false)
     try {
       const response = await api.delete(`/projects/${id}`);
-      window.location.reload();
+      window.location.reload()
       return response.data;
     } catch (err) {
-      console.log(err);
+      return console.log(err);
     }
   };
 
@@ -127,6 +128,7 @@ const Post: React.FC<PostProps> = ({
             </StyledProjectReq>
           </StyledReqContainer>
           <Button
+            type="submit"
             backgroundColor={"#2c2c2c"}
             color={"#d9d9d9"}
             width={"100%"}

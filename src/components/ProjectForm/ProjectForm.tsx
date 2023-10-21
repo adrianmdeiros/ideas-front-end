@@ -15,7 +15,7 @@ type Category = {
 
 const ProjectForm = () => {
   const { data: categories, isFetching } = useFetch<Category[]>(
-    "http://localhost:3000/categories"
+    "https://api-projif.vercel.app/categories"
   );
 
   const { user } = useContext(AuthContext)
@@ -50,9 +50,11 @@ const ProjectForm = () => {
 
       try {
         const response = await api.post('/projects', project)
+        window.location.reload()
         return response.data
       } catch (err) {
-        console.log(err);
+        alert("Esse projeto já existe!")
+        return console.log(err);
       }
     };
 

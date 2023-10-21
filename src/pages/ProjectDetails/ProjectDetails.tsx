@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import Header from "../../components/Header/Header";
 import GlobalStyle from "../../styles/global";
 import { ArrowLeft, Mail, Phone, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
 import Button from "../../components/Button/Button";
 import NavLink from "../../components/NavLink/NavLink";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type Props = {};
 
 const ProjectDetails: React.FC<Props> = () => {
- 
+  const { user } = useContext(AuthContext)
 
   const handleZap = () => {
     alert("mandar pro zap");
   };
 
   const perfilImage =
-    "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80";
+  `https://suap.ifma.edu.br${user?.url_foto_150x200}`;
   return (
     <>
     <div className={styles.body}>

@@ -4,7 +4,7 @@ import styles from "./MyProjects.module.css";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Menu from "../../components/Menu/Menu";
 import ProjectForm from "../../components/ProjectForm/ProjectForm";
 import { useFetch } from "../../hooks/useFetch";
@@ -30,8 +30,9 @@ type Project = {
 const MyProjects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useContext(AuthContext)
-  const { data: myProjects, isFetching } = useFetch<Project[]>(`http://localhost:3000/projects?userId=${user?.id}`)
+  const { data: myProjects, isFetching } = useFetch<Project[]>(`https://api-projif.vercel.app/projects?userId=${user?.id}`)
 
+  
 
   return (
     <>

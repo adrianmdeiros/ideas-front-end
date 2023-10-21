@@ -27,7 +27,7 @@ type Project = {
 
 const Main: React.FC = () => {
   const { data: projects, isFetching } = useFetch<Project[]>(
-    "http://localhost:3000/projects"
+    "https://api-projif.vercel.app/projects"
   );
   const { user } = useContext(AuthContext)
 
