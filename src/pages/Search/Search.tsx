@@ -43,7 +43,7 @@ const Search: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [projects, setProjects] = useState<Project[] | null>();
   const [isSearching, setIsSearching] = useState(false)
-  
+  const [isSelected, setIsSelected] = useState(false)
 
   const fetchProjectsByCategory = async (categoryId: number) => {
     setProjects(null)
@@ -92,12 +92,23 @@ const Search: React.FC = () => {
             </div>
           </Header> */}
           <div className={styles.main}>
+            <h2>Buscar</h2>
+             
+                <div
+                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                >
+                <p>Selecione uma categoria abaixo...</p>
+              </div>
+              
             <div className={styles.categories}>
               <div className={styles.tagsContainer}>
                 {categories?.map((category) => (
                   <Tag
                     key={category.id}
-                    onClick={() => fetchProjectsByCategory(category.id)}
+                    onClick={() => {
+                      fetchProjectsByCategory(category.id)
+                      setIsSelected(true)
+                    }}
                     color={category.color}
                   >
                     <p>{category.name}</p>
@@ -122,7 +133,8 @@ const Search: React.FC = () => {
                   />
                   </>
               ))}
-              {!projects && 
+              
+              {!projects && isSelected &&
                 <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
@@ -130,6 +142,7 @@ const Search: React.FC = () => {
                 <p>Parece que não há projetos dessa categoria...</p>
               </div>
               }
+              
             </div>
           </div>
         </div>

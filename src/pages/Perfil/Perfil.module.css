@@ -4,6 +4,26 @@ hr{
     background-color: #252525;
 }
 
+.form{
+    display: grid;
+    gap: 1rem;
+}
+
+.form h2{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input{
+    background-color: #252525;
+    border: none;
+    padding: 1rem;
+    border-radius: .8rem;
+    color: #f5f5f5;
+    font-weight: 500;
+    height: 4.2rem;
+    margin-bottom: 1rem;
+}
 
 .body{
     height: 100vh;

@@ -1,6 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import Login from "../pages/Login/Login";
+import Loader from "../components/Loader/Loader";
 
 type RequireAuthProps = {
   children: JSX.Element;
@@ -8,10 +9,28 @@ type RequireAuthProps = {
 
 export const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
   const auth = useContext(AuthContext);
+  const [loading, setLoading] = useState(true)
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setLoading(false)
+    }, 1000)
+  }, [])
+
+  if(loading){
+    return (
+      <div style={{width:'100%', display:'flex', alignItems:'center',gap:'1rem', padding:'2rem'}}>
+        <Loader />
+        <p>Aguarde...</p>
+      </div>
+    )
+  }
 
   if (!auth.isAuthenticated) {
     return <Login />
   }
 
-  return children;
+
+    return children
+
 };

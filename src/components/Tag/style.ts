@@ -6,14 +6,17 @@ export const StyledCard = styled.div<TagProps>`
     display: grid;
     place-content: start;
     width: fit-content;
+    height: 10rem;
     border-radius: .8rem;
     padding: 1.2rem;
-    border: .2rem solid #505050;
-    color: #505050;
+    border: .2rem solid ${props => props.color};
+    color: ${props => props.color};
     cursor: pointer;
+    transition: 500ms;
     :hover{
-        border: .2rem solid ${props => props.color};
-        color: ${props => props.color};
+        scale: 1.1;
+        background-color: ${props => props.color};
+        color: #f5f5f5
     }
 
 `

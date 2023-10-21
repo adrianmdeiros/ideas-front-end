@@ -76,3 +76,28 @@ display: grid;
 gap: 1rem;
     margin-top: 2rem;
 `
+
+export const StyledActions = styled.div`
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: .8rem;
+`
+
+export const StyledConfirmBox = styled.div`
+    display: grid;
+    gap: 2.4rem;
+    margin-top: 2rem;
+`
+export const StyledButtons = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 1rem;
+`
+
+export const StyledDanger = styled.div`
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+`

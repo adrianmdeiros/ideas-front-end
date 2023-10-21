@@ -65,6 +65,7 @@ const MyProjects = () => {
 
           {myProjects?.map((myProject) => 
                 <Post
+                  id={myProject.id}
                   key={myProject.id}
                   title={myProject.title}
                   description={myProject.description}
