@@ -20,9 +20,12 @@ import {
 import Button from "../Button/Button";
 import { Edit, Trash2, User } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import api from "../../api/api";
 import Modal from "../Modal/Modal";
+import { Project } from "../../pages/MyProjects/MyProjects";
+import { useFetch } from "../../hooks/useFetch";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export type PostProps = {
   avatarUrl?: string;
@@ -48,22 +51,30 @@ const Post: React.FC<PostProps> = ({
   const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const { user } = useContext(AuthContext)
+  const { data: myProjects, setData: setMyProjects } = useFetch<Project[]>(
+    `https://api-projif.vercel.app/projects?userId=${user?.id}`
+  );
+
   const location = useLocation()
 
   const handleNavigate = () => {
     navigate("/details");
   };
 
-  const deletePost = async () => {
+  const deletePost = async (e: any) => {
+    e.preventDefault()
+    
+    await api.delete(`/projects/${id}`);
     setIsModalOpen(false)
-    try {
-      const response = await api.delete(`/projects/${id}`);
-      window.location.reload()
-      return response.data;
-    } catch (err) {
-      return console.log(err);
+    
+    if(myProjects !== null) {
+      const newProjectsList = myProjects.filter(project => {
+        return project.id !== id
+      })
+      setMyProjects(newProjectsList)
     }
+
   };
 
   return (
@@ -97,7 +108,6 @@ const Post: React.FC<PostProps> = ({
                     cancelar
                   </Button>
                   <Button
-                    type="submit"
                     backgroundColor="#f5f5f5"
                     color="#101010"
                     borderRadius=".8rem"

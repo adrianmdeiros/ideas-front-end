@@ -8,12 +8,12 @@ hr{
 .body{
     height: 100vh;
     min-width: 100%;
-    /* padding: 2rem; */
 }
 
 .container{
     width: 100%;
     padding: 2rem;
+    overflow-y: auto;
 }
 
 .container h2{
@@ -23,11 +23,9 @@ hr{
 
 .feed{
     display: grid;
-    overflow-y: auto;
     margin-top: 4rem;    
 }
 .postsContainer{
-    margin-bottom: 9rem;    
     display: grid;
     gap: 2.8rem;
 }

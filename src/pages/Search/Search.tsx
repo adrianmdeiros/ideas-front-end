@@ -36,7 +36,7 @@ type Project = {
 };
 
 const Search: React.FC = () => {
-  const { data: categories } = useFetch<Category[]>(
+  const { data: categories, isFetching } = useFetch<Category[]>(
     "https://api-projif.vercel.app/categories"
   );
 
@@ -102,6 +102,7 @@ const Search: React.FC = () => {
               
             <div className={styles.categories}>
               <div className={styles.tagsContainer}>
+                {isFetching && <Loader/>}
                 {categories?.map((category) => (
                   <Tag
                     key={category.id}

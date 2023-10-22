@@ -4,7 +4,7 @@ import { PostProps } from "./Post";
 export const StyledPost = styled.div`
     width: 100%;
     @media (min-width: 768px){
-        width: 32rem;
+        width: 30rem;
     }
 `
 

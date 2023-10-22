@@ -21,12 +21,10 @@ const Button: React.FC<BtnProps> = ({
   height,
   hover,
   borderRadius,
-  children,
-  type,
+  children
 }) => {
   return (
     <StyledButton
-      type={type}
       onClick={onClick}
       color={color}
       backgroundColor={backgroundColor}
