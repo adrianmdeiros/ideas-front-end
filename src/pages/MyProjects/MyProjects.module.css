@@ -1,6 +1,11 @@
+li{
+    list-style: none;
+}
+
 hr{
     margin-top: 1rem;
 }
+
 .body{
     height: 100vh;
     min-width: 100%;
@@ -9,6 +14,11 @@ hr{
     width: 100%;
     padding: 2rem;
     overflow-y: auto;
+}
+
+.postsContainer{
+    display: grid;
+    gap: 2.8rem;
 }
 
 
@@ -79,14 +89,27 @@ hr{
     font-size: 1.6rem;
 }
 
-.checkbox{
-    background-color: #f5f5f5;
-    padding: 2rem;
-    border-radius: .8rem;
-    font-weight: 700;
+.categories{
+    display: grid;
+    gap: 1rem;
 }
 
 
+
+.type{
+    display: flex;
+    align-items: center;
+    height: 6rem;
+    border-radius: .8rem;
+    padding: 1rem;
+    width: 100%;
+    background-color: #252525;
+    cursor: pointer;
+}
+
+.checkbox{
+    all: unset;
+}
 
 .checkbox[id='PIBIC']:checked + .type{
     background-color: #2F9E41;
@@ -110,16 +133,7 @@ hr{
     color: #101010;
 }
 
-.type{
-    display: flex;
-    align-items: center;
-    height: 6rem;
-    border-radius: .8rem;
-    padding: 1rem;
-    width: 100%;
-    background-color: #252525;
-    cursor: pointer;
-}
+
 
 .input{
     background-color: #252525;
@@ -136,7 +150,7 @@ hr{
         display: flex;
         padding: 0;
     }
-    .projectsContainer{
+    .postsContainer{
         display: flex;
         flex-wrap: wrap;
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { FormEvent, useContext, useState } from "react";
 import styles from "./Perfil.module.css";
 import GlobalStyle from "../../styles/global";
 import { Edit, LogOut, Mail, Phone } from "react-feather";
@@ -13,40 +13,36 @@ import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
 
 const Perfil: React.FC = () => {
-  const { user, signOut } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const { data: contacts, isFetching } = useFetch<User>(`https://api-projif.vercel.app/users/${user?.id}/contacts`)
+  const { data: contacts, setData: setContacts, isFetching } = useFetch<User>(`https://api-projif.vercel.app/users/${auth.user?.id}/contacts`)
   
-  const userPhoto = `https://suap.ifma.edu.br${user?.url_foto_150x200}`;
+  const userPhoto = `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
   const handleLogOut = async () => {
-    await signOut();
+    await auth.signOut();
     navigate("/login");
   };
 
-  const saveEmail = async () => {
-    try{
-      const response = await api.put(`/users/${user?.id}`, {
-        email: email
-      })
-      return response.data;
-    }catch(err){
-      console.log(err);
-    }
+  const saveEmail = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsModalOpen(false)
+    const response = await api.put(`/users/${auth.user?.id}`, {
+      email: email
+    })
+    setContacts(response.data)
   }
-
-  const savePhone = async () => {
-    try{
-      const response = await api.put(`/users/${user?.id}`, {
-        phone: phone
-      })
-      return response.data;
-    }catch(err){
-      console.log(err);
-    }
+  
+  const savePhone = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsPhoneModalOpen(false)
+    const response = await api.put(`/users/${auth.user?.id}`, {
+      phone: phone
+    })
+    setContacts(response.data)
   }
 
   return (
@@ -69,9 +65,9 @@ const Perfil: React.FC = () => {
                   alt="foto de perfil"
                   />
                 <div>
-                  <h2 >{user?.nome_usual} </h2>
-                  <p>{user?.vinculo.curso}</p>
-                  <p>IFMA Campus - {user?.vinculo.campus}</p>
+                  <h2 >{auth.user?.nome_usual} </h2>
+                  <p>{auth.user?.vinculo.curso}</p>
+                  <p>IFMA Campus - {auth.user?.vinculo.campus}</p>
                 </div>
               </div>
               <div className={styles.bottom}>
@@ -84,11 +80,11 @@ const Perfil: React.FC = () => {
                   <Edit cursor={'pointer'} onClick={() => setIsModalOpen(true)}/>
                 </div>
                 <Modal isOpen={isModalOpen} setOpenModal={() => setIsModalOpen(!isModalOpen)} >
-                  <form className={styles.form}>
+                  <form className={styles.form} onSubmit={saveEmail}>
                     <h2>Adicionar um email</h2>
                     <label htmlFor="email">Email</label>
                     <input className={styles.input} type="email" name="email" id="email" placeholder="Digite seu email..." required onChange={(e) => setEmail(e.target.value)} />
-                    <Button type="submit" backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem" onClick={saveEmail}>
+                    <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
                       Salvar
                     </Button>
                   </form>
@@ -103,11 +99,11 @@ const Perfil: React.FC = () => {
                   <Edit  cursor={'pointer'} onClick={() => setIsPhoneModalOpen(true)}/>
                 </div>
                 <Modal isOpen={isPhoneModalOpen} setOpenModal={() => setIsPhoneModalOpen(!isPhoneModalOpen)} >
-                  <form className={styles.form}>
+                  <form className={styles.form} onSubmit={savePhone}>
                     <h2>Adicionar um telefone</h2>
                     <label htmlFor="phone">Telefone</label>
-                    <input className={styles.input} type="text" name="phone" id="phon" placeholder="Digite seu telefone..." required  onChange={(e) => setPhone(e.target.value)}/>
-                    <Button type="submit" backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem" onClick={savePhone}>
+                    <input minLength={11} className={styles.input} type="number" name="phone" id="phone" placeholder="Digite seu telefone..." required  onChange={(e) => setPhone(e.target.value)}/>
+                    <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
                       Salvar
                     </Button>
                   </form>

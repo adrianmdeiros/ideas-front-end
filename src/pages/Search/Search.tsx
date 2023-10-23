@@ -1,12 +1,8 @@
-import { AlertCircle, ArrowLeft } from "react-feather";
-import Header from "../../components/Header/Header";
+import { AlertCircle } from "react-feather";
 import GlobalStyle from "../../styles/global";
 import styles from "./Search.module.css";
 import React, { useState } from "react";
-import NavLink from "../../components/NavLink/NavLink";
 import Tag from "../../components/Tag/Tag";
-import Button from "../../components/Button/Button";
-import { Search as SearchIcon } from "react-feather";
 import Menu from "../../components/Menu/Menu";
 import { useFetch } from "../../hooks/useFetch";
 import Post from "../../components/Post/Post";
@@ -40,110 +36,80 @@ const Search: React.FC = () => {
     "https://api-projif.vercel.app/categories"
   );
 
-  const [searchText, setSearchText] = useState("");
-  const [projects, setProjects] = useState<Project[] | null>();
-  const [isSearching, setIsSearching] = useState(false)
-  const [isSelected, setIsSelected] = useState(false)
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
-  const fetchProjectsByCategory = async (categoryId: number) => {
-    setProjects(null)
-    setIsSearching(true)
-    try{
-      const response = await api.get(`/projects?categoryId=${categoryId}`);
-      setProjects(response.data)
+  const fetchProjectsByCategory = (categoryId: number) => {
+    setIsSelected(false)
+    setProjects([]);
+    setIsSearching(true);
+    
+    api.get(`/projects?categoryId=${categoryId}`)
+    .then(response => {
+      setProjects(response.data);
       setIsSearching(false)
-    }catch(err){
-      setIsSearching(false)
-      console.log(err)
-    }
+    })
+    .catch(() => {
+      setIsSelected(true);
+      setIsSearching(false);
+    })
     
   };
 
   return (
     <>
       <GlobalStyle />
-      <div className={styles.container}>
+      <div className={styles.body}>
         <Menu />
-        <div className={styles.body}>
-          {/* <Header height="9rem" padding="0 2rem">
-            <div className={styles.searchBoxContainer}>
-              <NavLink
-                to={"#"}
-                icon={<ArrowLeft />}
-                onClick={() => history.back()}
-              />
-
-              <input
-                className={styles.input}
-                id="search"
-                type="text"
-                placeholder="Buscar projeto..."
-                onChange={(e) => setSearchText(e.target.value)}
-                value={searchText}
-              />
-              <Button
-                color="#101010"
-                hover="#dedede"
-                backgroundColor="#f5f5f5"
-                borderRadius=".8rem"
-              >
-                <SearchIcon size={18} />
-              </Button>
-            </div>
-          </Header> */}
+        <div className={styles.container}>
           <div className={styles.main}>
             <h2>Buscar</h2>
-             
-                <div
-                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-                >
-                <p>Selecione uma categoria abaixo...</p>
-              </div>
-              
+
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <p>Selecione uma categoria abaixo...</p>
+            </div>
+
             <div className={styles.categories}>
-              <div className={styles.tagsContainer}>
-                {isFetching && <Loader/>}
+              {isFetching && <Loader color={"#ff7a00"}/>}
+              <ul className={styles.tagsContainer}>
                 {categories?.map((category) => (
-                  <Tag
-                    key={category.id}
-                    onClick={() => {
-                      fetchProjectsByCategory(category.id)
-                      setIsSelected(true)
-                    }}
-                    color={category.color}
-                  >
-                    <p>{category.name}</p>
-                  </Tag>
+                  <li key={category.id}>
+                    <Tag
+                      onClick={() => fetchProjectsByCategory(category.id)}
+                      color={category.color}
+                    >
+                      <p>{category.name}</p>
+                    </Tag>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
             <div className={styles.searchResults}>
-              {isSearching && <Loader />}
-              {projects?.map((project) => (
-                <>
-                <h3>Resultados para: {project.category.name}</h3>
-                <Post
-                  key={project.id}
-                  title={project.title}
-                  description={project.description}
-                  numberOfStudents={project.studentsRequired}
-                  projectType={project.category.name}
-                  avatarUrl={project.user.avatarURL}
-                  userName={project.user.name}
-                  ccolor={project.category.color}
-                  />
-                  </>
-              ))}
-              
-              {!projects && isSelected &&
+              {isSearching && <Loader color={"#ff7a00"} />}
+              <ul>
+                {projects?.map((project) => (
+                  <li key={project.id}>
+                    <Post
+                      title={project.title}
+                      description={project.description}
+                      numberOfStudents={project.studentsRequired}
+                      projectType={project.category.name}
+                      avatarUrl={project.user.avatarURL}
+                      userName={project.user.name}
+                      ccolor={project.category.color}
+                    />
+                  </li>
+                ))}
+              </ul>
+              {projects.length === 0 && isSelected && (
                 <div
-                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-              >
-                <AlertCircle size={32} />
-                <p>Parece que não há projetos dessa categoria...</p>
-              </div>
-              }
-              
+                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                >
+                  <AlertCircle size={32} />
+                  <p>Parece que não há projetos dessa categoria...</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

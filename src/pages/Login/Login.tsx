@@ -62,7 +62,6 @@ const Login: React.FC = () => {
               />
             </div>
             <Button
-              type="submit"
               backgroundColor={"#f5f5f5"}
               color={"#101010"}
               width={"100%"}

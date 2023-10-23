@@ -34,7 +34,7 @@ export const StyledTitle = styled.h4`
 export const StyledP = styled.p`
 `
 export const StyledDescription = styled.p<PostProps>`
-    color: ${props => props.ccolor}
+    color: ${props => props.ccolor};
 `
 
 export const StyledProject = styled.div`
@@ -49,6 +49,7 @@ export const StyledMiddle = styled.div`
     border-radius: .8rem;
     padding: 1rem;
     background-color: #252525;
+    word-break: break-all;
 `
 
 export const StyledReqContainer = styled.div`

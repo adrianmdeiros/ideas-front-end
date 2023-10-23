@@ -26,21 +26,20 @@ type Project = {
 };
 
 const Main: React.FC = () => {
+  const auth = useContext(AuthContext)
   const { data: projects, isFetching } = useFetch<Project[]>(
     "https://api-projif.vercel.app/projects"
   );
-  const { user } = useContext(AuthContext)
 
   return (
     <div className={styles.body}>
       <GlobalStyle />
       <Menu />
       <div className={styles.container}>
-        <Header padding="0 1rem" backgroundColor="#101010">
+        <Header position='relative' padding="0 1rem" backgroundColor="#101010" >
           <h2>Descubra</h2>
-          <p style={{textAlign: 'end'}}>Bem-vindo(a) <br />{user?.tipo_vinculo}!</p>
+          <p style={{textAlign: 'end', display:'flex', alignItems:'center'}}>  Bem-vindo(a) <br />{auth.user?.tipo_vinculo}!</p>
         </Header>
-
         <hr />
         <div className={styles.feed}>
           <div className={styles.postsContainer}>
@@ -52,11 +51,11 @@ const Main: React.FC = () => {
                 <p>Parece que não há projetos...</p>
               </div>
             )}
-            {projects?.map((project) => {
-              
-              return(
+              {isFetching && <Loader color={"#ff7a00"} />}
+            <ul className={styles.postsContainer}>
+            {projects?.map((project) => 
+              <li key={project.id}>
                 <Post
-                key={project.id}
                 title={project.title}
                 description={project.description}
                 numberOfStudents={project.studentsRequired}
@@ -65,9 +64,9 @@ const Main: React.FC = () => {
                 avatarUrl={project.user.avatarURL}
                 ccolor={project.category.color}
                 />
-                )
-              })}
-            {isFetching && <Loader color={"#ff7a00"} />}
+                </li>
+              )}
+              </ul>
           </div>
         </div>
       </div>

@@ -2,12 +2,12 @@ import NavLink from "../NavLink/NavLink";
 import { Home as HomeIcon, Search, LogOut, Folder } from "react-feather";
 import { Perfil, StyledTabBar, StyledSideMenu, StyledPerfil, StyledUserInfo, StyledNav } from "./style";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext, AuthContextType } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import Logo from "../../assets/LogoHome.svg";
 import { Link, useNavigate } from "react-router-dom";
 
 const Menu: React.FC = () => {
-  const auth = useContext<AuthContextType>(AuthContext);
+  const auth = useContext(AuthContext);
   const userPhoto = `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
   const navigate = useNavigate()
   const [isMobile, setIsMobile] = useState(false);

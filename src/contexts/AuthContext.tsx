@@ -87,7 +87,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const setTokens = (tokens: any) => {
-    cookies.set("token", tokens.access, {httpOnly: true, secure: true});
+    cookies.set("token", tokens.access);
     cookies.set("refresh", tokens.refresh);
   };
 
@@ -114,7 +114,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const response = await suapi.post("autenticacao/token/refresh/", {
       refresh: refreshToken,
     });
-    cookies.set("token", response.data.access, {httpOnly: true, secure: true});
+    cookies.set("token", response.data.access);
     
     const user = await getUserData(response.data.access)
     setUser(user)

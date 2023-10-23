@@ -20,12 +20,8 @@ import {
 import Button from "../Button/Button";
 import { Edit, Trash2, User } from "react-feather";
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useContext, useState } from "react";
-import api from "../../api/api";
+import React, { useState } from "react";
 import Modal from "../Modal/Modal";
-import { Project } from "../../pages/MyProjects/MyProjects";
-import { useFetch } from "../../hooks/useFetch";
-import { AuthContext } from "../../contexts/AuthContext";
 
 export type PostProps = {
   avatarUrl?: string;
@@ -36,10 +32,10 @@ export type PostProps = {
   projectType?: string;
   ccolor?: string;
   id?: string;
+  deleteProject?: (e: any) => void
 };
 
 const Post: React.FC<PostProps> = ({
-  id,
   ccolor,
   userName,
   title,
@@ -47,34 +43,16 @@ const Post: React.FC<PostProps> = ({
   numberOfStudents,
   projectType,
   avatarUrl,
+  deleteProject
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user } = useContext(AuthContext)
-  const { data: myProjects, setData: setMyProjects } = useFetch<Project[]>(
-    `https://api-projif.vercel.app/projects?userId=${user?.id}`
-  );
-
-  const location = useLocation()
+  const location = useLocation();
 
   const handleNavigate = () => {
     navigate("/details");
-  };
-
-  const deletePost = async (e: any) => {
-    e.preventDefault()
-    
-    await api.delete(`/projects/${id}`);
-    setIsModalOpen(false)
-    
-    if(myProjects !== null) {
-      const newProjectsList = myProjects.filter(project => {
-        return project.id !== id
-      })
-      setMyProjects(newProjectsList)
-    }
-
   };
 
   return (
@@ -85,41 +63,41 @@ const Post: React.FC<PostProps> = ({
             <StyledUserPhoto src={perfilImage} />
             <StyledTitle>{userName}</StyledTitle>
           </StyledAutor>
-          {location.pathname === '/projects' && (
+          {location.pathname === "/projects" && (
             <StyledActions>
-            <Edit cursor={"pointer"} />
-            <Trash2 cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
-            <Modal
-              isOpen={isModalOpen}
-              setOpenModal={() => setIsModalOpen(!isModalOpen)}
-            >
-              <StyledConfirmBox>
-                <StyledDanger>
-                  <p>Tem Certeza que deseja excluir esse projeto?</p>
-                </StyledDanger>
-                <StyledButtons>
-                  <Button
-                    backgroundColor="transparent"
-                    color="#f5f5f5"
-                    borderRadius=".8rem"
-                    hover="transparent"
-                    onClick={() => setIsModalOpen(!isModalOpen)}
-                  >
-                    cancelar
-                  </Button>
-                  <Button
-                    backgroundColor="#f5f5f5"
-                    color="#101010"
-                    borderRadius=".8rem"
-                    hover="#dedede"
-                    onClick={deletePost}
-                  >
-                    Confirmar
-                  </Button>
-                </StyledButtons>
-              </StyledConfirmBox>
-            </Modal>
-          </StyledActions>
+              <Edit cursor={"pointer"} />
+              <Trash2 cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
+              <Modal
+                isOpen={isModalOpen}
+                setOpenModal={() => setIsModalOpen(!isModalOpen)}
+              >
+                <StyledConfirmBox>
+                  <StyledDanger>
+                    <p>Tem Certeza que deseja excluir esse projeto?</p>
+                  </StyledDanger>
+                  <StyledButtons>
+                    <Button
+                      backgroundColor="transparent"
+                      color="#f5f5f5"
+                      borderRadius=".8rem"
+                      hover="transparent"
+                      onClick={() => setIsModalOpen(!isModalOpen)}
+                    >
+                      cancelar
+                    </Button>
+                    <Button
+                      backgroundColor="#f5f5f5"
+                      color="#101010"
+                      borderRadius=".8rem"
+                      hover="#dedede"
+                      onClick={deleteProject}
+                    >
+                      Confirmar
+                    </Button>
+                  </StyledButtons>
+                </StyledConfirmBox>
+              </Modal>
+            </StyledActions>
           )}
         </StyledTop>
         <StyledMiddle>
@@ -138,7 +116,6 @@ const Post: React.FC<PostProps> = ({
             </StyledProjectReq>
           </StyledReqContainer>
           <Button
-            type="submit"
             backgroundColor={"#2c2c2c"}
             color={"#d9d9d9"}
             width={"100%"}

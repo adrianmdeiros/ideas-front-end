@@ -10,7 +10,7 @@ import App from "../App";
 import { RequireAuth } from "../contexts/RequireAuth";
 import NotFound from "../pages/NotFound/NotFound";
 
-const Router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
@@ -65,4 +65,4 @@ const Router = createBrowserRouter([
 
 ])
 
-export default Router
+export default router

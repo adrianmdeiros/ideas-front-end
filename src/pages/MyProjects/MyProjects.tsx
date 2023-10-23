@@ -4,7 +4,7 @@ import styles from "./MyProjects.module.css";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import Menu from "../../components/Menu/Menu";
 import { useFetch } from "../../hooks/useFetch";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -34,21 +34,30 @@ type Category = {
 };
 
 const MyProjects = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user } = useContext(AuthContext);
-  const { data: myProjects, setData: setMyProjects, isFetching } = useFetch<Project[]>(
-    `https://api-projif.vercel.app/projects?userId=${user?.id}`
+  const auth = useContext(AuthContext);
+  const {
+    data: myProjects,
+    setData: setMyProjects,
+    isFetching,
+  } = useFetch<Project[]>(
+    `https://api-projif.vercel.app/projects?userId=${auth.user?.id}`
   );
 
   const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]
   >("https://api-projif.vercel.app/categories");
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [studentsRequired, setStudentsRequired] = useState(1);
   const [categoryId, setCategoryId] = useState(0);
-
+   
+  useEffect(()=>{
+    if(categoryId === 4){
+      setStudentsRequired(1)
+    }
+  },[categoryId])
 
   const addStudent = (e: any) => {
     e.preventDefault();
@@ -66,18 +75,30 @@ const MyProjects = () => {
 
   const createProject = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const project = {
+    setIsModalOpen(false);
+    
+    const response = await api.post("/projects", {
       title,
       description,
       studentsRequired,
       categoryId,
-      userId: user?.id,
-    };
-    
-    const response = await api.post("/projects", project);
+      userId: auth.user?.id,
+    });
+    setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
+  };
+
+  const deleteProject = async (id: string, e: any) => {
+    e.preventDefault();
     setIsModalOpen(false);
-    if(myProjects !== null){
-      setMyProjects([...myProjects, response.data]);
+    
+    await api.delete(`/projects/${id}`);
+
+    if (myProjects !== null) {
+      const newProjectsList = myProjects.filter((project) => {
+        return project.id !== id;
+      });
+
+      setMyProjects(newProjectsList);
     }
   };
 
@@ -103,30 +124,32 @@ const MyProjects = () => {
           </Header>
           <hr />
           <div className={styles.projectsContainer}>
-            {!myProjects && (
-              <div
+            <ul className={styles.postsContainer}>
+              {myProjects?.map((projects) => (
+                <li key={projects.id}>
+                  <Post
+                    id={projects.id}
+                    title={projects.title}
+                    description={projects.description}
+                    numberOfStudents={projects.studentsRequired}
+                    userName={projects.user.name}
+                    projectType={projects.category.name}
+                    avatarUrl={projects.user.avatarURL}
+                    ccolor={projects.category.color}
+                    deleteProject={(e) => deleteProject(projects.id, e)}
+                    />
+                </li>
+              ))}
+            </ul>
+              {!myProjects && (
+                <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-              >
-                <AlertCircle size={32} />
-                <p>Você ainda não criou nenhum projeto...</p>
-              </div>
-            )}
-
-            {myProjects?.map((projects) => (
-              <Post
-                id={projects.id}
-                key={projects.id}
-                title={projects.title}
-                description={projects.description}
-                numberOfStudents={projects.studentsRequired}
-                userName={projects.user.name}
-                projectType={projects.category.name}
-                avatarUrl={projects.user.avatarURL}
-                ccolor={projects.category.color}
-              />
-            ))}
-
-            {isFetching && <Loader color={"#ff7a00"} />}
+                >
+                  <AlertCircle size={32} />
+                  <p>Você ainda não criou nenhum projeto...</p>
+                </div>
+              )}
+              {isFetching && <Loader color={"#ff7a00"} />}
           </div>
           <div className={styles.modalContainer}>
             <Modal
@@ -143,7 +166,7 @@ const MyProjects = () => {
                       type="text"
                       required={true}
                       placeholder="Digite o título do seu projeto..."
-                      maxLength={100}
+                      maxLength={150}
                       className={styles.input}
                       onChange={(e) => setTitle(e.target.value)}
                     />
@@ -156,13 +179,14 @@ const MyProjects = () => {
                       placeholder="Descreva seu projeto..."
                       required={true}
                       cols={30}
-                      rows={6}
-                      maxLength={500}
+                      rows={8}
+                      maxLength={1000}
                       className={styles.descriptionText}
                       onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
-                  <div className={styles.numberOfStudentsContainer}>
+                  {categoryId !== 4 && (
+                    <div className={styles.numberOfStudentsContainer}>
                     <label htmlFor="numberOfStudents">
                       Quantidade de alunos
                     </label>
@@ -196,22 +220,33 @@ const MyProjects = () => {
                       </Button>
                     </div>
                   </div>
+                  )}
+                  
                   <div className={styles.projectCategoryContainer}>
                     <label htmlFor="projectCategory">
                       Categoria do projeto
                     </label>
                     {isFetchingCategory && <Loader />}
-                    <select
-                      value={categoryId}
-                      onChange={(e) => setCategoryId(Number(e.target.value))}
-                      className={styles.checkbox}
-                    >
+                    <ul className={styles.categories}>
                       {categories?.map((category) => (
-                        <option value={category.id} className={styles.checkbox}>
-                          {category.name}
-                        </option>
+                        <li key={category.id}>
+                          <input
+                            required={true}
+                            type="radio"
+                            id={category.name}
+                            name="projectCategory"
+                            className={styles.checkbox}
+                            onClick={() => setCategoryId(category.id)}
+                          />
+                          <label
+                            htmlFor={category.name}
+                            className={styles.type}
+                          >
+                            {category.name}
+                          </label>
+                        </li>
                       ))}
-                    </select>
+                    </ul>
                   </div>
                   <Button
                     backgroundColor="#f5f5f5"

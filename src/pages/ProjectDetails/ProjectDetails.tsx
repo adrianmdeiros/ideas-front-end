@@ -10,14 +10,14 @@ import { AuthContext } from "../../contexts/AuthContext";
 type Props = {};
 
 const ProjectDetails: React.FC<Props> = () => {
-  const { user } = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   const handleZap = () => {
     alert("mandar pro zap");
   };
 
   const perfilImage =
-  `https://suap.ifma.edu.br${user?.url_foto_150x200}`;
+  `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
   return (
     <>
     <div className={styles.body}>

@@ -17,6 +17,7 @@ export const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
     }, 1000)
   }, [])
 
+
   if(loading){
     return (
       <div style={{width:'100%', display:'flex', alignItems:'center',gap:'1rem', padding:'2rem'}}>
@@ -25,11 +26,10 @@ export const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
       </div>
     )
   }
-
+  
   if (!auth.isAuthenticated) {
     return <Login />
   }
-
 
     return children
 
