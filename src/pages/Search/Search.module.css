@@ -1,3 +1,7 @@
+h2{
+    margin-bottom: 2rem;
+}
+
 .body{
     height: 100vh;
     min-width: 100%;
@@ -7,6 +11,7 @@
     padding: 2rem;
     overflow-y: auto;
 }
+
 
 .input{
     padding: 1rem;
@@ -18,22 +23,12 @@
     flex-grow: 1;
 }
 
-.searchBoxContainer{
+/* .searchBoxContainer{
     display: flex;
     gap: 2rem;
     align-items: center;
     width: 100%;
-}
-
-.main{
-    padding: 2rem;
-}
-
-.main h2{
-    margin-bottom: 2rem;
-}
-
-
+} */
 
 
 .tagsContainer{
@@ -46,13 +41,12 @@
 }
 
 .searchResults{
-    display: grid;
-    gap: 1rem;
-    margin-top: 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 2.8rem;
     margin-bottom: 10rem;
-    overflow-y: auto;
 }
-
 
 
 @media only screen and (min-width: 768px){

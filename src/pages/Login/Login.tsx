@@ -3,22 +3,33 @@ import styles from "./Login.module.css";
 import Banner from "../../assets/Banner.png";
 import Logo from "../../assets/LogoHome.svg";
 import Button from "../../components/Button/Button";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import Loader from "../../components/Loader/Loader";
 
+
+
+
+
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
-  const { signIn } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLogging, setIsLogging] = useState(false);
+
+  useEffect(()=>{
+    if(auth.isAuthenticated){
+      navigate('/main')
+    } 
+  },[])
+
 
   const handleSignIn = async (data: any) => {
     setIsLogging(true);
     try {
-      const isLogged = await signIn(data);
+      const isLogged = await auth.signIn(data);
       if (isLogged) {
         navigate("/main");
         setIsLogging(false);

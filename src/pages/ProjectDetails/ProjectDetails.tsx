@@ -1,39 +1,57 @@
-import React, { useContext } from "react";
-import Header from "../../components/Header/Header";
+import React from "react";
 import GlobalStyle from "../../styles/global";
-import { ArrowLeft, Mail, Phone, User } from "react-feather";
+import { Mail, Phone, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
 import Button from "../../components/Button/Button";
-import NavLink from "../../components/NavLink/NavLink";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useFetch } from "../../hooks/useFetch";
+import Loader from "../../components/Loader/Loader";
 
-type Props = {};
 
-const ProjectDetails: React.FC<Props> = () => {
-  const auth = useContext(AuthContext)
 
-  const handleZap = () => {
-    alert("mandar pro zap");
-  };
+export type PostProps = {
+  avatarUrl?: string;
+  userName?: string;
+  title?: string;
+  description?: string;
+  studentsRequired?: number;
+  projectCategory?: string;
+  ccolor?: string;
+  deleteProject?: (e: any) => void
+  isExcluding?: boolean
+  userCourse?: string
+  userId?: number
+};
 
-  const perfilImage =
-  `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
+type Contacts = {
+  email: string;
+  phone: string;
+}
+
+const ProjectDetails: React.FC<PostProps> = ({
+  userId,
+  ccolor,
+  userName,
+  title,
+  description,
+  studentsRequired,
+  projectCategory,
+  avatarUrl,
+  userCourse
+}) => {
+
+  const { data: contacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${userId}/contacts`)
+  
+
+  const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
+
+
   return (
     <>
-    <div className={styles.body}>
+      <div className={styles.body}>
+        <GlobalStyle />
 
-      <GlobalStyle />
-      <div className={styles.container}>
-        <Header
-          height="6rem"
-          position="fixed"
-          backgroundColor="#101010"
-          padding="0 2rem"
-        >
-          <NavLink icon={<ArrowLeft />} onClick={() => history.back()} to={"#"} />
-          <h3 className={styles.title}>Detalhes do projeto</h3>
-        </Header>
-        <main>
+        <h3 className={styles.title}>Detalhes do projeto</h3>
+        <div className={styles.container}>
           <div className={styles.projectContainer}>
             <div className={styles.top}>
               <img
@@ -42,52 +60,51 @@ const ProjectDetails: React.FC<Props> = () => {
                 alt="foto de perfil"
               />
               <div>
-                <h3>Nome do Professor</h3>
-                <p>Projeto de desenvolvimento de plataforma</p>
+                <h3>{userName}</h3>
+                <p>{title}</p>
+                <p>{userCourse}</p>
               </div>
             </div>
             <div className={styles.middle}>
               <h4>Descrição</h4>
-              <p className={styles.projectDescription}>
-                O projeto irá consistir em desenvovler uma plataforma para
-                auxiliar tarefas diarias
+              <p style={{color: ccolor}}>
+                {description}
               </p>
               <div className={styles.projectReqContainer}>
                 <div className={styles.projectReq}>
                   <User size={18} />
-                  <p>2 alunos</p>
+                  <p> {studentsRequired} aluno(s)</p>
                 </div>
                 <div className={styles.projectReq}>
-                  <div className={styles.projectTypeColor} />
-                  <p>PIBIC</p>
+                  <div className={styles.projectTypeColor} style={{ backgroundColor: ccolor }} />
+                  <p>{projectCategory}</p>
                 </div>
               </div>
             </div>
+            {isFetching && <Loader />}
             <div className={styles.bottom}>
               <h4>Contatos</h4>
               <div className={styles.contact}>
                 <Mail size={18} />
-                <p>email@exemplo.com</p>
+                <p>{contacts?.email}</p>
               </div>
               <div className={styles.contact}>
                 <Phone size={18} />
-                <p>(55) 55555-5555</p>
+                <p>{contacts?.phone}</p>
               </div>
             </div>
-        <Button
-          backgroundColor="#f5f5f5"
-          borderRadius=".5rem"
-          color="#101010"
-          hover="#d3d3d3"
-          width="100%"
-          onClick={handleZap}
-        >
-          Enviar mensagem
-        </Button>
+            <Button
+              backgroundColor="#f5f5f5"
+              borderRadius=".5rem"
+              color="#101010"
+              hover="#d3d3d3"
+              width="100%"
+            >
+              Enviar mensagem
+            </Button>
           </div>
-        </main>
+        </div>
       </div>
-    </div>
 
     </>
   );

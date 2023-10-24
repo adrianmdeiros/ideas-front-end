@@ -52,12 +52,14 @@ const MyProjects = () => {
   const [description, setDescription] = useState("");
   const [studentsRequired, setStudentsRequired] = useState(1);
   const [categoryId, setCategoryId] = useState(0);
-   
-  useEffect(()=>{
-    if(categoryId === 4){
+  const [isPublishing, setIsPublishing] = useState(false)
+  const [isExcluding, setIsExcluding] = useState(false)
+  
+  useEffect(() => {
+    if (categoryId === 4) {
       setStudentsRequired(1)
     }
-  },[categoryId])
+  }, [categoryId])
 
   const addStudent = (e: any) => {
     e.preventDefault();
@@ -75,23 +77,36 @@ const MyProjects = () => {
 
   const createProject = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsModalOpen(false);
-    
-    const response = await api.post("/projects", {
-      title,
-      description,
-      studentsRequired,
-      categoryId,
-      userId: auth.user?.id,
-    });
-    setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
+    setIsPublishing(true)
+
+    try {
+      const response = await api.post("/projects", {
+        title,
+        description,
+        studentsRequired,
+        categoryId,
+        userId: auth.user?.id,
+      });
+
+      setIsPublishing(false);
+      setIsModalOpen(false);
+
+      setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
+    } catch (err) {
+      alert("Oops! Talvez o projeto que você está tentando criar já exista!");
+      setIsPublishing(false);
+    }
+
   };
 
   const deleteProject = async (id: string, e: any) => {
     e.preventDefault();
-    setIsModalOpen(false);
+    setIsExcluding(true)
     
     await api.delete(`/projects/${id}`);
+
+    setIsExcluding(false)
+    setIsModalOpen(false);
 
     if (myProjects !== null) {
       const newProjectsList = myProjects.filter((project) => {
@@ -128,33 +143,38 @@ const MyProjects = () => {
               {myProjects?.map((projects) => (
                 <li key={projects.id}>
                   <Post
-                    id={projects.id}
+                    userId={auth.user?.id}
                     title={projects.title}
                     description={projects.description}
-                    numberOfStudents={projects.studentsRequired}
+                    studentsRequired={projects.studentsRequired}
                     userName={projects.user.name}
-                    projectType={projects.category.name}
+                    projectCategory={projects.category.name}
                     avatarUrl={projects.user.avatarURL}
                     ccolor={projects.category.color}
                     deleteProject={(e) => deleteProject(projects.id, e)}
-                    />
+                    isExcluding={isExcluding}
+                  />
                 </li>
               ))}
             </ul>
-              {!myProjects && (
-                <div
+            {!myProjects && (
+              <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-                >
-                  <AlertCircle size={32} />
-                  <p>Você ainda não criou nenhum projeto...</p>
-                </div>
-              )}
-              {isFetching && <Loader color={"#ff7a00"} />}
+              >
+                <AlertCircle size={32} />
+                <p>Você ainda não criou nenhum projeto...</p>
+              </div>
+            )}
+            {isFetching && <Loader color={"#ff7a00"} />}
           </div>
           <div className={styles.modalContainer}>
             <Modal
               isOpen={isModalOpen}
-              setOpenModal={() => setIsModalOpen(!isModalOpen)}
+              setOpenModal={() => {
+                setIsModalOpen(!isModalOpen)
+                setIsPublishing(false)
+              }
+              }
             >
               <>
                 <h2 className={styles.title}>Adicionar Projeto</h2>
@@ -178,8 +198,7 @@ const MyProjects = () => {
                       name="description"
                       placeholder="Descreva seu projeto..."
                       required={true}
-                      cols={30}
-                      rows={8}
+                      minLength={50}
                       maxLength={1000}
                       className={styles.descriptionText}
                       onChange={(e) => setDescription(e.target.value)}
@@ -187,46 +206,46 @@ const MyProjects = () => {
                   </div>
                   {categoryId !== 4 && (
                     <div className={styles.numberOfStudentsContainer}>
-                    <label htmlFor="numberOfStudents">
-                      Quantidade de alunos
-                    </label>
-                    <div className={styles.addOrRemoveStudentsContainer}>
-                      <Button
-                        backgroundColor="#f5f5f5"
-                        color="#101010"
-                        borderRadius=".8rem"
-                        hover="#dedede"
-                        onClick={removeStudent}
-                        width="38%"
-                      >
-                        <Minus />
-                      </Button>
-                      <input
-                        type="number"
-                        id="studentsRequired"
-                        className={styles.numberOfStudents}
-                        disabled={true}
-                        value={studentsRequired}
-                      />
-                      <Button
-                        width="38%"
-                        backgroundColor="#f5f5f5"
-                        color="#101010"
-                        borderRadius=".8rem"
-                        hover="#dedede"
-                        onClick={addStudent}
-                      >
-                        <Plus />
-                      </Button>
+                      <label htmlFor="numberOfStudents">
+                        Quantidade de alunos
+                      </label>
+                      <div className={styles.addOrRemoveStudentsContainer}>
+                        <Button
+                          backgroundColor="#f5f5f5"
+                          color="#101010"
+                          borderRadius=".8rem"
+                          hover="#dedede"
+                          onClick={removeStudent}
+                          width="38%"
+                        >
+                          <Minus />
+                        </Button>
+                        <input
+                          type="number"
+                          id="studentsRequired"
+                          className={styles.numberOfStudents}
+                          disabled={true}
+                          value={studentsRequired}
+                        />
+                        <Button
+                          width="38%"
+                          backgroundColor="#f5f5f5"
+                          color="#101010"
+                          borderRadius=".8rem"
+                          hover="#dedede"
+                          onClick={addStudent}
+                        >
+                          <Plus />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
                   )}
-                  
+
                   <div className={styles.projectCategoryContainer}>
                     <label htmlFor="projectCategory">
                       Categoria do projeto
                     </label>
-                    {isFetchingCategory && <Loader />}
+                    { isFetchingCategory && <Loader /> }
                     <ul className={styles.categories}>
                       {categories?.map((category) => (
                         <li key={category.id}>
@@ -255,7 +274,14 @@ const MyProjects = () => {
                     hover="#dedede"
                     width="100%"
                   >
-                    Publicar
+                    {isPublishing ? (
+                      <>
+                        <Loader />
+                        <p>Publicando...</p>
+                      </>
+                    ) : (
+                      <p>Publicar</p>
+                    )}
                   </Button>
                 </form>
               </>

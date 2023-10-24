@@ -3,7 +3,7 @@ import styles from "./Perfil.module.css";
 import GlobalStyle from "../../styles/global";
 import { Edit, LogOut, Mail, Phone } from "react-feather";
 import Header from "../../components/Header/Header";
-import { AuthContext, User } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "../../components/Menu/Menu";
 import Modal from "../../components/Modal/Modal";
@@ -12,6 +12,11 @@ import api from "../../api/api";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
 
+type Contacts ={
+  email: string
+  phone: string
+}
+
 const Perfil: React.FC = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
@@ -19,7 +24,7 @@ const Perfil: React.FC = () => {
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const { data: contacts, setData: setContacts, isFetching } = useFetch<User>(`https://api-projif.vercel.app/users/${auth.user?.id}/contacts`)
+  const { data: contacts, setData: setContacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${auth.user?.id}/contacts`)
   
   const userPhoto = `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
   const handleLogOut = async () => {

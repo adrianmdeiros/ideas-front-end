@@ -28,6 +28,8 @@ hr{
 .postsContainer{
     display: grid;
     gap: 2.8rem;
+    margin-bottom: 10rem;
+
 }
 
 .img{

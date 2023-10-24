@@ -15,6 +15,7 @@ type Project = {
   description: string;
   studentsRequired: number;
   user: {
+    id: number
     name: string;
     avatarURL: string;
   };
@@ -37,7 +38,7 @@ const Main: React.FC = () => {
       <Menu />
       <div className={styles.container}>
         <Header position='relative' padding="0 1rem" backgroundColor="#101010" >
-          <h2>Descubra</h2>
+          <h2>Mural</h2>
           <p style={{textAlign: 'end', display:'flex', alignItems:'center'}}>  Bem-vindo(a) <br />{auth.user?.tipo_vinculo}!</p>
         </Header>
         <hr />
@@ -56,11 +57,12 @@ const Main: React.FC = () => {
             {projects?.map((project) => 
               <li key={project.id}>
                 <Post
+                userId={project.user.id}
                 title={project.title}
                 description={project.description}
-                numberOfStudents={project.studentsRequired}
+                studentsRequired={project.studentsRequired}
                 userName={project.user.name}
-                projectType={project.category.name}
+                projectCategory={project.category.name}
                 avatarUrl={project.user.avatarURL}
                 ccolor={project.category.color}
                 />

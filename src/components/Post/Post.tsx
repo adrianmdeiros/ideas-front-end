@@ -19,41 +19,46 @@ import {
 } from "./style";
 import Button from "../Button/Button";
 import { Edit, Trash2, User } from "react-feather";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
+import Loader from "../Loader/Loader";
+import ProjectDetails from "../../pages/ProjectDetails/ProjectDetails";
 
 export type PostProps = {
   avatarUrl?: string;
   userName?: string;
   title?: string;
   description?: string;
-  numberOfStudents?: number;
-  projectType?: string;
+  studentsRequired?: number;
+  projectCategory?: string;
   ccolor?: string;
   id?: string;
   deleteProject?: (e: any) => void
+  isExcluding?: boolean
+  userCourse?: string
+  userId?: number
 };
 
 const Post: React.FC<PostProps> = ({
+  userId,
   ccolor,
   userName,
   title,
   description,
-  numberOfStudents,
-  projectType,
+  studentsRequired,
+  projectCategory,
   avatarUrl,
-  deleteProject
+  deleteProject,
+  isExcluding,
+  userCourse
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [IsProjectDetailsModalOpen, setIsProjectDetailsModalOpen] = useState(false);
 
   const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
-  const navigate = useNavigate();
   const location = useLocation();
 
-  const handleNavigate = () => {
-    navigate("/details");
-  };
 
   return (
     <StyledPost>
@@ -62,11 +67,12 @@ const Post: React.FC<PostProps> = ({
           <StyledAutor>
             <StyledUserPhoto src={perfilImage} />
             <StyledTitle>{userName}</StyledTitle>
+            <StyledP>{userCourse}</StyledP>
           </StyledAutor>
           {location.pathname === "/projects" && (
             <StyledActions>
-              <Edit cursor={"pointer"} />
-              <Trash2 cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
+              <Edit color="#818181" cursor={"pointer"} size={20} />
+              <Trash2 color="#818181" size={22} cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
               <Modal
                 isOpen={isModalOpen}
                 setOpenModal={() => setIsModalOpen(!isModalOpen)}
@@ -83,16 +89,25 @@ const Post: React.FC<PostProps> = ({
                       hover="transparent"
                       onClick={() => setIsModalOpen(!isModalOpen)}
                     >
-                      cancelar
+                      <p>
+                        cancelar
+                      </p>
                     </Button>
                     <Button
-                      backgroundColor="#f5f5f5"
-                      color="#101010"
+                      backgroundColor="#CD191E"
+                      color="#f5f5f5"
                       borderRadius=".8rem"
-                      hover="#dedede"
+                      hover="#cd191fc3"
                       onClick={deleteProject}
                     >
-                      Confirmar
+                      {isExcluding ? (
+                        <>
+                          <Loader />
+                          <p>Excluindo...</p>
+                        </>
+                      ) : (
+                        <p>Confirmar</p>
+                      )}
                     </Button>
                   </StyledButtons>
                 </StyledConfirmBox>
@@ -102,31 +117,47 @@ const Post: React.FC<PostProps> = ({
         </StyledTop>
         <StyledMiddle>
           <StyledTitle>{title}</StyledTitle>
-          <StyledDescription ccolor={ccolor}>{description}</StyledDescription>
+          <StyledDescription ccolor={ccolor}>
+            {description ? description?.length > 50 ? description?.slice(0, 60) + '...' : description : "Não há descrição"}
+          </StyledDescription>
         </StyledMiddle>
         <StyledBottom>
           <StyledReqContainer>
             <StyledProjectReq>
               <User size={18} />
-              <StyledP>{numberOfStudents} Alunos</StyledP>
+              <StyledP>{studentsRequired} aluno(s)</StyledP>
             </StyledProjectReq>
             <StyledProjectReq>
               <StyledColorTypeProject ccolor={ccolor} />
-              <StyledP>{projectType}</StyledP>
+              <StyledP>{projectCategory}</StyledP>
             </StyledProjectReq>
           </StyledReqContainer>
+
           <Button
             backgroundColor={"#2c2c2c"}
             color={"#d9d9d9"}
             width={"100%"}
             height={"100%"}
             hover={"#252525"}
-            onClick={handleNavigate}
+            onClick={() => setIsProjectDetailsModalOpen(true)}
             borderRadius={".8rem"}
           >
             Ver mais
           </Button>
         </StyledBottom>
+        <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() => setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}>
+          <ProjectDetails
+            userId={userId}
+            title={title}
+            description={description}
+            userName={userName}
+            userCourse={userCourse}
+            avatarUrl={avatarUrl}
+            ccolor={ccolor}
+            studentsRequired={studentsRequired}
+            projectCategory={projectCategory}
+          />
+        </Modal>
       </StyledProject>
     </StyledPost>
   );

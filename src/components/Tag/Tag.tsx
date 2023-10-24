@@ -8,7 +8,7 @@ export type TagProps = {
 };
 
 const Tag: React.FC<TagProps> = ({children, color, onClick }) => {
-  return <StyledCard color={color} onClick={onClick}>{children}</StyledCard>;
+  return <StyledCard color={color} onClick={onClick} >{children}</StyledCard>;
 };
 
 export default Tag;

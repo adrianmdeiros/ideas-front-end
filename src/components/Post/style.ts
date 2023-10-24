@@ -28,12 +28,17 @@ export const StyledUserPhoto = styled.img`
     border-radius: 50%;
 `
 
-export const StyledTitle = styled.h4`
+export const StyledTitle = styled.p`
+font-size: 1.4rem;
+font-weight: 500;
 `
 
 export const StyledP = styled.p`
+font-size: 1.4rem;
 `
 export const StyledDescription = styled.p<PostProps>`
+    font-size: 1.4rem;
+    text-align: start;
     color: ${props => props.ccolor};
 `
 
@@ -45,23 +50,26 @@ export const StyledProject = styled.div`
 
 export const StyledMiddle = styled.div`
     display: grid;
-    gap: 1rem;
+    gap: 1.8rem;
     border-radius: .8rem;
     padding: 1rem;
     background-color: #252525;
-    word-break: break-all;
+    line-break: auto;
+    max-height: 12rem;
+    overflow: hidden;
 `
 
 export const StyledReqContainer = styled.div`
     display: flex;
-    gap: 1.2rem;
+    align-items: center;
     justify-content: right;
+    gap: 1.2rem;
 `
 
 export const StyledProjectReq = styled.div`
     display: flex;
-    gap: .5rem;
     align-items: center;
+    gap: .5rem;
     margin-top: 1.2rem;
 `
 
@@ -80,9 +88,8 @@ gap: 1rem;
 
 export const StyledActions = styled.div`
     display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: .8rem;
+    align-items: center;
+    gap: .8rem;
 `
 
 export const StyledConfirmBox = styled.div`

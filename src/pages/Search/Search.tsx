@@ -21,6 +21,7 @@ type Project = {
   description: string;
   studentsRequired: number;
   user: {
+    id: number
     name: string;
     avatarURL: string;
   };
@@ -44,17 +45,17 @@ const Search: React.FC = () => {
     setIsSelected(false)
     setProjects([]);
     setIsSearching(true);
-    
+
     api.get(`/projects?categoryId=${categoryId}`)
-    .then(response => {
-      setProjects(response.data);
-      setIsSearching(false)
-    })
-    .catch(() => {
-      setIsSelected(true);
-      setIsSearching(false);
-    })
-    
+      .then(response => {
+        setProjects(response.data);
+        setIsSearching(false)
+      })
+      .catch(() => {
+        setIsSelected(true);
+        setIsSearching(false);
+      })
+
   };
 
   return (
@@ -63,15 +64,13 @@ const Search: React.FC = () => {
       <div className={styles.body}>
         <Menu />
         <div className={styles.container}>
-          <div className={styles.main}>
-            <h2>Buscar</h2>
-
+            <h2>Busca</h2>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <p>Selecione uma categoria abaixo...</p>
+              <p>Ache projetos por categoria:</p>
             </div>
 
             <div className={styles.categories}>
-              {isFetching && <Loader color={"#ff7a00"}/>}
+              {isFetching && <Loader color={"#ff7a00"} />}
               <ul className={styles.tagsContainer}>
                 {categories?.map((category) => (
                   <li key={category.id}>
@@ -85,16 +84,25 @@ const Search: React.FC = () => {
                 ))}
               </ul>
             </div>
+                {projects.length === 0 && isSelected && (
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                  >
+                    <AlertCircle size={32} />
+                    <p>Parece que não há projetos dessa categoria...</p>
+                  </div>
+                )}
             <div className={styles.searchResults}>
               {isSearching && <Loader color={"#ff7a00"} />}
-              <ul>
+              <ul  className={styles.searchResults} >
                 {projects?.map((project) => (
                   <li key={project.id}>
                     <Post
+                      userId={project.user.id}
                       title={project.title}
                       description={project.description}
-                      numberOfStudents={project.studentsRequired}
-                      projectType={project.category.name}
+                      studentsRequired={project.studentsRequired}
+                      projectCategory={project.category.name}
                       avatarUrl={project.user.avatarURL}
                       userName={project.user.name}
                       ccolor={project.category.color}
@@ -102,18 +110,9 @@ const Search: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              {projects.length === 0 && isSelected && (
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-                >
-                  <AlertCircle size={32} />
-                  <p>Parece que não há projetos dessa categoria...</p>
-                </div>
-              )}
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };
