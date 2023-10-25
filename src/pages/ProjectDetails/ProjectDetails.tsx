@@ -50,7 +50,7 @@ const ProjectDetails: React.FC<PostProps> = ({
       <div className={styles.body}>
         <GlobalStyle />
 
-        <h3 className={styles.title}>Detalhes do projeto</h3>
+        <h2 className={styles.title}>Detalhes do projeto</h2>
         <div className={styles.container}>
           <div className={styles.projectContainer}>
             <div className={styles.top}>
@@ -61,11 +61,11 @@ const ProjectDetails: React.FC<PostProps> = ({
               />
               <div>
                 <h3>{userName}</h3>
-                <p>{title}</p>
                 <p>{userCourse}</p>
               </div>
             </div>
             <div className={styles.middle}>
+                <h2>{title}</h2>
               <h4>Descrição</h4>
               <p style={{color: ccolor}}>
                 {description}
@@ -86,11 +86,11 @@ const ProjectDetails: React.FC<PostProps> = ({
               <h4>Contatos</h4>
               <div className={styles.contact}>
                 <Mail size={18} />
-                <p>{contacts?.email}</p>
+                <p>{contacts?.email ? contacts.email : "Sem email cadastrado"}</p>
               </div>
               <div className={styles.contact}>
                 <Phone size={18} />
-                <p>{contacts?.phone}</p>
+                <p>{contacts?.phone ? contacts.phone : "Sem telefone cadastrado"}</p>
               </div>
             </div>
             <Button

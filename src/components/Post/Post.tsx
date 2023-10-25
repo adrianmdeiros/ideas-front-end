@@ -66,8 +66,10 @@ const Post: React.FC<PostProps> = ({
         <StyledTop>
           <StyledAutor>
             <StyledUserPhoto src={perfilImage} />
+            <div>
             <StyledTitle>{userName}</StyledTitle>
             <StyledP>{userCourse}</StyledP>
+            </div>
           </StyledAutor>
           {location.pathname === "/projects" && (
             <StyledActions>

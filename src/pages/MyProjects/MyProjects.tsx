@@ -18,12 +18,17 @@ export type Project = {
   description: string;
   studentsRequired: number;
   user: {
+    id: number
     name: string;
     avatarURL: string;
+    course: {
+      id: number
+      name: string
+    };
   };
   category: {
     name: string;
-    color: string;
+    color: string
   };
 };
 
@@ -84,8 +89,8 @@ const MyProjects = () => {
         title,
         description,
         studentsRequired,
-        categoryId,
-        userId: auth.user?.id,
+        categoryid: categoryId,
+        userid: auth.user?.id
       });
 
       setIsPublishing(false);
@@ -93,7 +98,7 @@ const MyProjects = () => {
 
       setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
     } catch (err) {
-      alert("Oops! Talvez o projeto que você está tentando criar já exista!");
+      alert(":( Ocorreu um erro! Talvez o projeto já exista... Tente um título diferente :)!");
       setIsPublishing(false);
     }
 
@@ -153,6 +158,7 @@ const MyProjects = () => {
                     ccolor={projects.category.color}
                     deleteProject={(e) => deleteProject(projects.id, e)}
                     isExcluding={isExcluding}
+                    userCourse={projects.user.course.name}
                   />
                 </li>
               ))}

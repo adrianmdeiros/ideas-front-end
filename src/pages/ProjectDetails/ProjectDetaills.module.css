@@ -32,11 +32,11 @@
     padding: 1.8rem;
     border-radius: 1em;
     background-color: #252525;
+    word-break: break-all;
+    line-break: auto;
 }
 
-.middle > p{
-    margin: 0 1rem;
-}
+
 
 .projectReqContainer{
     display: flex;

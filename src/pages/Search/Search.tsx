@@ -24,12 +24,15 @@ type Project = {
     id: number
     name: string;
     avatarURL: string;
+    course: {
+      id: number
+      name: string
+    };
   };
   category: {
     name: string;
-    color: string;
+    color: string
   };
-  createdAt: Date;
 };
 
 const Search: React.FC = () => {
@@ -46,7 +49,7 @@ const Search: React.FC = () => {
     setProjects([]);
     setIsSearching(true);
 
-    api.get(`/projects?categoryId=${categoryId}`)
+    api.get(`/projects?categoryid=${categoryId}`)
       .then(response => {
         setProjects(response.data);
         setIsSearching(false)
@@ -106,6 +109,7 @@ const Search: React.FC = () => {
                       avatarUrl={project.user.avatarURL}
                       userName={project.user.name}
                       ccolor={project.category.color}
+                      userCourse={project.user.course.name}
                     />
                   </li>
                 ))}

@@ -16,10 +16,6 @@ hr{
     overflow-y: auto;
 }
 
-.container h2{
-    margin-bottom: 1rem;
-}
-
 
 .feed{
     display: grid;
@@ -29,7 +25,7 @@ hr{
     display: grid;
     gap: 2.8rem;
     margin-bottom: 10rem;
-
+    align-items: flex-start;
 }
 
 .img{

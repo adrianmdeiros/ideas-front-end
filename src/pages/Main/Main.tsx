@@ -18,6 +18,10 @@ type Project = {
     id: number
     name: string;
     avatarURL: string;
+    course: {
+      id: number
+      name: string
+    };
   };
   category: {
     name: string;
@@ -65,6 +69,7 @@ const Main: React.FC = () => {
                 projectCategory={project.category.name}
                 avatarUrl={project.user.avatarURL}
                 ccolor={project.category.color}
+                userCourse={project.user.course.name}
                 />
                 </li>
               )}

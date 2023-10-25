@@ -55,6 +55,7 @@ export const StyledMiddle = styled.div`
     padding: 1rem;
     background-color: #252525;
     line-break: auto;
+    word-break: break-all;
     max-height: 12rem;
     overflow: hidden;
 `

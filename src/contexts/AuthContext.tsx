@@ -101,7 +101,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         phone: user.phone,
         avatarURL: user.url_foto_150x200,
         bond: user.tipo_vinculo,
-        bio: user.bio
+        bio: user.bio,
+        course: user.vinculo.curso
       })
       return response.data
     }catch(err){

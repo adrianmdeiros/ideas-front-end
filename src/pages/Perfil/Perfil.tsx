@@ -24,6 +24,8 @@ const Perfil: React.FC = () => {
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [loading, setLoading] = useState(false)
+
   const { data: contacts, setData: setContacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${auth.user?.id}/contacts`)
   
   const userPhoto = `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
@@ -34,19 +36,27 @@ const Perfil: React.FC = () => {
 
   const saveEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsModalOpen(false)
+    setLoading(true)
+    
     const response = await api.put(`/users/${auth.user?.id}`, {
       email: email
     })
+    setLoading(false)
+    setIsModalOpen(false)
+
     setContacts(response.data)
   }
   
   const savePhone = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsPhoneModalOpen(false)
+    setLoading(true)
+    
     const response = await api.put(`/users/${auth.user?.id}`, {
       phone: phone
     })
+    
+    setIsPhoneModalOpen(false)
+    setLoading(false)
     setContacts(response.data)
   }
 
@@ -90,7 +100,13 @@ const Perfil: React.FC = () => {
                     <label htmlFor="email">Email</label>
                     <input className={styles.input} type="email" name="email" id="email" placeholder="Digite seu email..." required onChange={(e) => setEmail(e.target.value)} />
                     <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
-                      Salvar
+                    {loading ? (
+                        <>
+                          <Loader /> 
+                          <p>Salvando</p> 
+                        </>
+                      ) : <p>Salvar</p>
+                    }
                     </Button>
                   </form>
                 </Modal>
@@ -109,7 +125,13 @@ const Perfil: React.FC = () => {
                     <label htmlFor="phone">Telefone</label>
                     <input minLength={11} className={styles.input} type="number" name="phone" id="phone" placeholder="Digite seu telefone..." required  onChange={(e) => setPhone(e.target.value)}/>
                     <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
-                      Salvar
+                      {loading ? (
+                        <>
+                          <Loader /> 
+                          <p>Salvando</p> 
+                        </>
+                      ) : <p>Salvar</p> 
+                      }
                     </Button>
                   </form>
                 </Modal>
