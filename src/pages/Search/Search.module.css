@@ -33,11 +33,11 @@ h2{
 
 .tagsContainer{
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     width: 100%;
     padding: 2rem 0;
     gap: 1rem;
+    overflow-x: auto;
 }
 
 .searchResults{
@@ -45,6 +45,7 @@ h2{
     flex-wrap: wrap;
     width: 100%;
     gap: 2.8rem;
+    margin-top: 1rem;
     margin-bottom: 10rem;
 }
 

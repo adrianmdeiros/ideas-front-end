@@ -14,16 +14,16 @@ import {
   StyledDescription,
   StyledActions,
   StyledConfirmBox,
-  StyledButtons,
-  StyledDanger,
+  StyledButtons
 } from "./style";
 import Button from "../Button/Button";
-import { Edit, Trash2, User } from "react-feather";
+import { AlertOctagon, Edit, Trash2, User } from "react-feather";
 import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
 import ProjectDetails from "../../pages/ProjectDetails/ProjectDetails";
+import ProjectForm from "../ProjectForm/ProjectForm";
 
 export type PostProps = {
   avatarUrl?: string;
@@ -41,6 +41,7 @@ export type PostProps = {
 };
 
 const Post: React.FC<PostProps> = ({
+  id,
   userId,
   ccolor,
   userName,
@@ -54,6 +55,7 @@ const Post: React.FC<PostProps> = ({
   userCourse
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [IsProjectDetailsModalOpen, setIsProjectDetailsModalOpen] = useState(false);
 
   const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
@@ -67,22 +69,23 @@ const Post: React.FC<PostProps> = ({
           <StyledAutor>
             <StyledUserPhoto src={perfilImage} />
             <div>
-            <StyledTitle>{userName}</StyledTitle>
-            <StyledP>{userCourse}</StyledP>
+              <StyledTitle>{userName}</StyledTitle>
+              <StyledP>{userCourse}</StyledP>
             </div>
           </StyledAutor>
           {location.pathname === "/projects" && (
             <StyledActions>
-              <Edit color="#818181" cursor={"pointer"} size={20} />
+              <Edit color="#818181" cursor={"pointer"} size={20} onClick={() => setIsEditModalOpen(true)} />
               <Trash2 color="#818181" size={22} cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
               <Modal
                 isOpen={isModalOpen}
                 setOpenModal={() => setIsModalOpen(!isModalOpen)}
               >
                 <StyledConfirmBox>
-                  <StyledDanger>
+                  <div style={{display: 'flex', gap:'1rem', alignItems: 'center'}}>
+                    <AlertOctagon/>
                     <p>Tem Certeza que deseja excluir esse projeto?</p>
-                  </StyledDanger>
+                  </div>
                   <StyledButtons>
                     <Button
                       backgroundColor="transparent"
@@ -90,18 +93,19 @@ const Post: React.FC<PostProps> = ({
                       borderRadius=".8rem"
                       hover="transparent"
                       onClick={() => setIsModalOpen(!isModalOpen)}
-                    >
+                      >
                       <p>
                         cancelar
                       </p>
                     </Button>
                     <Button
-                      backgroundColor="#CD191E"
+                      backgroundColor="#850004"
                       color="#f5f5f5"
                       borderRadius=".8rem"
-                      hover="#cd191fc3"
+                      hover="#6e0004c3"
                       onClick={deleteProject}
-                    >
+                      height="4rem"
+                      >
                       {isExcluding ? (
                         <>
                           <Loader />
@@ -159,6 +163,9 @@ const Post: React.FC<PostProps> = ({
             studentsRequired={studentsRequired}
             projectCategory={projectCategory}
           />
+        </Modal>
+        <Modal isOpen={isEditModalOpen} setOpenModal={() => setIsEditModalOpen(!isEditModalOpen)}>
+          {/* <ProjectForm /> */}
         </Modal>
       </StyledProject>
     </StyledPost>

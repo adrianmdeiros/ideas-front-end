@@ -40,6 +40,7 @@ const Search: React.FC = () => {
     "https://api-projif.vercel.app/categories"
   );
 
+  
   const [projects, setProjects] = useState<Project[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isSelected, setIsSelected] = useState(false);

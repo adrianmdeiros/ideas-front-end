@@ -34,7 +34,8 @@ font-weight: 500;
 `
 
 export const StyledP = styled.p`
-font-size: 1.4rem;
+    font-size: 1.4rem;  
+    max-width: 100%;
 `
 export const StyledDescription = styled.p<PostProps>`
     font-size: 1.4rem;
@@ -75,9 +76,8 @@ export const StyledProjectReq = styled.div`
 `
 
 export const StyledColorTypeProject = styled.div<PostProps>`
-    height: 1.4rem;
-    width: 1.4rem;
-    border-radius: 50%;
+    height: 1rem;
+    width: 1rem;
     background-color: ${props => props.ccolor};
 `
 
@@ -94,19 +94,14 @@ export const StyledActions = styled.div`
 `
 
 export const StyledConfirmBox = styled.div`
-    display: grid;
-    gap: 2.4rem;
     margin-top: 2rem;
+    > p{
+        margin-bottom: 2.4rem;
+    }
 `
 export const StyledButtons = styled.div`
     display: flex;
     align-items: center;
     justify-content: end;
     gap: 1rem;
-`
-
-export const StyledDanger = styled.div`
-    display: flex;
-    gap: 1rem;
-    align-items: center;
 `

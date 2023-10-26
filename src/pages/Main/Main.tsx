@@ -30,11 +30,24 @@ type Project = {
   createdAt: Date
 };
 
+type dbUser = {
+  id: number
+  name: string
+  email: string
+  phone: string
+  avatarURL: string
+  bond: string
+  courseId: number
+}
+
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
-  const { data: projects, isFetching } = useFetch<Project[]>(
-    "https://api-projif.vercel.app/projects"
-  );
+
+  const { data: user } = useFetch<dbUser>(`https://api-projif.vercel.app/users/${auth.user?.id}`)
+
+  const { data: projects, isFetching } = useFetch<Project[]>(`https://api-projif.vercel.app/projects?usercourseid=${user?.courseId}`, user)
+
+
 
   return (
     <div className={styles.body}>
@@ -43,7 +56,7 @@ const Main: React.FC = () => {
       <div className={styles.container}>
         <Header position='relative' padding="0 1rem" backgroundColor="#101010" >
           <h2>Mural</h2>
-          <p style={{textAlign: 'end', display:'flex', alignItems:'center'}}>  Bem-vindo(a) <br />{auth.user?.tipo_vinculo}!</p>
+          <p style={{ textAlign: 'end', display: 'flex', alignItems: 'center' }}>  Bem-vindo(a) <br />{auth.user?.tipo_vinculo}!</p>
         </Header>
         <hr />
         <div className={styles.feed}>
@@ -56,24 +69,24 @@ const Main: React.FC = () => {
                 <p>Parece que não há projetos...</p>
               </div>
             )}
-              {isFetching && <Loader color={"#ff7a00"} />}
+            {isFetching && <Loader color={"#ff7a00"} />}
             <ul className={styles.postsContainer}>
-            {projects?.map((project) => 
-              <li key={project.id}>
-                <Post
-                userId={project.user.id}
-                title={project.title}
-                description={project.description}
-                studentsRequired={project.studentsRequired}
-                userName={project.user.name}
-                projectCategory={project.category.name}
-                avatarUrl={project.user.avatarURL}
-                ccolor={project.category.color}
-                userCourse={project.user.course.name}
-                />
+              {projects?.map((project) =>
+                <li key={project.id}>
+                  <Post
+                    userId={project.user.id}
+                    title={project.title}
+                    description={project.description}
+                    studentsRequired={project.studentsRequired}
+                    userName={project.user.name}
+                    projectCategory={project.category.name}
+                    avatarUrl={project.user.avatarURL}
+                    ccolor={project.category.color}
+                    userCourse={project.user.course.name}
+                  />
                 </li>
               )}
-              </ul>
+            </ul>
           </div>
         </div>
       </div>
