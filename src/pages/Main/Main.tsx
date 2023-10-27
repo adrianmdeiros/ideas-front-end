@@ -61,7 +61,7 @@ const Main: React.FC = () => {
         <hr />
         <div className={styles.feed}>
           <div className={styles.postsContainer}>
-            {!projects && (
+            {!projects && !isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >

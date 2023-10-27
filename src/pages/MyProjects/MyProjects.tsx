@@ -107,7 +107,7 @@ const MyProjects = () => {
                 </li>
               ))}
             </ul>
-            {!myProjects && (
+            {!myProjects && !isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >

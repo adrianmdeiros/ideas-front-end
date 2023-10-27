@@ -1,7 +1,7 @@
 import React, { FormEvent, useContext, useState } from "react";
 import styles from "./Perfil.module.css";
 import GlobalStyle from "../../styles/global";
-import { Edit, LogOut, Mail, Phone } from "react-feather";
+import { Edit, LogOut, Mail, Phone, Trash2 } from "react-feather";
 import Header from "../../components/Header/Header";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -93,6 +93,7 @@ const Perfil: React.FC = () => {
                     <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
                   </div>
                   <Edit cursor={'pointer'} onClick={() => setIsModalOpen(true)}/>
+                  {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                 </div>
                 <Modal isOpen={isModalOpen} setOpenModal={() => setIsModalOpen(!isModalOpen)} >
                   <form className={styles.form} onSubmit={saveEmail}>
@@ -118,6 +119,7 @@ const Perfil: React.FC = () => {
                     <p>{contacts?.phone ? contacts.phone : "Adicione um telefone"}</p>
                   </div>
                   <Edit  cursor={'pointer'} onClick={() => setIsPhoneModalOpen(true)}/>
+                  {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                 </div>
                 <Modal isOpen={isPhoneModalOpen} setOpenModal={() => setIsPhoneModalOpen(!isPhoneModalOpen)} >
                   <form className={styles.form} onSubmit={savePhone}>

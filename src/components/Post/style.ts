@@ -29,8 +29,10 @@ export const StyledUserPhoto = styled.img`
 `
 
 export const StyledTitle = styled.p`
-font-size: 1.4rem;
-font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-break: auto;
+    word-break: break-all;
 `
 
 export const StyledP = styled.p`
@@ -39,7 +41,9 @@ export const StyledP = styled.p`
 `
 export const StyledDescription = styled.p<PostProps>`
     font-size: 1.4rem;
-    text-align: start;
+    text-align: justify;
+    line-break: auto;
+    word-break: break-all;
     color: ${props => props.ccolor};
 `
 

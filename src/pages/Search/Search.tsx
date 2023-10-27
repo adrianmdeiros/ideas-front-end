@@ -1,13 +1,14 @@
 import { AlertCircle } from "react-feather";
 import GlobalStyle from "../../styles/global";
 import styles from "./Search.module.css";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Tag from "../../components/Tag/Tag";
 import Menu from "../../components/Menu/Menu";
 import { useFetch } from "../../hooks/useFetch";
 import Post from "../../components/Post/Post";
 import api from "../../api/api";
 import Loader from "../../components/Loader/Loader";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type Category = {
   id: number;
@@ -35,29 +36,44 @@ type Project = {
   };
 };
 
+type dbUser = {
+  id: number
+  name: string
+  email: string
+  phone: string
+  avatarURL: string
+  bond: string
+  courseId: number
+}
+
 const Search: React.FC = () => {
-  const { data: categories, isFetching } = useFetch<Category[]>(
+  const auth = useContext(AuthContext)
+  const { data: categories, isFetching: isFetchingCategories } = useFetch<Category[]>(
     "https://api-projif.vercel.app/categories"
   );
 
   
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
+  const { data: user } = useFetch<dbUser>(`https://api-projif.vercel.app/users/${auth.user?.id}`)
+  
+  
+  const [projects, setProjects] = useState<Project[]>([])
+  const [isSelected, setIsSelected] = useState(false)
+  const [isFetchingProjects, setIsFetchingIsProjects] = useState(false)
 
-  const fetchProjectsByCategory = (categoryId: number) => {
+
+  const fetchProjectsByUserCourseIdAndCategory = (usercourseid: number, categoryid: number) => {
     setIsSelected(false)
     setProjects([]);
-    setIsSearching(true);
+    setIsFetchingIsProjects(true);
 
-    api.get(`/projects?categoryid=${categoryId}`)
+    api.get(`/projects?usercourseid=${usercourseid}&categoryid=${categoryid}`)
       .then(response => {
         setProjects(response.data);
-        setIsSearching(false)
+        setIsFetchingIsProjects(false);
       })
       .catch(() => {
         setIsSelected(true);
-        setIsSearching(false);
+        setIsFetchingIsProjects(false);
       })
 
   };
@@ -74,12 +90,16 @@ const Search: React.FC = () => {
             </div>
 
             <div className={styles.categories}>
-              {isFetching && <Loader color={"#ff7a00"} />}
+              {isFetchingCategories && <Loader color={"#ff7a00"} />}
               <ul className={styles.tagsContainer}>
                 {categories?.map((category) => (
                   <li key={category.id}>
                     <Tag
-                      onClick={() => fetchProjectsByCategory(category.id)}
+                      onClick={() => {
+                        if(user){
+                          fetchProjectsByUserCourseIdAndCategory(user?.courseId, category.id)
+                        }
+                      }}
                       color={category.color}
                     >
                       <p>{category.name}</p>
@@ -88,7 +108,7 @@ const Search: React.FC = () => {
                 ))}
               </ul>
             </div>
-                {projects.length === 0 && isSelected && (
+                {isSelected && projects?.length === 0 && (
                   <div
                     style={{ display: "flex", alignItems: "center", gap: "1rem" }}
                   >
@@ -97,7 +117,7 @@ const Search: React.FC = () => {
                   </div>
                 )}
             <div className={styles.searchResults}>
-              {isSearching && <Loader color={"#ff7a00"} />}
+              {isFetchingProjects && <Loader color={"#ff7a00"} />}
               <ul  className={styles.searchResults} >
                 {projects?.map((project) => (
                   <li key={project.id}>
