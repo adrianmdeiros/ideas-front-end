@@ -98,11 +98,12 @@ background: linear-gradient(40deg, rgb(0, 255, 106) 0%, rgb(3, 177, 230) 49%, rg
 
 .bottom{
     display: grid;
-    gap: 1rem;   
+    gap: 1rem;
 }
 
-.bottom h4{
-    margin-bottom: 1rem;
+.contacts{
+    display: grid;
+    gap: 1rem
 }
 
 .contact{

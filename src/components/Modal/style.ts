@@ -18,7 +18,7 @@ export const CloseButton = styled(X)`
 
 export const StyledModal = styled.div`
     max-width: 100vw;
-    min-width: 32rem;
+    min-width: 34rem;
     background-color: black;
     border-radius: .8rem;
     padding: 2rem;

@@ -77,7 +77,7 @@ li{
     height: 6rem;
     border-radius: .8rem;
     padding: 1rem;
-    min-width: 32rem;
+    min-width: 34rem;
     width: 100%;
     background-color: #252525;
     cursor: pointer;
@@ -104,7 +104,7 @@ li{
     background-color: #AD00FF;
     color: #f5f5f5;
 }
-.checkbox[id='OUTRO']:checked + .type{
+.checkbox[id='GERAL']:checked + .type{
     background-color: #f5f5f5;
     color: #101010;
 }

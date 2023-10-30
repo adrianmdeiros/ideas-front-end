@@ -40,7 +40,7 @@ const ProjectDetails: React.FC<PostProps> = ({
 }) => {
 
   const { data: contacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${userId}/contacts`)
-  
+
 
   const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
 
@@ -53,23 +53,25 @@ const ProjectDetails: React.FC<PostProps> = ({
         <h2 className={styles.title}>Detalhes do projeto</h2>
         <div className={styles.container}>
           <div className={styles.projectContainer}>
-              <h4>Autor</h4>
             <div className={styles.top}>
-              <img
-                className={styles.userPhoto}
-                src={perfilImage}
-                alt="foto de perfil"
+              <h4>Autor</h4>
+              <div className={styles.autor}>
+                <img
+                  className={styles.userPhoto}
+                  src={perfilImage}
+                  alt="foto de perfil"
                 />
-              <div>
-                <h3>{userName}</h3>
-                <p>{userCourse}</p>
+                <div>
+                  <h3>{userName}</h3>
+                  <p>{userCourse}</p>
+                </div>
               </div>
             </div>
-            <h4>Título e descrição</h4>
             <div className={styles.middle}>
-              <h2>{title}</h2>
+            <h3>Título</h3>
+              <p>{title}</p>
               <h4>Descrição</h4>
-              <p style={{color: ccolor}}>
+              <p style={{ color: ccolor }}>
                 {description}
               </p>
               <div className={styles.projectReqContainer}>
@@ -82,18 +84,20 @@ const ProjectDetails: React.FC<PostProps> = ({
                   <p>{projectCategory}</p>
                 </div>
               </div>
-            <div className={styles.bottom}>
-              <h4>Entre em contato!</h4>
-              <div className={styles.contact}>
-                <Mail size={18} />
-                <p>{contacts?.email ? contacts.email : "Sem email cadastrado"}</p>
-              </div>
-              <div className={styles.contact}>
-                <Phone size={18} />
-                <p>{contacts?.phone ? contacts.phone : "Sem telefone cadastrado"}</p>
-              </div>
             </div>
-            </div>
+              <div className={styles.bottom}>
+                <h4>Entre em contato!</h4>
+                <div className={styles.contacts}>
+                  <div className={styles.contact}>
+                    <Mail size={18} />
+                    <p>{contacts?.email ? contacts.email : "Sem email cadastrado"}</p>
+                  </div>
+                  <div className={styles.contact}>
+                    <Phone size={18} />
+                    <p>{contacts?.phone ? contacts.phone : "Sem telefone cadastrado"}</p>
+                  </div>
+                </div>
+              </div>
             {isFetching && <Loader />}
             <Button
               backgroundColor="#f5f5f5"

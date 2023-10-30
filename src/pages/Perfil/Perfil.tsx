@@ -83,60 +83,64 @@ const Perfil: React.FC = () => {
                   <h2 >{auth.user?.nome_usual} </h2>
                   <p>{auth.user?.vinculo.curso}</p>
                   <p>IFMA Campus - {auth.user?.vinculo.campus}</p>
+                  <p>{auth.user?.tipo_vinculo}</p>
                 </div>
               </div>
               <div className={styles.bottom}>
-                <div className={styles.contact}>
-                  <div className={styles.email}>
-                    <Mail size={18} />
-                    {isFetching && <Loader />}
-                    <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
+                <h3>Meus contatos</h3>
+                <div className={styles.contacts}>
+                  <div className={styles.contact}>
+                    <div className={styles.email}>
+                      <Mail size={18} />
+                      {isFetching && <Loader />}
+                      <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
+                    </div>
+                    <Edit cursor={'pointer'} onClick={() => setIsModalOpen(true)}/>
+                    {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                   </div>
-                  <Edit cursor={'pointer'} onClick={() => setIsModalOpen(true)}/>
-                  {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
-                </div>
-                <Modal isOpen={isModalOpen} setOpenModal={() => setIsModalOpen(!isModalOpen)} >
-                  <form className={styles.form} onSubmit={saveEmail}>
-                    <h2>Adicionar um email</h2>
-                    <label htmlFor="email">Email</label>
-                    <input className={styles.input} type="email" name="email" id="email" placeholder="Digite seu email..." required onChange={(e) => setEmail(e.target.value)} />
-                    <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
-                    {loading ? (
-                        <>
-                          <Loader /> 
-                          <p>Salvando</p> 
-                        </>
-                      ) : <p>Salvar</p>
-                    }
-                    </Button>
-                  </form>
-                </Modal>
-                <div className={styles.contact}>
-                  <div className={styles.phone}>
-                    <Phone size={18} />
-                    {isFetching && <Loader />}
-                    
-                    <p>{contacts?.phone ? contacts.phone : "Adicione um telefone"}</p>
-                  </div>
-                  <Edit  cursor={'pointer'} onClick={() => setIsPhoneModalOpen(true)}/>
-                  {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
-                </div>
-                <Modal isOpen={isPhoneModalOpen} setOpenModal={() => setIsPhoneModalOpen(!isPhoneModalOpen)} >
-                  <form className={styles.form} onSubmit={savePhone}>
-                    <h2>Adicionar um telefone</h2>
-                    <label htmlFor="phone">Telefone</label>
-                    <input minLength={11} className={styles.input} type="number" name="phone" id="phone" placeholder="Digite seu telefone..." required  onChange={(e) => setPhone(e.target.value)}/>
-                    <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
+                  <Modal isOpen={isModalOpen} setOpenModal={() => setIsModalOpen(!isModalOpen)} >
+                    <form className={styles.form} onSubmit={saveEmail}>
+                      <h2>Adicionar um email</h2>
+                      <label htmlFor="email">Email</label>
+                      <input className={styles.input} type="email" name="email" id="email" placeholder="Digite seu email..." required onChange={(e) => setEmail(e.target.value)} />
+                      <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
                       {loading ? (
-                        <>
-                          <Loader /> 
-                          <p>Salvando</p> 
-                        </>
-                      ) : <p>Salvar</p> 
+                          <>
+                            <Loader />
+                            <p>Salvando</p>
+                          </>
+                        ) : <p>Salvar</p>
                       }
-                    </Button>
-                  </form>
-                </Modal>
+                      </Button>
+                    </form>
+                  </Modal>
+                  <div className={styles.contact}>
+                    <div className={styles.phone}>
+                      <Phone size={18} />
+                      {isFetching && <Loader />}
+                  
+                      <p>{contacts?.phone ? contacts.phone : "Adicione um telefone"}</p>
+                    </div>
+                    <Edit  cursor={'pointer'} onClick={() => setIsPhoneModalOpen(true)}/>
+                    {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
+                  </div>
+                  <Modal isOpen={isPhoneModalOpen} setOpenModal={() => setIsPhoneModalOpen(!isPhoneModalOpen)} >
+                    <form className={styles.form} onSubmit={savePhone}>
+                      <h2>Adicionar um telefone</h2>
+                      <label htmlFor="phone">Telefone</label>
+                      <input minLength={11} className={styles.input} type="number" name="phone" id="phone" placeholder="Digite seu telefone..." required  onChange={(e) => setPhone(e.target.value)}/>
+                      <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
+                        {loading ? (
+                          <>
+                            <Loader />
+                            <p>Salvando</p>
+                          </>
+                        ) : <p>Salvar</p>
+                        }
+                      </Button>
+                    </form>
+                  </Modal>
+                </div>
               </div>
             </div>
           </div>
