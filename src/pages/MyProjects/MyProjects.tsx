@@ -61,6 +61,7 @@ const MyProjects = () => {
         return project.id !== id;
       });
 
+
       setMyProjects(newProjectsList);
     }
   };
@@ -89,25 +90,25 @@ const MyProjects = () => {
           <hr />
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
-              {myProjects?.map((projects) => (
-                <li key={projects.id}>
+              {myProjects?.map((project) => (
+                <li key={project.id}>
                   <Post
                     userId={auth.user?.id}
-                    title={projects.title}
-                    description={projects.description}
-                    studentsRequired={projects.studentsRequired}
-                    userName={projects.user.name}
-                    projectCategory={projects.category.name}
-                    avatarUrl={projects.user.avatarURL}
-                    ccolor={projects.category.color}
-                    deleteProject={(e) => deleteProject(projects.id, e)}
+                    title={project.title}
+                    description={project.description}
+                    studentsRequired={project.studentsRequired}
+                    userName={project.user.name}
+                    projectCategory={project.category.name}
+                    avatarUrl={project.user.avatarURL}
+                    ccolor={project.category.color}
+                    deleteProject={(e) => deleteProject(project.id, e)}
                     isExcluding={isExcluding}
-                    userCourse={projects.user.course.name}
+                    userCourse={project.user.course.name}
                   />
                 </li>
               ))}
             </ul>
-            {!myProjects && !isFetching && (
+            {!myProjects || myProjects.length === 0 && !isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
