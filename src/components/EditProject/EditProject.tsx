@@ -10,11 +10,7 @@ import { Project } from "../ProjectForm/ProjectForm"
 
 
 type EditProjectProps = {
-    id: string
-    title: string
-    description: string
-    studentsRequired: number
-    projectCategory: string
+    id?: string
     modalClose: () => void
 }
 
@@ -70,7 +66,8 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
     }
   };
 
-  const updateProject = async (id: string) => {
+  const updateProject = async (id?: string, e?: any) => {
+    e.preventDefault();
     setIsPublishing(true)
 
     try{
@@ -81,9 +78,10 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
             categoryid: categoryId,
             userid: auth.user?.id
         }) 
+      
+      setProject(response.data)
       setIsPublishing(false);
       modalClose()
-      setProject(response.data)
 
     }catch(e){
         alert("Ocorreu um erro ao atualizar o projeto!");
@@ -96,7 +94,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
     return (  
         <>
                 <h2 className={styles.title}>Editar Projeto</h2>
-                <form className={styles.projectForm} onSubmit={() => updateProject(id)}>
+                <form className={styles.projectForm} onSubmit={(e) => updateProject(id, e)}>
                   <div className={styles.projectTitleContainer}>
                     <label htmlFor="title">Titulo</label>
                     <input

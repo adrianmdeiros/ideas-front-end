@@ -62,8 +62,7 @@ const MyProjects = () => {
         return project.id !== id;
       });
 
-
-      setMyProjects(newProjectsList);
+      newProjectsList.length === 0 ? setMyProjects(null) : setMyProjects(newProjectsList);
     }
   };
 
@@ -94,6 +93,7 @@ const MyProjects = () => {
               {myProjects?.map((project) => (
                 <li key={project.id}>
                   <Post
+                    id={project.id}
                     userId={auth.user?.id}
                     title={project.title}
                     description={project.description}
@@ -109,7 +109,7 @@ const MyProjects = () => {
                 </li>
               ))}
             </ul>
-            {!myProjects || myProjects.length === 0 && !isFetching && (
+            {!myProjects && !isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >

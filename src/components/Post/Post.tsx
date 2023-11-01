@@ -23,7 +23,7 @@ import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
 import ProjectDetails from "../../pages/ProjectDetails/ProjectDetails";
-import ProjectForm from "../ProjectForm/ProjectForm";
+import EditProject from "../EditProject/EditProject";
 
 export type PostProps = {
   avatarUrl?: string;
@@ -165,8 +165,7 @@ const Post: React.FC<PostProps> = ({
           />
         </Modal>
         <Modal isOpen={isEditModalOpen} setOpenModal={() => setIsEditModalOpen(!isEditModalOpen)}>
-
-          
+          <EditProject id={id} modalClose={() => setIsEditModalOpen(!isEditModalOpen)}/>
         </Modal>
       </StyledProject>
     </StyledPost>
