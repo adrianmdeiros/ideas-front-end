@@ -1,32 +1,22 @@
-import { useEffect, useState, FormEvent, useContext} from "react";
-import api from "../../api/api";
-import { useFetch } from "../../hooks/useFetch";
-import { AuthContext } from "../../contexts/AuthContext";
-import styles from "./ProjectForm.module.css";
-import Button from "../Button/Button";
-import { Minus, Plus } from "react-feather";
-import Loader from "../Loader/Loader";
+import { useContext, useEffect, useState } from "react"
+import { useFetch } from "../../hooks/useFetch"
+import styles from './EdiProject.module.css'
+import api from "../../api/api"
+import { AuthContext } from "../../contexts/AuthContext"
+import Button from "../Button/Button"
+import { Minus, Plus } from "react-feather"
+import Loader from "../Loader/Loader"
+import { Project } from "../ProjectForm/ProjectForm"
 
-export type Project = {
-    id: string;
-    title: string;
-    description: string;
-    studentsRequired: number;
-    user: {
-      id: number
-      name: string;
-      avatarURL: string;
-      course: {
-        id: number
-        name: string
-      };
-    };
-    category: {
-      id: number
-      name: string;
-      color: string
-    };
-  };
+
+type EditProjectProps = {
+    id: string
+    title: string
+    description: string
+    studentsRequired: number
+    projectCategory: string
+    modalClose: () => void
+}
 
 type Category = {
     id: number;
@@ -34,25 +24,31 @@ type Category = {
     color: string;
   };
 
-  type ProjectFormProps = {
-    myProjects?: Project[] | null
-    setMyProjects: React.Dispatch<React.SetStateAction<Project[] | null>>
-    modalClose: () => void
-  }
-  
-
-const ProjectForm: React.FC<ProjectFormProps> = ({myProjects, setMyProjects, modalClose}) => {
+const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
   const auth = useContext(AuthContext);
 
-    const { data: categories, isFetching: isFetchingCategory } = useFetch<
+  const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]
-  >("https://api-projif.vercel.app/categories");
+  >("https://api-projif.vercel.app/categories");  
+
+  const { data: project, setData: setProject } = useFetch<Project>(`https://api-projif.vercel.app/projects/${id}`)
+  
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [studentsRequired, setStudentsRequired] = useState(1);
   const [categoryId, setCategoryId] = useState(0);
   const [isPublishing, setIsPublishing] = useState(false)
+
+  useEffect(() => {
+    if(project){
+        setTitle(project.title);
+        setDescription(project.description);
+        setStudentsRequired(project.studentsRequired);
+        setCategoryId(project.category.id);
+    }
+  }, [project])
+  
 
   useEffect(() => {
     if (categoryId === 4) {
@@ -74,35 +70,33 @@ const ProjectForm: React.FC<ProjectFormProps> = ({myProjects, setMyProjects, mod
     }
   };
 
-  const createProject = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const updateProject = async (id: string) => {
     setIsPublishing(true)
 
-    try {
-      const response = await api.post("/projects", {
-        title,
-        description,
-        studentsRequired,
-        categoryid: categoryId,
-        userid: auth.user?.id
-      });
-
+    try{
+        const response = await api.put(`/projects/${id}`, {
+            title,
+            description,
+            studentsRequired,
+            categoryid: categoryId,
+            userid: auth.user?.id
+        }) 
       setIsPublishing(false);
       modalClose()
+      setProject(response.data)
 
-      setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
-    } catch (err) {
-      alert(":( Ocorreu um erro! Talvez o projeto já exista... Tente um título diferente :)!");
-      setIsPublishing(false);
+    }catch(e){
+        alert("Ocorreu um erro ao atualizar o projeto!");
+        console.log(e)
+        setIsPublishing(false);
     }
 
-  };
+  }
 
-
-  return (
-    <>
-                <h2 className={styles.title}>Adicionar Projeto</h2>
-                <form className={styles.projectForm} onSubmit={createProject}>
+    return (  
+        <>
+                <h2 className={styles.title}>Editar Projeto</h2>
+                <form className={styles.projectForm} onSubmit={() => updateProject(id)}>
                   <div className={styles.projectTitleContainer}>
                     <label htmlFor="title">Titulo</label>
                     <input
@@ -112,6 +106,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({myProjects, setMyProjects, mod
                       placeholder="Digite o título do seu projeto..."
                       maxLength={150}
                       className={styles.input}
+                      value={title}
                       onChange={(e) => setTitle(e.target.value)}
                     />
                   </div>
@@ -124,6 +119,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({myProjects, setMyProjects, mod
                       required={true}
                       minLength={50}
                       maxLength={1000}
+                      value={description}
                       className={styles.descriptionText}
                       onChange={(e) => setDescription(e.target.value)}
                     />
@@ -212,4 +208,4 @@ const ProjectForm: React.FC<ProjectFormProps> = ({myProjects, setMyProjects, mod
   )
 }
 
-export default ProjectForm
+export default EditProject

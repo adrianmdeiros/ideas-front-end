@@ -7,7 +7,7 @@ import { useFetch } from "../../hooks/useFetch";
 import Post from "../../components/Post/Post";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 type Project = {
   id: string;
@@ -46,7 +46,6 @@ const Main: React.FC = () => {
   const { data: user } = useFetch<dbUser>(`https://api-projif.vercel.app/users/${auth.user?.id}`)
 
   const { data: projects, isFetching } = useFetch<Project[]>(`https://api-projif.vercel.app/projects?usercourseid=${user?.courseId}`, user)
-
 
 
   return (

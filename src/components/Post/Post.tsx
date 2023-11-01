@@ -165,7 +165,8 @@ const Post: React.FC<PostProps> = ({
           />
         </Modal>
         <Modal isOpen={isEditModalOpen} setOpenModal={() => setIsEditModalOpen(!isEditModalOpen)}>
-          {/* <ProjectForm /> */}
+
+          
         </Modal>
       </StyledProject>
     </StyledPost>

@@ -1,0 +1,133 @@
+li{
+    list-style: none;
+}
+
+.body{
+    height: 100vh;
+    min-width: 100%;
+}
+.container{
+    width: 100%;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.title{
+    text-align: start;
+    margin-top: 4rem;
+}
+
+.projectForm{
+    margin-top: 2.4rem;
+    display: grid;
+    gap: 2rem;
+}
+
+.projectTitleContainer, .description, .numberOfStudentsContainer, .projectCategoryContainer{
+    display: grid;
+    gap: 1rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+.descriptionText{
+    background-color: #252525;
+    border: none;
+    resize: none;
+    padding: 1rem;
+    border-radius: .8rem;
+    font-weight: 400;
+    color: #f5f5f5;
+    height: 10rem;
+}
+
+.descriptionText::placeholder{
+    color: #4a4a4a
+}
+
+.addOrRemoveStudentsContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.numberOfStudents{
+    background-color: #252525;
+    color: #f5f5f5;
+    border: none;
+    height: 100%;
+    width: 100%;
+    border-radius: .8rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.6rem;
+}
+
+.categories{
+    display: grid;
+    gap: 1rem;
+}
+
+
+
+.type{
+    display: flex;
+    align-items: center;
+    height: 6rem;
+    border-radius: .8rem;
+    padding: 1rem;
+    min-width: 34rem;
+    width: 100%;
+    background-color: #252525;
+    cursor: pointer;
+}
+
+.checkbox{
+    all: unset;
+}
+
+.checkbox[id='PIBIC']:checked + .type{
+    background-color: #2F9E41;
+    color: #f5f5f5;
+}
+
+.checkbox[id='PIBIT']:checked + .type{
+    background-color: #00A3FF;
+    color: #f5f5f5;
+}
+.checkbox[id='PIVIC']:checked + .type{
+    background-color: #FF7A00;
+    color: #f5f5f5;
+}
+.checkbox[id='MONOGRAFIA']:checked + .type{
+    background-color: #AD00FF;
+    color: #f5f5f5;
+}
+.checkbox[id='GERAL']:checked + .type{
+    background-color: #f5f5f5;
+    color: #101010;
+}
+
+
+
+.input{
+    background-color: #252525;
+    border: none;
+    padding: 1rem;
+    border-radius: .8rem;
+    color: #f5f5f5;
+    font-weight: 500;
+    height: 4.2rem;
+}
+
+@media only screen and (min-width: 768px){
+    .body{
+        display: flex;
+        padding: 0;
+    }
+    .postsContainer{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
