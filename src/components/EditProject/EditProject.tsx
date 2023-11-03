@@ -6,11 +6,13 @@ import { AuthContext } from "../../contexts/AuthContext"
 import Button from "../Button/Button"
 import { Minus, Plus } from "react-feather"
 import Loader from "../Loader/Loader"
-import { Project } from "../ProjectForm/ProjectForm"
+import { Project } from "../../pages/MyProjects/MyProjects"
 
 
 type EditProjectProps = {
     id?: string
+    myProjects?: Project[] | null
+    setMyProjects: React.Dispatch<React.SetStateAction<Project[] | null>>
     modalClose: () => void
 }
 
@@ -20,16 +22,15 @@ type Category = {
     color: string;
   };
 
-const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
+const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects, modalClose}) => {
   const auth = useContext(AuthContext);
 
   const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]
   >("https://api-projif.vercel.app/categories");  
 
-  const { data: project, setData: setProject } = useFetch<Project>(`https://api-projif.vercel.app/projects/${id}`)
+  const { data: project } = useFetch<Project>(`https://api-projif.vercel.app/projects/${id}`)
   
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [studentsRequired, setStudentsRequired] = useState(1);
@@ -78,8 +79,13 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
             categoryid: categoryId,
             userid: auth.user?.id
         }) 
+        
+        if(myProjects != null){
+          setMyProjects(myProjects.map(project=>{
+            return project.id === id ? { ...response.data } : project
+          }))
+        }
       
-      setProject(response.data)
       setIsPublishing(false);
       modalClose()
 
@@ -102,6 +108,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
                       type="text"
                       required={true}
                       placeholder="Digite o título do seu projeto..."
+                      minLength={15}
                       maxLength={150}
                       className={styles.input}
                       value={title}
@@ -195,10 +202,10 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
                     {isPublishing ? (
                       <>
                         <Loader />
-                        <p>Publicando...</p>
+                        <p>Salvando...</p>
                       </>
                     ) : (
-                      <p>Publicar</p>
+                      <p>Salvar</p>
                     )}
                   </Button>
                 </form>

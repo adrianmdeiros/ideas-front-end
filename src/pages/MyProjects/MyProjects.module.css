@@ -16,28 +16,6 @@ hr{
     overflow-y: auto;
 }
 
-.postsContainer{
-    display: grid;
-    gap: 2.8rem;
-}
-
-
-.projectsContainer{
-    display: grid;
-    gap: 1.8rem;
-    margin-top: 4rem;
-    margin-bottom: 10rem;
-    align-items: flex-start;
-}
-
-.img{
-    max-width: 32rem;
-    max-height: 32rem;
-    height: auto;
-    width: auto;
-    opacity: 50%;
-}
-
 .title{
     text-align: start;
     margin-top: 4rem;
@@ -103,7 +81,7 @@ hr{
     height: 6rem;
     border-radius: .8rem;
     padding: 1rem;
-    min-width: 32rem;
+    min-width: 34rem;
     width: 100%;
     background-color: #252525;
     cursor: pointer;
@@ -130,9 +108,23 @@ hr{
     background-color: #AD00FF;
     color: #f5f5f5;
 }
-.checkbox[id='OUTRO']:checked + .type{
+.checkbox[id='GERAL']:checked + .type{
     background-color: #f5f5f5;
     color: #101010;
+}
+
+.postsContainer{
+    display: grid;
+    gap: 2.8rem;
+}
+
+
+.projectsContainer{
+    display: grid;
+    gap: 1.8rem;
+    margin-top: 4rem;
+    margin-bottom: 10rem;
+    align-items: flex-start;
 }
 
 
@@ -145,7 +137,6 @@ hr{
     color: #f5f5f5;
     font-weight: 500;
     height: 4.2rem;
-    caret-color: #f5f5f5;
 }
 
 @media only screen and (min-width: 768px){

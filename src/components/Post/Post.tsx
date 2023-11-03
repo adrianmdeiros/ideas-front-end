@@ -24,6 +24,7 @@ import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
 import ProjectDetails from "../../pages/ProjectDetails/ProjectDetails";
 import EditProject from "../EditProject/EditProject";
+import { Project } from "../../pages/MyProjects/MyProjects";
 
 export type PostProps = {
   avatarUrl?: string;
@@ -38,6 +39,8 @@ export type PostProps = {
   isExcluding?: boolean
   userCourse?: string
   userId?: number
+  myProjects?: Project[] | null
+  setMyProjects: React.Dispatch<React.SetStateAction<Project[] | null>>
 };
 
 const Post: React.FC<PostProps> = ({
@@ -52,7 +55,9 @@ const Post: React.FC<PostProps> = ({
   avatarUrl,
   deleteProject,
   isExcluding,
-  userCourse
+  userCourse,
+  myProjects,
+  setMyProjects
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -60,8 +65,7 @@ const Post: React.FC<PostProps> = ({
 
   const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
   const location = useLocation();
-
-
+  
   return (
     <StyledPost>
       <StyledProject>
@@ -82,8 +86,8 @@ const Post: React.FC<PostProps> = ({
                 setOpenModal={() => setIsModalOpen(!isModalOpen)}
               >
                 <StyledConfirmBox>
-                  <div style={{display: 'flex', gap:'1rem', alignItems: 'center'}}>
-                    <AlertOctagon/>
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <AlertOctagon />
                     <p>Tem Certeza que deseja excluir esse projeto?</p>
                   </div>
                   <StyledButtons>
@@ -93,7 +97,7 @@ const Post: React.FC<PostProps> = ({
                       borderRadius=".8rem"
                       hover="transparent"
                       onClick={() => setIsModalOpen(!isModalOpen)}
-                      >
+                    >
                       <p>
                         cancelar
                       </p>
@@ -105,7 +109,7 @@ const Post: React.FC<PostProps> = ({
                       hover="#6e0004c3"
                       onClick={deleteProject}
                       height="4rem"
-                      >
+                    >
                       {isExcluding ? (
                         <>
                           <Loader />
@@ -118,12 +122,15 @@ const Post: React.FC<PostProps> = ({
                   </StyledButtons>
                 </StyledConfirmBox>
               </Modal>
+              <Modal isOpen={isEditModalOpen} setOpenModal={() => setIsEditModalOpen(!isEditModalOpen)}>
+                <EditProject id={id} myProjects={myProjects} setMyProjects={setMyProjects} modalClose={() => setIsEditModalOpen(!isEditModalOpen)} />
+              </Modal>
             </StyledActions>
           )}
         </StyledTop>
         <StyledMiddle>
           <StyledTitle>{title}</StyledTitle>
-          <StyledDescription ccolor={ccolor}>
+          <StyledDescription setMyProjects={setMyProjects} ccolor={ccolor}>
             {description ? description?.length > 50 ? description?.slice(0, 60) + '...' : description : "Não há descrição"}
           </StyledDescription>
         </StyledMiddle>
@@ -134,7 +141,7 @@ const Post: React.FC<PostProps> = ({
               <StyledP>{studentsRequired} aluno(s)</StyledP>
             </StyledProjectReq>
             <StyledProjectReq>
-              <StyledColorTypeProject ccolor={ccolor} />
+              <StyledColorTypeProject setMyProjects={setMyProjects} ccolor={ccolor}/>
               <StyledP>{projectCategory}</StyledP>
             </StyledProjectReq>
           </StyledReqContainer>
@@ -164,9 +171,7 @@ const Post: React.FC<PostProps> = ({
             projectCategory={projectCategory}
           />
         </Modal>
-        <Modal isOpen={isEditModalOpen} setOpenModal={() => setIsEditModalOpen(!isEditModalOpen)}>
-          <EditProject id={id} modalClose={() => setIsEditModalOpen(!isEditModalOpen)}/>
-        </Modal>
+
       </StyledProject>
     </StyledPost>
   );
