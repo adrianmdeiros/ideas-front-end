@@ -46,7 +46,7 @@ const MyProjects = () => {
     setData: setMyProjects,
     isFetching,
   } = useFetch<Project[]>(
-    `https://api-projif.vercel.app/projects?userId=${auth.user?.id}`);
+    `https://api-projif.vercel.app/projects?userid=${auth.user?.id}`);
 
   const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]
