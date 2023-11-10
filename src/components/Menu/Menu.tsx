@@ -78,8 +78,7 @@ const Menu: React.FC = () => {
               </StyledUserInfo>
           </NavLink>
           
-            <LogOut size={24} color={'red'} onClick={handleLogOut} cursor={'pointer'} />
-          
+              <LogOut size={24} color={'red'} onClick={handleLogOut} cursor={'pointer'} />
           </StyledPerfil>
         </StyledSideMenu>
       )}

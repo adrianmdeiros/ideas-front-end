@@ -2,7 +2,6 @@ import React from "react";
 import GlobalStyle from "../../styles/global";
 import { Mail, Phone, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
-import Button from "../../components/Button/Button";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
 
@@ -99,15 +98,6 @@ const ProjectDetails: React.FC<PostProps> = ({
                 </div>
               </div>
             {isFetching && <Loader />}
-            <Button
-              backgroundColor="#f5f5f5"
-              borderRadius=".5rem"
-              color="#101010"
-              hover="#d3d3d3"
-              width="100%"
-            >
-              Enviar mensagem
-            </Button>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -16,6 +16,7 @@
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.46.2",
+    "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.10.0",
     "styled-components": "^5.3.9",
     "universal-cookie": "^6.1.1"

@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
   -webkit-font-smoothing: antialised;
   -moz-osx-font-smoothing: grayscale;
   font-family:  'Rubik', sans-serif;
+  caret-color: #f5f5f5;
 }
 
 :root{
@@ -24,6 +25,7 @@ main{
   margin-bottom: 10rem;
   min-height: 100vh;
 }
+
 
 `
 

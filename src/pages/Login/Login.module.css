@@ -29,6 +29,17 @@
     margin-bottom: 1.8rem;
 }
 
+.tip{
+    display: flex;
+    gap: 1rem;
+}
+
+.top p{
+    text-align: start;
+    font-size: 1.4rem;
+    color: #808080;
+}
+
 .middle{
     width: 100%;
     display: grid;
@@ -48,6 +59,7 @@
 }
 
 
+
 .bottom{
     margin-top: 2.4rem;
     text-align: end;
@@ -60,6 +72,15 @@
 }
 
 .field{
+    position: relative;
     display: grid;
     gap: .4rem;
+}
+
+.eyeIcon{
+    position: absolute;
+    right: 1.2rem;
+    top: 3.3rem;
+    cursor: pointer;
+    color: #808080;
 }

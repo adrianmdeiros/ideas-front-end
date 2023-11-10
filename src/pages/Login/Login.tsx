@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import Loader from "../../components/Loader/Loader";
+import { Eye, EyeOff, Info } from "react-feather";
 
 
 
@@ -19,11 +20,11 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [isLogging, setIsLogging] = useState(false);
 
-  useEffect(()=>{
-    if(auth.isAuthenticated){
+  useEffect(() => {
+    if (auth.isAuthenticated) {
       navigate('/main')
-    } 
-  },[])
+    }
+  }, [])
 
 
   const handleSignIn = async (data: any) => {
@@ -35,10 +36,15 @@ const Login: React.FC = () => {
         setIsLogging(false);
       }
     } catch (e) {
-      alert("Matrícula ou senha incorretas!");
+      alert('Matrícula ou senha incorretas. Tente novamente. Caso o erro persista, verifique se o site do SUAP está funcionando normalmente. Se não estiver, será necessário aguardar o retorno do mesmo para tentar novamente.');
       setIsLogging(false);
     }
   };
+
+  const [showPassword, setShowPassword] = useState(false)
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
 
   return (
     <>
@@ -50,11 +56,15 @@ const Login: React.FC = () => {
             <Link to={"/"}>
               <img src={Logo} alt="Logo do app" />
             </Link>
+            <div className={styles.tip}>
+              <Info color="#808080"/> <p>Entre com matrícula e senha do SUAP.</p>
+            </div>
           </div>
           <form className={styles.middle} onSubmit={handleSubmit(handleSignIn)}>
             <div className={styles.field}>
               <label htmlFor="matricula">Matrícula</label>
               <input
+                placeholder="Digite sua matrícula..."
                 required={true}
                 className={styles.input}
                 type="text"
@@ -65,12 +75,20 @@ const Login: React.FC = () => {
             <div className={styles.field}>
               <label htmlFor="password">Senha</label>
               <input
+                placeholder="Digite sua senha..."
                 required={true}
                 className={styles.input}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 {...register("password")}
               />
+              <span className={styles.eyeIcon}>
+              {showPassword ? (
+                <Eye onClick={togglePasswordVisibility} />
+              ) : (
+                <EyeOff onClick={togglePasswordVisibility} />
+              )}
+              </span>
             </div>
             <Button
               backgroundColor={"#f5f5f5"}

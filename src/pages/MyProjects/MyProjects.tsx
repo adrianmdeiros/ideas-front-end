@@ -11,6 +11,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import api from "../../api/api";
 import Loader from "../../components/Loader/Loader";
 import Post from "../../components/Post/Post";
+import toast from "react-hot-toast/headless";
+import { Toaster } from "react-hot-toast";
 
 export type Project = {
   id: string;
@@ -97,6 +99,7 @@ const MyProjects = () => {
 
       setIsPublishing(false);
       setIsModalOpen(false)
+      toast.success('Ideia de projeto criada!')
 
       setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
     } catch (err) {
@@ -125,6 +128,7 @@ const MyProjects = () => {
 
   return (
     <>
+    <Toaster />
       <div className={styles.body}>
         <GlobalStyle />
         <Menu />
