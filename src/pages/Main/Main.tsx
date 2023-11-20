@@ -55,7 +55,7 @@ const Main: React.FC = () => {
       <div className={styles.container}>
         <Header position='relative' padding="0 1rem" backgroundColor="#101010" >
           <h2>Mural</h2>
-          <p style={{ textAlign: 'end', display: 'flex', alignItems: 'center' }}>  Bem-vindo(a) <br />{auth.user?.tipo_vinculo}!</p>
+          {/* <p style={{ textAlign: 'end', display: 'flex', alignItems: 'center' }}>  Bem-vindo(a) <br />{auth.user?.nome_usual}!</p> */}
         </Header>
         <hr />
         <div className={styles.feed}>

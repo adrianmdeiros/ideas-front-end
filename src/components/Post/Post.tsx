@@ -40,7 +40,7 @@ export type PostProps = {
   userCourse?: string
   userId?: number
   myProjects?: Project[] | null
-  setMyProjects: React.Dispatch<React.SetStateAction<Project[] | null>>
+  setMyProjects?: React.Dispatch<React.SetStateAction<Project[] | null>>
 };
 
 const Post: React.FC<PostProps> = ({

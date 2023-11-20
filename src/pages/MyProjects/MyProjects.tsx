@@ -12,7 +12,6 @@ import api from "../../api/api";
 import Loader from "../../components/Loader/Loader";
 import Post from "../../components/Post/Post";
 import toast from "react-hot-toast/headless";
-import { Toaster } from "react-hot-toast";
 
 export type Project = {
   id: string;
@@ -97,13 +96,13 @@ const MyProjects = () => {
         userid: auth.user?.id
       });
 
+      toast.success('Ideia de projeto criada!')
       setIsPublishing(false);
       setIsModalOpen(false)
-      toast.success('Ideia de projeto criada!')
 
       setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
-    } catch (err) {
-      alert(":( Ocorreu um erro! Talvez o projeto já exista... Tente um título diferente :)!");
+    } catch (e) {
+      toast.error(":( Ocorreu um erro! Talvez o projeto já exista... Tente um título diferente :)!");
       setIsPublishing(false);
     }
   };
@@ -116,6 +115,7 @@ const MyProjects = () => {
 
     setIsExcluding(false);
     setIsModalOpen(false)
+    toast.success('Ideia de projeto removida.')
 
     if (myProjects !== null) {
       const newProjectsList = myProjects.filter((project) => {
@@ -128,7 +128,6 @@ const MyProjects = () => {
 
   return (
     <>
-    <Toaster />
       <div className={styles.body}>
         <GlobalStyle />
         <Menu />
@@ -208,7 +207,7 @@ const MyProjects = () => {
                       name="description"
                       placeholder="Descreva seu projeto..."
                       required={true}
-                      minLength={50}
+                      minLength={20}
                       maxLength={1000}
                       className={styles.descriptionText}
                       onChange={(e) => setDescription(e.target.value)}

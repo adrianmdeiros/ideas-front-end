@@ -9,8 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import Loader from "../../components/Loader/Loader";
 import { Eye, EyeOff, Info } from "react-feather";
-
-
+import toast from "react-hot-toast";
 
 
 
@@ -34,9 +33,10 @@ const Login: React.FC = () => {
       if (isLogged) {
         navigate("/main");
         setIsLogging(false);
+        toast.success('Login realizado com sucesso.')
       }
     } catch (e) {
-      alert('Matrícula ou senha incorretas. Tente novamente. Caso o erro persista, verifique se o site do SUAP está funcionando normalmente. Se não estiver, será necessário aguardar o retorno do mesmo para tentar novamente.');
+      toast.error('Matrícula ou senha incorretas. Tente novamente. Caso o erro persista, verifique se o site do SUAP está funcionando normalmente. Se não estiver, será necessário aguardar o retorno do mesmo para tentar novamente.');
       setIsLogging(false);
     }
   };

@@ -30,21 +30,20 @@
 }
 
 .banner img{
+    height: 50rem;
     display: grid;
     place-content: center;
     width: 100%;
-    height: 50rem;
     object-fit: cover;
     opacity: 30%;
+    position: relative;
 }
 
 .banner h2{
-    width: 90%;
-    text-align: center;
     position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 28%;
+    width: 100%;
+    text-align: center;
     color: #dddddd;
 }
 

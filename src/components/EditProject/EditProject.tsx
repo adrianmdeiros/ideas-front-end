@@ -12,7 +12,7 @@ import { Project } from "../../pages/MyProjects/MyProjects"
 type EditProjectProps = {
     id?: string
     myProjects?: Project[] | null
-    setMyProjects: React.Dispatch<React.SetStateAction<Project[] | null>>
+    setMyProjects?: React.Dispatch<React.SetStateAction<Project[] | null>>
     modalClose: () => void
 }
 
@@ -81,9 +81,11 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
         }) 
         
         if(myProjects != null){
-          setMyProjects(myProjects.map(project=>{
-            return project.id === id ? { ...response.data } : project
-          }))
+          if(setMyProjects){
+            setMyProjects(myProjects.map(project=>{
+              return project.id === id ? { ...response.data } : project
+            }))
+          }
         }
       
       setIsPublishing(false);
