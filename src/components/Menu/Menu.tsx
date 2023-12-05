@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Menu: React.FC = () => {
   const auth = useContext(AuthContext);
-  const userPhoto = `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
+  const userPhoto = auth.user?.url_foto_150x200
   const navigate = useNavigate()
   const [isMobile, setIsMobile] = useState(false);
 

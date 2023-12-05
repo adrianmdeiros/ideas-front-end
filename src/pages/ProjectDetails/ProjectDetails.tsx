@@ -41,7 +41,7 @@ const ProjectDetails: React.FC<PostProps> = ({
   const { data: contacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${userId}/contacts`)
 
 
-  const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
+  const perfilImage = avatarUrl;
 
 
   return (

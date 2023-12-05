@@ -28,7 +28,7 @@ const Perfil: React.FC = () => {
 
   const { data: contacts, setData: setContacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${auth.user?.id}/contacts`)
   
-  const userPhoto = `https://suap.ifma.edu.br${auth.user?.url_foto_150x200}`;
+  const userPhoto = auth.user?.url_foto_150x200;
   const handleLogOut = async () => {
     await auth.signOut();
     navigate("/login");

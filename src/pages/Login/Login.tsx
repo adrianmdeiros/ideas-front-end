@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 
 
 const Login: React.FC = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setFocus } = useForm();
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLogging, setIsLogging] = useState(false);
@@ -44,6 +44,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+    setFocus('password')
   }
 
   return (

@@ -63,7 +63,7 @@ const Post: React.FC<PostProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [IsProjectDetailsModalOpen, setIsProjectDetailsModalOpen] = useState(false);
 
-  const perfilImage = `https://suap.ifma.edu.br${avatarUrl}`;
+  const perfilImage = avatarUrl;
   const location = useLocation();
   
   return (
