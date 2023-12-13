@@ -34,14 +34,14 @@ const ProjectDetails: React.FC<PostProps> = ({
   description,
   studentsRequired,
   projectCategory,
-  avatarUrl,
+  // avatarUrl,
   userCourse
 }) => {
 
   const { data: contacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${userId}/contacts`)
 
 
-  const perfilImage = avatarUrl;
+  // const perfilImage = avatarUrl;
 
 
   return (
@@ -55,11 +55,11 @@ const ProjectDetails: React.FC<PostProps> = ({
             <div className={styles.top}>
               <h4>Autor</h4>
               <div className={styles.autor}>
-                <img
+                {/* <img
                   className={styles.userPhoto}
                   src={perfilImage}
                   alt="foto de perfil"
-                />
+                /> */}
                 <div>
                   <h3>{userName}</h3>
                   <p>{userCourse}</p>

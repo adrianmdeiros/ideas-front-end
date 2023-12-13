@@ -9,7 +9,7 @@ import {
   StyledP,
   StyledProjectReq,
   StyledReqContainer,
-  StyledUserPhoto,
+  // StyledUserPhoto,
   StyledProject,
   StyledDescription,
   StyledActions,
@@ -63,7 +63,7 @@ const Post: React.FC<PostProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [IsProjectDetailsModalOpen, setIsProjectDetailsModalOpen] = useState(false);
 
-  const perfilImage = avatarUrl;
+  // const perfilImage = avatarUrl;
   const location = useLocation();
   
   return (
@@ -71,7 +71,7 @@ const Post: React.FC<PostProps> = ({
       <StyledProject>
         <StyledTop>
           <StyledAutor>
-            <StyledUserPhoto src={perfilImage} />
+            {/* <StyledUserPhoto src={perfilImage} /> */}
             <div>
               <StyledTitle>{userName}</StyledTitle>
               <StyledP>{userCourse}</StyledP>

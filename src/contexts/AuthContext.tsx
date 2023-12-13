@@ -13,7 +13,6 @@ export type User = {
   nome_usual: string;
   email: string;
   phone: string;
-  url_foto_150x200: string;
   tipo_vinculo: string;
   vinculo: {
     curso: string;
@@ -99,7 +98,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: user.nome_usual,
         email: user.email,
         phone: user.phone,
-        avatarURL: user.url_foto_150x200,
         bond: user.tipo_vinculo,
         bio: user.bio,
         course: user.vinculo.curso

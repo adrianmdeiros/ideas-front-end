@@ -108,7 +108,7 @@ hr{
     background-color: #AD00FF;
     color: #f5f5f5;
 }
-.checkbox[id='GERAL']:checked + .type{
+.checkbox[id='OUTROS']:checked + .type{
     background-color: #f5f5f5;
     color: #101010;
 }
