@@ -35,7 +35,7 @@ type dbUser = {
   name: string
   email: string
   phone: string
-  avatarURL: string
+  // avatarURL: string
   bond: string
   courseId: number
 }

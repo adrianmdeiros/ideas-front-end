@@ -21,7 +21,7 @@ export type Project = {
   user: {
     id: number
     name: string;
-    avatarURL: string;
+    // avatarURL: string;
     course: {
       id: number
       name: string
@@ -102,6 +102,7 @@ const MyProjects = () => {
 
       setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
     } catch (e) {
+      alert('Ocorreu algum erro, tente novamente.')
       toast.error(":( Ocorreu um erro! Talvez o projeto já exista... Tente um título diferente :)!");
       setIsPublishing(false);
     }
@@ -159,7 +160,7 @@ const MyProjects = () => {
                     studentsRequired={project.studentsRequired}
                     userName={project.user.name}
                     projectCategory={project.category.name}
-                    avatarUrl={project.user.avatarURL}
+                    // avatarUrl={project.user.avatarURL}
                     ccolor={project.category.color}
                     deleteProject={(e: any) => deleteProject(project.id, e)}
                     isExcluding={isExcluding}

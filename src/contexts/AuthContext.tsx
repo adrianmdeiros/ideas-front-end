@@ -18,7 +18,6 @@ export type User = {
     curso: string;
     campus: string;
   }
-  bio: string;
 };
 
 export interface AuthContextType {
@@ -99,7 +98,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         email: user.email,
         phone: user.phone,
         bond: user.tipo_vinculo,
-        bio: user.bio,
         course: user.vinculo.curso
       })
       return response.data
