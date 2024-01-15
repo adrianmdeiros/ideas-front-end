@@ -65,7 +65,6 @@ const Perfil: React.FC = () => {
       <div className={styles.body}>
         <GlobalStyle />
         <Menu />
-
         <div className={styles.container}>
           <Header padding="2rem">
             <h2 className={styles.title}>Meu Perfil</h2>
@@ -80,7 +79,7 @@ const Perfil: React.FC = () => {
                   alt="foto de perfil"
                   />
                 <div>
-                  <h2 >{auth.user?.nome_usual} </h2>
+                  <h3 >{auth.user?.nome_usual}</h3>
                   <p>{auth.user?.vinculo.curso}</p>
                   <p>IFMA Campus - {auth.user?.vinculo.campus}</p>
                   <p>{auth.user?.tipo_vinculo}</p>

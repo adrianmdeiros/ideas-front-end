@@ -59,12 +59,12 @@ const Main: React.FC = () => {
         </Header>
         <div className={styles.feed}>
           <div className={styles.postsContainer}>
-            {!projects && !isFetching &&(
+            {!projects && !isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
                 <AlertCircle size={32} />
-                <p>Parece que não há projetos...</p>
+                <p>Não há ideias de projeto cadastradas.</p>
               </div>
             )}
             {isFetching && <Loader color={"#ff7a00"} />}

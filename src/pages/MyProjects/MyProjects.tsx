@@ -175,7 +175,7 @@ const MyProjects = () => {
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
                 <AlertCircle size={32} />
-                <p>Você ainda não criou nenhum projeto...</p>
+                <p>Você ainda não adicionou nenhuma ideia de projeto.</p>
               </div>
             )}
             {isFetching && <Loader color={"#ff7a00"} />}
