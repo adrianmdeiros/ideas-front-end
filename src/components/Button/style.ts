@@ -21,4 +21,5 @@ export const StyledButton = styled.button<BtnProps>`
     background-color: ${props => props.hover};
   }
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  position: ${props => props.position};
 `

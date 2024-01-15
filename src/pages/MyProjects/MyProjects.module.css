@@ -112,6 +112,10 @@ hr{
     background-color: #f5f5f5;
     color: #101010;
 }
+.checkbox[id='PIVITI']:checked + .type{
+    background-color: #F57049;
+    color: #f5f5f5;
+}
 
 .postsContainer{
     display: grid;
@@ -122,7 +126,7 @@ hr{
 .projectsContainer{
     display: grid;
     gap: 1.8rem;
-    margin-top: 4rem;
+    /* margin-top: 0rem; */
     margin-bottom: 10rem;
     align-items: flex-start;
 }

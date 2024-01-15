@@ -10,6 +10,7 @@ export interface BtnProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   hover: string;
   borderRadius: string;
   margin?: string;
+  position?: string;
 };
 
 const Button: React.FC<BtnProps> = ({
@@ -21,7 +22,8 @@ const Button: React.FC<BtnProps> = ({
   height,
   hover,
   borderRadius,
-  children
+  children,
+  position
 }) => {
   return (
     <StyledButton
@@ -33,6 +35,7 @@ const Button: React.FC<BtnProps> = ({
       hover={hover}
       borderRadius={borderRadius}
       margin={margin}
+      position={position}
     >
       {children}
     </StyledButton>

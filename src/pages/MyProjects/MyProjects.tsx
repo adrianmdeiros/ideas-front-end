@@ -133,7 +133,7 @@ const MyProjects = () => {
         <GlobalStyle />
         <Menu />
         <div className={styles.container}>
-          <Header padding="0 1rem" backgroundColor="#101010">
+          <Header position='relative' padding="0 1rem" backgroundColor="#101010">
             <h2>Meus Projetos</h2>
             <Button
               backgroundColor="#ff7a00"
@@ -147,7 +147,6 @@ const MyProjects = () => {
               <Plus size={18} />
             </Button>
           </Header>
-          <hr />
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
               {myProjects?.map((project) => (

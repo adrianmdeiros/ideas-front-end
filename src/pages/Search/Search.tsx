@@ -85,11 +85,10 @@ const Search: React.FC = () => {
       <div className={styles.body}>
         <Menu />
         <div className={styles.container}>
-            <h2>Busca</h2>
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <p>Ache projetos por categoria:</p>
-            </div>
-
+            <h2>Buscar</h2> 
+            {/* <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              
+            </div> */}
             <div className={styles.categories}>
               {isFetchingCategories && <Loader color={"#ff7a00"} />}
               <ul className={styles.tagsContainer}>
