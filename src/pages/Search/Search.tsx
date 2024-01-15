@@ -118,7 +118,7 @@ const Search: React.FC = () => {
                 )}
             <div className={styles.searchResults}>
               {isFetchingProjects && <Loader color={"#ff7a00"} />}
-              <ul  className={styles.searchResults} >
+              <ul>
                 {projects?.map((project) => (
                   <li key={project.id}>
                     <Post

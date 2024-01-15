@@ -126,7 +126,7 @@ hr{
 .projectsContainer{
     display: grid;
     gap: 1.8rem;
-    /* margin-top: 0rem; */
+    margin-top: 4rem;
     margin-bottom: 10rem;
     align-items: flex-start;
 }
