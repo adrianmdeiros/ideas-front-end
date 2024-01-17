@@ -1,5 +1,5 @@
 import NavLink from "../NavLink/NavLink";
-import { Home as HomeIcon, Search, LogOut, Folder } from "react-feather";
+import { Search, LogOut, Folder, Grid } from "react-feather";
 import { Perfil, StyledTabBar, StyledSideMenu, StyledPerfil, StyledUserInfo, StyledNav } from "./style";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -33,7 +33,7 @@ const Menu: React.FC = () => {
     <>
       {isMobile ? (
         <StyledTabBar>
-          <NavLink to={"/main"} icon={<HomeIcon />} label="Home" />
+          <NavLink to={"/main"} icon={<Grid />} label="Mural" />
           <NavLink to={"/projects"} icon={<Folder />} label="Meus Projetos" />
           <NavLink to={"/search"} icon={<Search />} label="Buscar" />
           <NavLink
@@ -49,8 +49,8 @@ const Menu: React.FC = () => {
             </Link>
             <NavLink
               to={"/main"}
-              icon={<HomeIcon />}
-              label="Home"
+              icon={<Grid />}
+              label="Mural"
               display={"flex"}
             />
             <NavLink
@@ -77,7 +77,6 @@ const Menu: React.FC = () => {
                 <p>{auth.user?.tipo_vinculo}</p>
               </StyledUserInfo>
           </NavLink>
-          
               <LogOut size={24} color={'red'} onClick={handleLogOut} cursor={'pointer'} />
           </StyledPerfil>
         </StyledSideMenu>

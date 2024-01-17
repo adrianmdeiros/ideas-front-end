@@ -69,7 +69,6 @@ const Perfil: React.FC = () => {
           <Header padding="2rem">
             <h2 className={styles.title}>Meu Perfil</h2>
           </Header>
-          <hr />
           <div className={styles.userContainer}>
             <div className={styles.card}>
               <div className={styles.top}>

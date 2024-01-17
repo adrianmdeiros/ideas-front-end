@@ -25,7 +25,7 @@ const Home: React.FC = () => {
       <div className={styles.container}>
         <Header height="9rem" padding="0 2rem" position="absolute" zIndex="1">
           <Link to={'/'}>
-            <img src={LogoHome} alt="logo" />
+            <img src={LogoHome} alt="Logo Projif" />
           </Link>
           <Button
             backgroundColor={"#FF7A00"}
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
         </Header>
         <main>
           <div className={styles.banner}>
-            <img src={Banner} alt="banner-principal" />
+            <img src={Banner} alt="Imagem com uma mesa cheia de papeis com projetos, um smartphone e lapiseiras." />
             <h2>Encontre oportunidades de projeto de pesquisa!</h2>
           </div>
           <div className={styles.stepsContainer}>
