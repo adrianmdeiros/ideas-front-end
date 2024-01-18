@@ -64,7 +64,7 @@ const MyProjects = () => {
 
 
   useEffect(() => {
-    if (categoryId === 4) {
+    if (categoryId === 7) {
       setStudentsRequired(1)
     }
   }, [categoryId])
@@ -213,7 +213,7 @@ const MyProjects = () => {
                       onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
-                  {categoryId !== 4 && (
+                  {categoryId !== 7 && (
                     <div className={styles.numberOfStudentsContainer}>
                       <label htmlFor="numberOfStudents">
                         Quantidade de alunos

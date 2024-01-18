@@ -79,8 +79,8 @@ const Post: React.FC<PostProps> = ({
           </StyledAutor>
           {location.pathname === "/projects" && (
             <StyledActions>
-              <Edit color="#818181" cursor={"pointer"} size={20} onClick={() => setIsEditModalOpen(true)} />
-              <Trash2 color="#818181" size={22} cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
+              <Edit color="#818181" cursor={"pointer"} size={23} onClick={() => setIsEditModalOpen(true)} />
+              <Trash2 color="#818181" size={24} cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
               <Modal
                 isOpen={isModalOpen}
                 setOpenModal={() => setIsModalOpen(!isModalOpen)}

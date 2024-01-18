@@ -92,8 +92,8 @@ const Perfil: React.FC = () => {
                     <div className={styles.email}>
                     <div style={{display: 'flex', gap: '.8rem', alignItems: 'center'}}>
                       <Mail size={18} />
-                      {isFetching && <Loader />}
                       <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
+                      {isFetching && <Loader />}
                       </div>
                       <Edit cursor={'pointer'} onClick={() => setIsModalOpen(true)}/>
                     </div>

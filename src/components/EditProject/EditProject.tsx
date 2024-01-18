@@ -48,7 +48,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
   
 
   useEffect(() => {
-    if (categoryId === 4) {
+    if (categoryId === 7) {
       setStudentsRequired(1)
     }
   }, [categoryId])
@@ -131,7 +131,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
                       onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
-                  {categoryId !== 4 && (
+                  {categoryId !== 7 && (
                     <div className={styles.numberOfStudentsContainer}>
                       <label htmlFor="numberOfStudents">
                         Quantidade de alunos
