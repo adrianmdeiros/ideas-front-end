@@ -12,6 +12,7 @@ h2{
     overflow-y: auto;
 }
 
+
 /* 
 .input{
     padding: 1rem;
@@ -38,6 +39,8 @@ h2{
     padding: 2rem 0;
     gap: 1rem;
     overflow-x: auto;
+   
+    
 }
 
 .searchResults{
@@ -48,6 +51,7 @@ h2{
     margin-top: 2rem;
     margin-bottom: 10rem;
 }
+
 
 
 @media only screen and (min-width: 768px){
