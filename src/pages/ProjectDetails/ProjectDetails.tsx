@@ -48,7 +48,6 @@ const ProjectDetails: React.FC<PostProps> = ({
     <>
       <div className={styles.body}>
         <GlobalStyle />
-
         <h2 className={styles.title}>Detalhes do projeto</h2>
         <div className={styles.container}>
           <div className={styles.projectContainer}>

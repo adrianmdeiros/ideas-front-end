@@ -87,7 +87,7 @@ const Perfil: React.FC = () => {
               <div className={styles.bottom}>
                 <h3>Meus contatos</h3>
                 <div className={styles.contacts}>
-                  <div className={styles.contact}>
+                  <div className={styles.contact} onClick={() => setIsModalOpen(true)}>
                     <p>Email</p>
                     <div className={styles.email}>
                     <div style={{display: 'flex', gap: '.8rem', alignItems: 'center'}}>
@@ -95,7 +95,7 @@ const Perfil: React.FC = () => {
                       <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
                       {isFetching && <Loader />}
                       </div>
-                      <Edit cursor={'pointer'} onClick={() => setIsModalOpen(true)}/>
+                      <Edit cursor={'pointer'} />
                     </div>
                     {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                   </div>
@@ -115,7 +115,7 @@ const Perfil: React.FC = () => {
                       </Button>
                     </form>
                   </Modal>
-                  <div className={styles.contact}>
+                  <div className={styles.contact} onClick={() => setIsModalOpen(true)}>
                       <p>Telefone</p>
                     <div className={styles.phone}>
                       <div style={{display: 'flex', gap: '.8rem', alignItems: 'center'}}>
@@ -123,7 +123,7 @@ const Perfil: React.FC = () => {
                         <p>{contacts?.phone ? contacts.phone : "Adicione um telefone"}</p>
                         {isFetching && <Loader />}
                       </div>
-                      <Edit  cursor={'pointer'} onClick={() => setIsPhoneModalOpen(true)}/>
+                      <Edit  cursor={'pointer'} />
                     </div>
                     {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                   </div>

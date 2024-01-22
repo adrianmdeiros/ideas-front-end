@@ -110,6 +110,9 @@ background: linear-gradient(40deg, rgb(0, 255, 106) 0%, rgb(3, 177, 230) 49%, rg
     /* word-break: break-all; */
     font-size: 1.4rem;
 }
+.contact:hover{
+    cursor: pointer;
+}
 
 .footer{
     display: grid;
@@ -137,7 +140,7 @@ background: linear-gradient(40deg, rgb(0, 255, 106) 0%, rgb(3, 177, 230) 49%, rg
     }
     .card{
         border-radius: .8rem;
-        /* max-width: 48rem; */
+        max-width: 54rem;
     }
     .footer a:last-child{
         display: none;

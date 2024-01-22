@@ -58,7 +58,7 @@ const Main: React.FC = () => {
           {/* <p style={{ textAlign: 'end', display: 'flex', alignItems: 'center' }}>  Bem-vindo(a) <br />{auth.user?.nome_usual}!</p> */}
         </Header>
         <div className={styles.feed}>
-            {!projects && !isFetching && (
+            {!projects && !isFetching &&(
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
