@@ -21,6 +21,8 @@ type Project = {
   title: string;
   description: string;
   studentsRequired: number;
+  modality: string;
+  amountUsersInterested: number;
   user: {
     id: number
     name: string;
@@ -122,10 +124,13 @@ const Search: React.FC = () => {
                 {projects?.map((project) => (
                   <li key={project.id}>
                     <Post
+                      id={project.id}
                       userId={project.user.id}
                       title={project.title}
                       description={project.description}
                       studentsRequired={project.studentsRequired}
+                      modality={project.modality}
+                      amountUsersInterested={project.amountUsersInterested}
                       projectCategory={project.category.name}
                       avatarUrl={project.user.avatarURL}
                       userName={project.user.name}
