@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { PostProps } from "./Post";
 
-export const StyledPost = styled.div`
+export const StyledPost = styled.div<PostProps>`
     width: 100%;
     @media (min-width: 768px){
         width: 30rem;
     }
+    border: .1rem solid ${props => props.ccolor};
+    border-radius: .8rem;
 `
 
 export const StyledTop = styled.div`
@@ -41,9 +43,8 @@ export const StyledP = styled.p`
 `
 export const StyledDescription = styled.p<PostProps>`
     font-size: 1.4rem;
-    text-align: justify;
-    line-break: auto;
-    word-break: break-all;
+    text-align: start;
+    word-break: normal;
     color: ${props => props.ccolor};
 `
 
@@ -67,8 +68,8 @@ export const StyledMiddle = styled.div`
 
 export const StyledReqContainer = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: right;
+    align-items: end;
+    justify-content: space-between;
     gap: 1.2rem;
 `
 

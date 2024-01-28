@@ -88,7 +88,7 @@ const Perfil: React.FC = () => {
                 <h3>Meus contatos</h3>
                 <div className={styles.contacts}>
                   <div className={styles.contact} onClick={() => setIsModalOpen(true)}>
-                    <p>Email</p>
+                  <p>Email</p>  
                     <div className={styles.email}>
                     <div style={{display: 'flex', gap: '.8rem', alignItems: 'center'}}>
                       <Mail size={18} />
@@ -115,7 +115,7 @@ const Perfil: React.FC = () => {
                       </Button>
                     </form>
                   </Modal>
-                  <div className={styles.contact} onClick={() => setIsModalOpen(true)}>
+                  <div className={styles.contact} onClick={() => setIsPhoneModalOpen(true)}>
                       <p>Telefone</p>
                     <div className={styles.phone}>
                       <div style={{display: 'flex', gap: '.8rem', alignItems: 'center'}}>

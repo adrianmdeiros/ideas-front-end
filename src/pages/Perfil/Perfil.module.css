@@ -1,16 +1,14 @@
-
-
-.form{
+.form {
     display: grid;
     gap: 1rem;
 }
 
-.form h2{
+.form h2 {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
-.input{
+.input {
     background-color: #252525;
     border: none;
     padding: 1rem;
@@ -23,21 +21,22 @@
 
 .input::-webkit-outer-spin-button,
 .input::-webkit-inner-spin-button {
--webkit-appearance: none;
-margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-.body{
+.body {
     height: 100vh;
     width: 100%;
 }
 
-.container{
-    width: 100%; 
-    height: 100%;  
+.container {
+    width: 100%;
+    height: 100%;
 }
 
-.email, .phone{
+.email,
+.phone {
     display: flex;
     align-items: center;
     width: 100%;
@@ -46,16 +45,17 @@ margin: 0;
     justify-content: space-between;
 }
 
-.userContainer{
+.userContainer {
     width: 100%;
+
 }
 
-.bio{
+.bio {
     display: flex;
     gap: 2rem;
 }
 
-.card{
+.card {
     display: grid;
     gap: 2rem;
     background-color: #151515;
@@ -63,9 +63,11 @@ margin: 0;
     padding: 2rem;
     /* background: rgb(255,122,0);
 background: linear-gradient(40deg, rgb(0, 255, 106) 0%, rgb(3, 177, 230) 49%, rgba(0,4,143,1) 100%); */
+    border: .1rem solid #252525;
+
 }
 
-.top{
+.top {
     width: 100%;
     display: flex;
     align-items: center;
@@ -73,48 +75,51 @@ background: linear-gradient(40deg, rgb(0, 255, 106) 0%, rgb(3, 177, 230) 49%, rg
     gap: 2.4rem;
 }
 
-.userPhoto{
+.userPhoto {
     height: 10rem;
     width: 10rem;
     border-radius: 50%;
 }
 
-.middle{
+.middle {
     width: 100%;
     padding: 2.4rem;
     border-radius: 1rem;
     max-width: 32rem;
 }
-    
-.middle p{
+
+.middle p {
     word-break: break-all;
 }
 
-.bottom{
+.bottom {
     display: grid;
     gap: 1rem;
 }
 
-.contacts{
+.contacts {
     display: grid;
     gap: 1rem
 }
 
-.contact{
+.contact {
     display: grid;
     align-items: center;
     gap: 1rem;
     background-color: #252525;
-    padding: 1.4rem ;
+    padding: 1.4rem;
     border-radius: .8rem;
     /* word-break: break-all; */
     font-size: 1.4rem;
-}
-.contact:hover{
-    cursor: pointer;
+    margin-bottom: 1.2rem;
 }
 
-.footer{
+.contact:hover {
+    cursor: pointer;
+    background-color: #202020;
+}
+
+.footer {
     display: grid;
     gap: 1.8rem;
     margin-top: 2.8rem;
@@ -123,37 +128,42 @@ background: linear-gradient(40deg, rgb(0, 255, 106) 0%, rgb(3, 177, 230) 49%, rg
     place-content: center;
 }
 
-.footer a{
+.footer a {
     text-decoration: none;
     text-align: center;
 }
-.footer a:last-child{
+
+.footer a:last-child {
     display: flex;
     align-items: center;
     gap: 1rem;
     color: rgb(216, 0, 0);
 }
 
-@media only screen and (min-width: 768px){
-    .body{
+@media only screen and (min-width: 768px) {
+    .body {
         display: flex;
     }
-    .card{
+
+    .card {
         border-radius: .8rem;
         max-width: 54rem;
     }
-    .footer a:last-child{
+
+    .footer a:last-child {
         display: none;
     }
-    .container{
+
+    .container {
         padding: 0 2rem;
     }
-    
-    .userPhoto{
+
+    .userPhoto {
         width: 16rem;
         height: 16rem;
     }
-    .bottom h4{
+
+    .bottom h4 {
         font-size: 1.8rem;
     }
 }

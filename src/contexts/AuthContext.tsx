@@ -66,6 +66,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const tokens = response.data;
     
+
     if (tokens) {
       const user = await getUserData(tokens.access)
       setUser(user);

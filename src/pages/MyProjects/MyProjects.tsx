@@ -18,6 +18,8 @@ export type Project = {
   title: string;
   description: string;
   studentsRequired: number;
+  modality: string;
+  amountUsersInterested: number;
   user: {
     id: number
     name: string;
@@ -58,13 +60,15 @@ const MyProjects = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [modality, setModality] = useState("");
   const [studentsRequired, setStudentsRequired] = useState(1);
+
   const [categoryId, setCategoryId] = useState(0);
   const [isPublishing, setIsPublishing] = useState(false)
 
 
   useEffect(() => {
-    if (categoryId === 7) {
+    if (categoryId === 6) {
       setStudentsRequired(1)
     }
   }, [categoryId])
@@ -92,6 +96,7 @@ const MyProjects = () => {
         title,
         description,
         studentsRequired,
+        modality,
         categoryid: categoryId,
         userid: auth.user?.id
       });
@@ -102,8 +107,8 @@ const MyProjects = () => {
 
       setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
     } catch (e) {
-      alert('Ocorreu algum erro, tente novamente.')
       toast.error(":( Ocorreu um erro! Talvez o projeto já exista... Tente um título diferente :)!");
+      alert('Ocorreu algum erro, tente novamente.')
       setIsPublishing(false);
     }
   };
@@ -126,6 +131,7 @@ const MyProjects = () => {
       newProjectsList.length === 0 ? setMyProjects(null) : setMyProjects(newProjectsList);
     }
   };
+
 
   return (
     <>
@@ -157,6 +163,8 @@ const MyProjects = () => {
                     title={project.title}
                     description={project.description}
                     studentsRequired={project.studentsRequired}
+                    modality={project.modality}
+                    amountUsersInterested={project.amountUsersInterested}
                     userName={project.user.name}
                     projectCategory={project.category.name}
                     // avatarUrl={project.user.avatarURL}
@@ -213,43 +221,67 @@ const MyProjects = () => {
                       onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
-                  {categoryId !== 7 && (
-                    <div className={styles.numberOfStudentsContainer}>
-                      <label htmlFor="numberOfStudents">
-                        Quantidade de alunos
-                      </label>
-                      <div className={styles.addOrRemoveStudentsContainer}>
-                        <Button
-                          backgroundColor="#f5f5f5"
-                          color="#101010"
-                          borderRadius=".8rem"
-                          hover="#dedede"
-                          onClick={removeStudent}
-                          width="38%"
-                        >
-                          <Minus />
-                        </Button>
-                        <input
-                          type="number"
-                          id="studentsRequired"
-                          className={styles.numberOfStudents}
-                          disabled={true}
-                          value={studentsRequired}
-                        />
-                        <Button
-                          width="38%"
-                          backgroundColor="#f5f5f5"
-                          color="#101010"
-                          borderRadius=".8rem"
-                          hover="#dedede"
-                          onClick={addStudent}
-                        >
-                          <Plus />
-                        </Button>
+                  {categoryId !== 6 && (
+                    <>
+                      <div className={styles.numberOfStudentsContainer}>
+                        <label htmlFor="numberOfStudents">
+                          Quantidade de alunos
+                        </label>
+                        <div className={styles.addOrRemoveStudentsContainer}>
+                          <Button
+                            backgroundColor="#f5f5f5"
+                            color="#101010"
+                            borderRadius=".8rem"
+                            hover="#dedede"
+                            onClick={removeStudent}
+                            width="38%"
+                          >
+                            <Minus />
+                          </Button>
+                          <input
+                            type="number"
+                            id="studentsRequired"
+                            className={styles.numberOfStudents}
+                            disabled={true}
+                            value={studentsRequired}
+                          />
+                          <Button
+                            width="38%"
+                            backgroundColor="#f5f5f5"
+                            color="#101010"
+                            borderRadius=".8rem"
+                            hover="#dedede"
+                            onClick={addStudent}
+                          >
+                            <Plus />
+                          </Button>
+                        </div>
                       </div>
-                    </div>
+                      <div className={styles.projectCategoryContainer}>
+                        <label htmlFor="projectModality">
+                          Modalidade do projeto
+                        </label>
+                        <ul className={styles.modalities}>
+                          <li key={'bolsista'}>
+                            <input id="bolsista" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Bolsista")} />
+                            <label
+                              htmlFor="bolsista"
+                              className={styles.type}>
+                              Bolsista
+                            </label>
+                          </li>
+                          <li key={'voluntario'}>
+                            <input id="voluntario" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Voluntário")} />
+                            <label
+                              htmlFor="voluntario"
+                              className={styles.type}>
+                              Voluntário
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </>
                   )}
-
                   <div className={styles.projectCategoryContainer}>
                     <label htmlFor="projectCategory">
                       Categoria do projeto

@@ -8,13 +8,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Menu: React.FC = () => {
   const auth = useContext(AuthContext);
+  
   const userPhoto = auth.user?.url_foto_150x200
+  
+
   const navigate = useNavigate()
   const [isMobile, setIsMobile] = useState(false);
-
   
-  const handleLogOut = async () => {
-    await auth.signOut()
+  const handleLogOut = () => {
+    auth.signOut()
     navigate('/')
   }
 

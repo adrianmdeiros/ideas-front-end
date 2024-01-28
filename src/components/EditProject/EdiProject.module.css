@@ -69,7 +69,10 @@ li{
     gap: 1rem;
 }
 
-
+.modalities{
+    display: grid;
+    gap: 1rem;
+}
 
 .type{
     display: flex;
@@ -110,6 +113,15 @@ li{
 }
 .checkbox[id='PIVITI']:checked + .type{
     background-color: #F57049;
+    color: #f5f5f5;
+}
+
+.checkbox[id='bolsista']:checked + .type{
+    background-color: #19d600;
+    color: #f5f5f5;
+}
+.checkbox[id='voluntario']:checked + .type{
+    background-color: #009c9c;
     color: #f5f5f5;
 }
 

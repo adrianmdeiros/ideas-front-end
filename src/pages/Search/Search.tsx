@@ -113,7 +113,7 @@ const Search: React.FC = () => {
                     style={{ display: "flex", alignItems: "center", gap: "1rem" }}
                   >
                     <AlertCircle size={32} />
-                    <p>Parece que não há projetos dessa categoria...</p>
+                    <p>Não há projetos dessa categoria.</p>
                   </div>
                 )}
             <div className={styles.searchResults}>

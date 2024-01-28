@@ -33,6 +33,8 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
   
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [modality, setModality] = useState("");
+
   const [studentsRequired, setStudentsRequired] = useState(1);
   const [categoryId, setCategoryId] = useState(0);
   const [isPublishing, setIsPublishing] = useState(false)
@@ -48,7 +50,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
   
 
   useEffect(() => {
-    if (categoryId === 7) {
+    if (categoryId === 6) {
       setStudentsRequired(1)
     }
   }, [categoryId])
@@ -76,6 +78,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
             title,
             description,
             studentsRequired,
+            modality,
             categoryid: categoryId,
             userid: auth.user?.id
         }) 
@@ -131,7 +134,8 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
                       onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
-                  {categoryId !== 7 && (
+                  {categoryId !== 6 && (
+                    <>
                     <div className={styles.numberOfStudentsContainer}>
                       <label htmlFor="numberOfStudents">
                         Quantidade de alunos
@@ -166,6 +170,30 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
                         </Button>
                       </div>
                     </div>
+                    <div className={styles.projectCategoryContainer}>
+                    <label htmlFor="projectModality">
+                      Modalidade do projeto
+                    </label>
+                    <ul className={styles.modalities}>
+                      <li key={'bolsista'}>
+                        <input id="bolsista" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Bolsista")} />
+                        <label
+                          htmlFor="bolsista"
+                          className={styles.type}>
+                          Bolsista
+                        </label>
+                      </li>
+                      <li key={'voluntario'}>
+                        <input id="voluntario" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Voluntário")} />
+                        <label
+                          htmlFor="voluntario"
+                          className={styles.type}>
+                          Voluntário
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                  </>
                   )}
 
                   <div className={styles.projectCategoryContainer}>

@@ -14,6 +14,8 @@ type Project = {
   title: string;
   description: string;
   studentsRequired: number;
+  modality: string;
+  amountUsersInterested: number;
   user: {
     id: number
     name: string;
@@ -71,6 +73,7 @@ const Main: React.FC = () => {
               {projects?.map((project) =>
                 <li key={project.id}>
                   <Post
+                    id={project.id}
                     userId={project.user.id}
                     title={project.title}
                     description={project.description}
@@ -80,6 +83,8 @@ const Main: React.FC = () => {
                     avatarUrl={project.user.avatarURL}
                     ccolor={project.category.color}
                     userCourse={project.user.course.name}
+                    modality={project.modality}
+                    amountUsersInterested={project.amountUsersInterested}
                   />
                 </li>
               )}

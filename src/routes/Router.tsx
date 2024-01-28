@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Main from "../pages/Main/Main";
-import Projects from "../pages/MyProjects/MyProjects";
+import MyProjects from "../pages/MyProjects/MyProjects";
 import Search from "../pages/Search/Search";
 import Perfil from "../pages/Perfil/Perfil";
 import ProjectDetails from "../pages/ProjectDetails/ProjectDetails";
@@ -35,14 +35,14 @@ const router = createBrowserRouter([
         path: "/projects",
         element: 
         <RequireAuth>
-          <Projects/>
+          <MyProjects />
         </RequireAuth>
       },
       {
         path: '/perfil',
         element: 
         <RequireAuth>
-          <Perfil/>
+          <Perfil />
         </RequireAuth>
       },
       {

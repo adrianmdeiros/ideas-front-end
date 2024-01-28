@@ -74,7 +74,6 @@ hr{
 }
 
 
-
 .type{
     display: flex;
     align-items: center;
@@ -85,6 +84,12 @@ hr{
     width: 100%;
     background-color: #252525;
     cursor: pointer;
+}
+
+
+.modalities{
+    display: grid;
+    gap: 1rem;
 }
 
 .checkbox{
@@ -116,6 +121,16 @@ hr{
     background-color: #F57049;
     color: #f5f5f5;
 }
+
+.checkbox[id='bolsista']:checked + .type{
+    background-color: #19d600;
+    color: #f5f5f5;
+}
+.checkbox[id='voluntario']:checked + .type{
+    background-color: #009c9c;
+    color: #f5f5f5;
+}
+
 
 .postsContainer{
     display: grid;

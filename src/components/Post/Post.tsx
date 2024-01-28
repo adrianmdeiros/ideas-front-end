@@ -17,7 +17,7 @@ import {
   StyledButtons
 } from "./style";
 import Button from "../Button/Button";
-import { AlertOctagon, Edit, Trash2, User } from "react-feather";
+import { AlertOctagon, DollarSign, Edit, Star, Trash2, User } from "react-feather";
 import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
@@ -27,18 +27,20 @@ import EditProject from "../EditProject/EditProject";
 import { Project } from "../../pages/MyProjects/MyProjects";
 
 export type PostProps = {
-  avatarUrl?: string;
-  userName?: string;
+  id?: string;
   title?: string;
   description?: string;
   studentsRequired?: number;
   projectCategory?: string;
+  modality?: string;
+  amountUsersInterested?: number
+  avatarUrl?: string;
+  userName?: string;
   ccolor?: string;
-  id?: string;
-  deleteProject?: (e: any) => void
   isExcluding?: boolean
   userCourse?: string
   userId?: number
+  deleteProject?: (e: any) => void
   myProjects?: Project[] | null
   setMyProjects?: React.Dispatch<React.SetStateAction<Project[] | null>>
 };
@@ -52,6 +54,8 @@ const Post: React.FC<PostProps> = ({
   description,
   studentsRequired,
   projectCategory,
+  modality,
+  amountUsersInterested,
   avatarUrl,
   deleteProject,
   isExcluding,
@@ -65,9 +69,9 @@ const Post: React.FC<PostProps> = ({
 
   // const perfilImage = avatarUrl;
   const location = useLocation();
-  
+
   return (
-    <StyledPost>
+    <StyledPost ccolor={ccolor}>
       <StyledProject>
         <StyledTop>
           <StyledAutor>
@@ -134,16 +138,28 @@ const Post: React.FC<PostProps> = ({
             {description ? description?.length > 50 ? description?.slice(0, 60) + '...' : description : "Não há descrição"}
           </StyledDescription>
         </StyledMiddle>
+        <StyledProjectReq>
+          <StyledColorTypeProject setMyProjects={setMyProjects} ccolor={ccolor} />
+          <StyledP>{projectCategory}</StyledP>
+        </StyledProjectReq>
         <StyledBottom>
           <StyledReqContainer>
-            <StyledProjectReq>
-              <User size={18} />
-              <StyledP>{studentsRequired} aluno(s)</StyledP>
-            </StyledProjectReq>
-            <StyledProjectReq>
-              <StyledColorTypeProject setMyProjects={setMyProjects} ccolor={ccolor}/>
-              <StyledP>{projectCategory}</StyledP>
-            </StyledProjectReq>
+            {/* <StyledProjectReq>
+              <Star size={18} />
+              <StyledP>{amountUsersInterested ? amountUsersInterested : 0}</StyledP>
+            </StyledProjectReq> */}
+            <div style={{ display: 'flex', alignItems: 'end', gap: '1rem' }}>
+                <StyledProjectReq>
+                  <DollarSign size={18} />
+                  <StyledP>{modality ? modality : '-'}</StyledP>
+                </StyledProjectReq>
+              <div>
+              <StyledProjectReq>
+                <User size={18} />
+                <StyledP>{studentsRequired} aluno(s)</StyledP>
+              </StyledProjectReq>
+              </div>
+            </div>
           </StyledReqContainer>
 
           <Button
@@ -160,6 +176,7 @@ const Post: React.FC<PostProps> = ({
         </StyledBottom>
         <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() => setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}>
           <ProjectDetails
+            id={id}
             userId={userId}
             title={title}
             description={description}
@@ -169,6 +186,8 @@ const Post: React.FC<PostProps> = ({
             ccolor={ccolor}
             studentsRequired={studentsRequired}
             projectCategory={projectCategory}
+            modality={modality}
+            amountUsersInterested={amountUsersInterested}
           />
         </Modal>
 
