@@ -14,13 +14,26 @@ hr{
     width: 100%;
     padding: 2rem;
     overflow-y: auto;
+    overflow-x: auto;
 }
 
 
 .feed{
     display: grid;
-    margin-top: 6rem;    
+    /* padding: 2rem; */
+    /* margin-top: 6rem; */
 }
+
+.tagsContainer{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 0;
+    gap: 1rem;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
 .postsContainer{
     display: grid;
     gap: 2.8rem;

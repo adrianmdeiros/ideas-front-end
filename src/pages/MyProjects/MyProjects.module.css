@@ -123,7 +123,7 @@ hr{
 }
 
 .checkbox[id='bolsista']:checked + .type{
-    background-color: #19d600;
+    background-color: #15b600;
     color: #f5f5f5;
 }
 .checkbox[id='voluntario']:checked + .type{

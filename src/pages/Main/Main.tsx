@@ -1,13 +1,14 @@
 import GlobalStyle from "../../styles/global";
 import styles from "./Main.module.css";
-import Header from "../../components/Header/Header";
 import Menu from "../../components/Menu/Menu";
-import { AlertCircle } from "react-feather";
+import { AlertCircle, Filter } from "react-feather";
 import { useFetch } from "../../hooks/useFetch";
 import Post from "../../components/Post/Post";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import Tag from "../../components/Tag/Tag";
+import api from "../../api/api";
 
 type Project = {
   id: string;
@@ -32,6 +33,12 @@ type Project = {
   createdAt: Date
 };
 
+type Category = {
+  id: number;
+  name: string;
+  color: string;
+};
+
 type dbUser = {
   id: number
   name: string
@@ -44,51 +51,136 @@ type dbUser = {
 
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
-
+  const { data: categories, isFetching: isFetchingCategories } = useFetch<Category[]>(
+    "https://api-projif.vercel.app/categories"
+  );
   const { data: user } = useFetch<dbUser>(`https://api-projif.vercel.app/users/${auth.user?.id}`)
+  const { data: projects, setData: setProjects, isFetching } = useFetch<Project[]>(`https://api-projif.vercel.app/projects?usercourseid=${user?.courseId}`, user)
 
-  const { data: projects, isFetching } = useFetch<Project[]>(`https://api-projif.vercel.app/projects?usercourseid=${user?.courseId}`, user)
- 
+  const [isSelected, setIsSelected] = useState(false)
+  const [isFetchingProjects, setIsFetchingIsProjects] = useState(false)
 
-  return (
-    <div className={styles.body}>
+
+  const fetchProjectsByUserCourseIdAndCategory = (usercourseid: number, categoryid: number) => {
+    setIsSelected(false)
+    setProjects([]);
+    setIsFetchingIsProjects(true)
+
+    api.get(`/projects?usercourseid=${usercourseid}&categoryid=${categoryid}`)
+      .then(response => {
+        setProjects(response.data);
+        setIsFetchingIsProjects(false);
+      })
+      .catch(() => {
+        setIsSelected(true);
+        setIsFetchingIsProjects(false);
+      })
+  };
+
+  const fetchAllProjects = () => {
+    setIsSelected(false)
+    setProjects([]);
+    setIsFetchingIsProjects(true)
+
+    api.get(`/projects?usercourseid=${user?.courseId}`)
+      .then(response => {
+        setProjects(response.data);
+        setIsFetchingIsProjects(false);
+      })
+      .catch(() => {
+        setIsSelected(true);
+        setIsFetchingIsProjects(false);
+      })
+    }
+    
+    return (
+      <div className={styles.body}>
       <GlobalStyle />
       <Menu />
       <div className={styles.container}>
-        <Header position='fixed' padding="0 1rem" backgroundColor="#101010" >
-          <h2>Mural</h2>
-          {/* <p style={{ textAlign: 'end', display: 'flex', alignItems: 'center' }}>  Bem-vindo(a) <br />{auth.user?.nome_usual}!</p> */}
-        </Header>
-        <div className={styles.feed}>
-            {!projects && !isFetching &&(
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-              >
-                <AlertCircle size={32} />
-                <p>Não há ideias de projeto cadastradas.</p>
-              </div>
-            )}
-            {isFetching && <Loader color={"#ff7a00"} />}
-            <ul className={styles.postsContainer}>
-              {projects?.map((project) =>
-                <li key={project.id}>
-                  <Post
-                    id={project.id}
-                    userId={project.user.id}
-                    title={project.title}
-                    description={project.description}
-                    studentsRequired={project.studentsRequired}
-                    userName={project.user.name}
-                    projectCategory={project.category.name}
-                    avatarUrl={project.user.avatarURL}
-                    ccolor={project.category.color}
-                    userCourse={project.user.course.name}
-                    modality={project.modality}
-                    amountUsersInterested={project.amountUsersInterested}
-                  />
+        <header>
+          <h1 style={{marginBottom: '2rem'}}>Mural</h1>
+          <p  style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por categoria</p>
+          <div className={styles.categories}>
+            {isFetchingCategories && <Loader color={"#ff7a00"} />}
+            <ul className={styles.tagsContainer}>
+              <li>
+                <Tag onClick={fetchAllProjects} color="crimson">
+                  TODOS
+                </Tag>
+              </li>
+              {categories?.map((category) => (
+                <li key={category.id}>
+                  <Tag
+                    onClick={() => {
+                      if (user) {
+                        fetchProjectsByUserCourseIdAndCategory(user?.courseId, category.id)
+                      }
+                    }}
+                    color={category.color}
+                  >
+                    <p>{category.name}</p>
+                  </Tag>
                 </li>
-              )}
+              ))}
             </ul>
+          </div>
+          <div className={styles.modalities}>
+          <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por modalidade</p>
+            <ul className={styles.tagsContainer}>
+              <li>
+                    <Tag onClick={()=>alert()} color="#15b600">
+                      Bolsista
+                    </Tag>
+              </li>
+              <li>
+                    <Tag onClick={()=>alert()} color="#009c9c">
+                      Voluntário
+                    </Tag>
+              </li>
+            </ul>
+          </div>
+        </header>
+        <div className={styles.feed}>
+          {isSelected && projects?.length === 0 && (
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+            >
+              <AlertCircle size={32} />
+              <p>Não há projetos dessa categoria.</p>
+            </div>
+          )}
+          {!projects && !isFetching && (
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+            >
+              <AlertCircle size={32} />
+              <p>Não há ideias de projeto cadastradas.</p>
+            </div>
+          )}
+          {isFetching && <Loader color={"#ff7a00"} />}
+          {isFetchingProjects && <Loader color={"#ff7a00"} />}
+
+          <ul className={styles.postsContainer}>
+            {projects?.map((project) =>
+              <li key={project.id}>
+                <Post
+                  id={project.id}
+                  userId={project.user.id}
+                  title={project.title}
+                  description={project.description}
+                  studentsRequired={project.studentsRequired}
+                  userName={project.user.name}
+                  projectCategory={project.category.name}
+                  avatarUrl={project.user.avatarURL}
+                  ccolor={project.category.color}
+                  userCourse={project.user.course.name}
+                  modality={project.modality}
+                  amountUsersInterested={project.amountUsersInterested}
+                />
+              </li>
+            )}
+          </ul>
         </div>
       </div>
     </div>

@@ -3,7 +3,6 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Main from "../pages/Main/Main";
 import MyProjects from "../pages/MyProjects/MyProjects";
-import Search from "../pages/Search/Search";
 import Perfil from "../pages/Perfil/Perfil";
 import ProjectDetails from "../pages/ProjectDetails/ProjectDetails";
 import App from "../App";
@@ -46,13 +45,6 @@ const router = createBrowserRouter([
         </RequireAuth>
       },
       {
-        path: '/search',
-        element: 
-        <RequireAuth>
-          <Search />
-        </RequireAuth>
-      },
-      {
         path: '/details',
         element: 
         <RequireAuth>
@@ -60,9 +52,7 @@ const router = createBrowserRouter([
         </RequireAuth>
       }
     ]
-  },
-  
-
+  }
 ])
 
 export default router

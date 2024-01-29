@@ -15,9 +15,10 @@ export const StyledTabBar = styled.nav`
 `
 
 export const Perfil = styled.img`
-    height: 4.8rem;
-    width: 4.8rem;
+    height: 4.2rem;
+    width: 4.2rem;
     border-radius: 50%;
+    object-fit: cover;
 ` 
 
 export const StyledSideMenu = styled.nav`

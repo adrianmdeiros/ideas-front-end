@@ -113,7 +113,7 @@ const ProjectDetails: React.FC<PostProps> = ({
               </div>
             </div>
             <div className={styles.bottom}>
-              <h4>Entre em contato!</h4>
+              <h4>Contatos</h4>
               <div className={styles.contacts}>
                 <div className={styles.contact}>
                   <Mail size={18} />

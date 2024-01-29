@@ -171,7 +171,7 @@ const Post: React.FC<PostProps> = ({
             onClick={() => setIsProjectDetailsModalOpen(true)}
             borderRadius={".8rem"}
           >
-            Ver mais
+            Saiba mais
           </Button>
         </StyledBottom>
         <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() => setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}>

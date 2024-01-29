@@ -13,11 +13,9 @@ export type Props = {
 
 const Header: React.FC<Props> = ({children, zIndex, backgroundColor, margin, position, padding, height}) => {
   return (
-    <>
-    <StyledHeader height={height} padding={padding} position={position} margin={margin} backgroundColor={backgroundColor} zIndex={zIndex}>
-      {children}
-    </StyledHeader>
-    </>
+      <StyledHeader height={height} padding={padding} position={position} margin={margin} backgroundColor={backgroundColor} zIndex={zIndex}>
+        {children}
+      </StyledHeader>
   )
 }
 

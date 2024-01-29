@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { PostProps } from "./Post";
 
 export const StyledPost = styled.div<PostProps>`
-    width: 100%;
+    max-width: 32rem;
     @media (min-width: 768px){
         width: 30rem;
     }

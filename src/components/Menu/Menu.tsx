@@ -1,5 +1,5 @@
 import NavLink from "../NavLink/NavLink";
-import { Search, LogOut, Folder, Grid } from "react-feather";
+import { LogOut, Folder, Grid } from "react-feather";
 import { Perfil, StyledTabBar, StyledSideMenu, StyledPerfil, StyledUserInfo, StyledNav } from "./style";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -37,10 +37,10 @@ const Menu: React.FC = () => {
         <StyledTabBar>
           <NavLink to={"/main"} icon={<Grid />} label="Mural" />
           <NavLink to={"/projects"} icon={<Folder />} label="Meus Projetos" />
-          <NavLink to={"/search"} icon={<Search />} label="Buscar" />
           <NavLink
             to={"/perfil"}
             icon={<Perfil src={userPhoto} alt="Foto de perfil" />}
+            label="Perfil"
           />
         </StyledTabBar>
       ) : (
@@ -59,12 +59,6 @@ const Menu: React.FC = () => {
               to={"/projects"}
               icon={<Folder />}
               label="Meus Projetos"
-              display={"flex"}
-            />
-            <NavLink
-              to={"/search"}
-              icon={<Search />}
-              label="Buscar"
               display={"flex"}
             />
           </StyledNav>

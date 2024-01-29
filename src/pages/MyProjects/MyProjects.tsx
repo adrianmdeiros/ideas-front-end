@@ -1,7 +1,6 @@
-import { AlertCircle, Minus, Plus } from "react-feather";
+import { AlertCircle, Minus, Plus, PlusCircle } from "react-feather";
 import GlobalStyle from "../../styles/global";
 import styles from "./MyProjects.module.css";
-import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
 import { FormEvent, useContext, useEffect, useState } from "react";
@@ -70,6 +69,7 @@ const MyProjects = () => {
   useEffect(() => {
     if (categoryId === 6) {
       setStudentsRequired(1)
+      setModality('')
     }
   }, [categoryId])
 
@@ -111,6 +111,8 @@ const MyProjects = () => {
       alert('Ocorreu algum erro, tente novamente.')
       setIsPublishing(false);
     }
+    setCategoryId(0)
+    setModality('')
   };
 
   const deleteProject = async (id: string, e: any) => {
@@ -139,20 +141,20 @@ const MyProjects = () => {
         <GlobalStyle />
         <Menu />
         <div className={styles.container}>
-          <Header position='relative' padding="0 1rem" backgroundColor="#101010">
-            <h2>Meus Projetos</h2>
+          <header style={{ display: 'flex', alignItems:'center', justifyContent:'space-between  ', backgroundColor:"#101010"}} >
+            <h1>Meus Projetos</h1>
             <Button
               backgroundColor="#ff7a00"
-              borderRadius=".5rem"
+              borderRadius="9rem"
               color="#f5f5f5"
               hover="#ff7b00e8"
-              height="4.2rem"
+              height="4.8rem"
               onClick={() => setIsModalOpen(true)}
             >
+              <PlusCircle size={18} />
               Novo
-              <Plus size={18} />
             </Button>
-          </Header>
+          </header>
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
               {myProjects?.map((project) => (

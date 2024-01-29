@@ -12,7 +12,7 @@ import api from "../../api/api";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
 
-type Contacts ={
+type Contacts = {
   email: string
   phone: string
 }
@@ -27,7 +27,7 @@ const Perfil: React.FC = () => {
   const [loading, setLoading] = useState(false)
 
   const { data: contacts, setData: setContacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${auth.user?.id}/contacts`)
-  
+
   const userPhoto = auth.user?.url_foto_150x200;
   const handleLogOut = async () => {
     await auth.signOut();
@@ -37,7 +37,7 @@ const Perfil: React.FC = () => {
   const saveEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-    
+
     const response = await api.put(`/users/${auth.user?.id}`, {
       email: email
     })
@@ -46,15 +46,15 @@ const Perfil: React.FC = () => {
 
     setContacts(response.data)
   }
-  
+
   const savePhone = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-    
+
     const response = await api.put(`/users/${auth.user?.id}`, {
       phone: phone
     })
-    
+
     setIsPhoneModalOpen(false)
     setLoading(false)
     setContacts(response.data)
@@ -66,8 +66,8 @@ const Perfil: React.FC = () => {
         <GlobalStyle />
         <Menu />
         <div className={styles.container}>
-          <Header padding="2rem">
-            <h2 className={styles.title}>Meu Perfil</h2>
+          <Header padding="2rem 0" height="9rem">
+            <h1 className={styles.title}>Perfil</h1>
           </Header>
           <div className={styles.userContainer}>
             <div className={styles.card}>
@@ -76,7 +76,7 @@ const Perfil: React.FC = () => {
                   className={styles.userPhoto}
                   src={userPhoto}
                   alt="foto de perfil"
-                  />
+                />
                 <div>
                   <h3 >{auth.user?.nome_usual}</h3>
                   <p>{auth.user?.vinculo.curso}</p>
@@ -88,12 +88,12 @@ const Perfil: React.FC = () => {
                 <h3>Meus contatos</h3>
                 <div className={styles.contacts}>
                   <div className={styles.contact} onClick={() => setIsModalOpen(true)}>
-                  <p>Email</p>  
+                    <p>Email</p>
                     <div className={styles.email}>
-                    <div style={{display: 'flex', gap: '.8rem', alignItems: 'center'}}>
-                      <Mail size={18} />
-                      <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
-                      {isFetching && <Loader />}
+                      <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
+                        <Mail size={18} />
+                        <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
+                        {isFetching && <Loader />}
                       </div>
                       <Edit cursor={'pointer'} />
                     </div>
@@ -104,26 +104,26 @@ const Perfil: React.FC = () => {
                       <h2>Adicionar ou editar email</h2>
                       <label htmlFor="email">Email</label>
                       <input className={styles.input} type="email" name="email" id="email" placeholder="Digite seu email..." required onChange={(e) => setEmail(e.target.value)} />
-                      <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
-                      {loading ? (
-                        <>
+                      <Button backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
+                        {loading ? (
+                          <>
                             <Loader />
                             <p>Salvando</p>
                           </>
                         ) : <p>Salvar</p>
-                      }
+                        }
                       </Button>
                     </form>
                   </Modal>
                   <div className={styles.contact} onClick={() => setIsPhoneModalOpen(true)}>
-                      <p>Telefone</p>
+                    <p>Telefone</p>
                     <div className={styles.phone}>
-                      <div style={{display: 'flex', gap: '.8rem', alignItems: 'center'}}>
+                      <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
                         <Phone size={18} />
                         <p>{contacts?.phone ? contacts.phone : "Adicione um telefone"}</p>
                         {isFetching && <Loader />}
                       </div>
-                      <Edit  cursor={'pointer'} />
+                      <Edit cursor={'pointer'} />
                     </div>
                     {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                   </div>
@@ -131,8 +131,8 @@ const Perfil: React.FC = () => {
                     <form className={styles.form} onSubmit={savePhone}>
                       <h2>Adicionar ou editar telefone</h2>
                       <label htmlFor="phone">Telefone</label>
-                      <input type="number" required={true} minLength={11} className={styles.input} name="phone" id="phone" placeholder="Digite seu telefone..."  onChange={(e) => setPhone(e.target.value)}/>
-                      <Button  backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
+                      <input type="number" required={true} minLength={11} className={styles.input} name="phone" id="phone" placeholder="Digite seu telefone..." onChange={(e) => setPhone(e.target.value)} />
+                      <Button backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
                         {loading ? (
                           <>
                             <Loader />
