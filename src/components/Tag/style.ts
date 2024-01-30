@@ -13,7 +13,13 @@ export const StyledCard = styled.div<TagProps>`
     color: ${props => props.color};
     cursor: pointer;
     transition: 500ms;
-    :hover{
+    &:hover{
+        scale: 1.1;
+        background-color: ${props => props.color};
+        color: #f5f5f5
+    }
+    
+    &.active{
         scale: 1.1;
         background-color: ${props => props.color};
         color: #f5f5f5

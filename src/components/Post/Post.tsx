@@ -22,7 +22,7 @@ import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
-import ProjectDetails from "../../pages/ProjectDetails/ProjectDetails";
+import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import EditProject from "../EditProject/EditProject";
 import { Project } from "../../pages/MyProjects/MyProjects";
 

@@ -3,7 +3,7 @@ import GlobalStyle from "../../styles/global";
 import { DollarSign, Mail, Phone, Star, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
 import { useFetch } from "../../hooks/useFetch";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../Loader/Loader";
 import api from "../../api/api";
 
 

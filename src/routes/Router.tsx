@@ -4,7 +4,6 @@ import Login from "../pages/Login/Login";
 import Main from "../pages/Main/Main";
 import MyProjects from "../pages/MyProjects/MyProjects";
 import Perfil from "../pages/Perfil/Perfil";
-import ProjectDetails from "../pages/ProjectDetails/ProjectDetails";
 import App from "../App";
 import { RequireAuth } from "../contexts/RequireAuth";
 import NotFound from "../pages/NotFound/NotFound";
@@ -43,16 +42,9 @@ const router = createBrowserRouter([
         <RequireAuth>
           <Perfil />
         </RequireAuth>
-      },
-      {
-        path: '/details',
-        element: 
-        <RequireAuth>
-          <ProjectDetails />
-        </RequireAuth>
       }
     ]
   }
 ])
-
-export default router
+  
+  export default router

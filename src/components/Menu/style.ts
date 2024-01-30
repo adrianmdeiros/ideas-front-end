@@ -37,7 +37,6 @@ export const StyledPerfil = styled.div`
     display: flex;
     gap: 1rem;
     align-items: center;
-
 `
 
 export const StyledUserInfo = styled.div`
