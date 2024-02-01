@@ -12,6 +12,9 @@ export const StyledContainer = styled.div`
 `
 
 export const CloseButton = styled(X)`
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
     color: #f5f5f5;
     cursor: pointer;
 `
@@ -29,6 +32,7 @@ export const StyledModal = styled.div`
     overflow-y: auto;
     max-height: 90vh ;
     z-index: 2;
+    
     
     
 

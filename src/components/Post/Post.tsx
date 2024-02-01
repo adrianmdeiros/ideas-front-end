@@ -17,7 +17,7 @@ import {
   StyledButtons
 } from "./style";
 import Button from "../Button/Button";
-import { AlertOctagon, DollarSign, Edit, Star, Trash2, User } from "react-feather";
+import { AlertOctagon, AlertTriangle, DollarSign, Edit, Star, Trash2, User } from "react-feather";
 import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
@@ -91,8 +91,8 @@ const Post: React.FC<PostProps> = ({
               >
                 <StyledConfirmBox>
                   <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                    <AlertOctagon />
-                    <p>Tem Certeza que deseja excluir esse projeto?</p>
+                    <AlertTriangle />
+                    <p>Tem certeza que deseja excluir esse projeto?</p>
                   </div>
                   <StyledButtons>
                     <Button
@@ -102,15 +102,13 @@ const Post: React.FC<PostProps> = ({
                       hover="transparent"
                       onClick={() => setIsModalOpen(!isModalOpen)}
                     >
-                      <p>
                         cancelar
-                      </p>
                     </Button>
                     <Button
-                      backgroundColor="#850004"
-                      color="#f5f5f5"
+                      backgroundColor="#f5f5f5"
+                      color="#101010"
                       borderRadius=".8rem"
-                      hover="#6e0004c3"
+                      hover="#ccc"
                       onClick={deleteProject}
                       height="4rem"
                     >

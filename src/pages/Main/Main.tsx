@@ -58,49 +58,65 @@ const Main: React.FC = () => {
   const { data: projects, setData: setProjects, isFetching } = useFetch<Project[]>(`https://api-projif.vercel.app/projects?usercourseid=${user?.courseId}`, user)
 
   const [isSelected, setIsSelected] = useState(false)
-  const [isFetchingProjects, setIsFetchingIsProjects] = useState(false)
+  const [isFetchingProjects, setIsFetchingProjects] = useState(false)
 
 
   const fetchProjectsByUserCourseIdAndCategory = (usercourseid: number, categoryid: number) => {
     setIsSelected(false)
     setProjects([]);
-    setIsFetchingIsProjects(true)
+    setIsFetchingProjects(true)
 
     api.get(`/projects?usercourseid=${usercourseid}&categoryid=${categoryid}`)
       .then(response => {
         setProjects(response.data);
-        setIsFetchingIsProjects(false);
+        setIsFetchingProjects(false);
       })
       .catch(() => {
         setIsSelected(true);
-        setIsFetchingIsProjects(false);
+        setIsFetchingProjects(false);
       })
   };
 
   const fetchAllProjects = () => {
     setIsSelected(false)
     setProjects([]);
-    setIsFetchingIsProjects(true)
+    setIsFetchingProjects(true)
 
     api.get(`/projects?usercourseid=${user?.courseId}`)
       .then(response => {
         setProjects(response.data);
-        setIsFetchingIsProjects(false);
+        setIsFetchingProjects(false);
       })
       .catch(() => {
         setIsSelected(true);
-        setIsFetchingIsProjects(false);
+        setIsFetchingProjects(false);
       })
-    }
-    
-    return (
-      <div className={styles.body}>
+  }
+
+  const fetchProjectsByModality = (modality: string) => {
+    setIsSelected(false)
+    setProjects([]);
+    setIsFetchingProjects(true)
+
+    api.get(`/projects?modality=${modality}`)
+      .then(response => {
+        setProjects(response.data)
+        setIsFetchingProjects(false)
+      })
+      .catch(() => {
+        setIsSelected(true);
+        setIsFetchingProjects(false);
+      })
+  }
+
+  return (
+    <div className={styles.body}>
       <GlobalStyle />
       <Menu />
       <div className={styles.container}>
         <header>
-          <h1 style={{marginBottom: '2rem'}}>Mural</h1>
-          <p  style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por categoria</p>
+          <h1 style={{ marginBottom: '2rem' }}>Mural</h1>
+          <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por categoria</p>
           <div className={styles.categories}>
             {isFetchingCategories && <Loader color={"#ff7a00"} />}
             <ul className={styles.tagsContainer}>
@@ -126,17 +142,17 @@ const Main: React.FC = () => {
             </ul>
           </div>
           <div className={styles.modalities}>
-          <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por modalidade</p>
+            <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por modalidade</p>
             <ul className={styles.tagsContainer}>
               <li>
-                    <Tag onClick={()=>alert()} color="#15b600">
-                      Bolsista
-                    </Tag>
+                <Tag onClick={() => fetchProjectsByModality('bolsista')} color="#15b600">
+                  Bolsista
+                </Tag>
               </li>
               <li>
-                    <Tag onClick={()=>alert()} color="#009c9c">
-                      Voluntário
-                    </Tag>
+                <Tag onClick={() => fetchProjectsByModality('voluntario')} color="#009c9c">
+                  Voluntário
+                </Tag>
               </li>
             </ul>
           </div>

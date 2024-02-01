@@ -99,10 +99,9 @@ export const StyledActions = styled.div`
 `
 
 export const StyledConfirmBox = styled.div`
-    margin-top: 2rem;
-    > p{
-        margin-bottom: 2.4rem;
-    }
+    display: grid;
+    gap: 2rem;
+    margin-top: 3.2rem;
 `
 export const StyledButtons = styled.div`
     display: flex;
