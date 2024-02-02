@@ -3,8 +3,6 @@ import GlobalStyle from "./styles/global";
 import AuthProvider from "./contexts/AuthContext";
 import { Toaster } from "react-hot-toast";
 
-
-
 function App() {
   return (
     <>

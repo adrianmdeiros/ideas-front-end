@@ -48,11 +48,11 @@ const MyProjects = () => {
     setData: setMyProjects,
     isFetching,
   } = useFetch<Project[]>(
-    `https://api-projif.vercel.app/projects?userid=${auth.user?.id}`);
+    `${api.defaults.baseURL}/projects?userid=${auth.user?.id}`);
 
   const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]
-  >("https://api-projif.vercel.app/categories")
+  >(`${api.defaults.baseURL}/categories`)
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isExcluding, setIsExcluding] = useState(false)
@@ -265,7 +265,7 @@ const MyProjects = () => {
                         </label>
                         <ul className={styles.modalities}>
                           <li key={'bolsista'}>
-                            <input id="bolsista" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Bolsista")} />
+                            <input id="bolsista" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("Bolsista")} />
                             <label
                               htmlFor="bolsista"
                               className={styles.type}>
@@ -273,7 +273,7 @@ const MyProjects = () => {
                             </label>
                           </li>
                           <li key={'voluntario'}>
-                            <input id="voluntario" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Voluntário")} />
+                            <input id="voluntario" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("Voluntário")} />
                             <label
                               htmlFor="voluntario"
                               className={styles.type}>

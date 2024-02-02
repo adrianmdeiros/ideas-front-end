@@ -15,10 +15,9 @@ const Home: React.FC = () => {
 
   const actualYear = new Date().getFullYear()
 
-
-  const handleLogin = () => {
-    navigate("/login");
-  };
+  
+    
+  
   return (
     <>
       <GlobalStyle />
@@ -33,7 +32,7 @@ const Home: React.FC = () => {
             width={"12rem"}
             height={"4.8rem"}
             hover={"#e46e00"}
-            onClick={handleLogin}
+            onClick={() => navigate("/login")}
             borderRadius={'.8rem'}
           >
             Entrar
@@ -100,13 +99,14 @@ const Home: React.FC = () => {
             </div>
         </main>
         <div className={styles.footer}>
-          <p>
+          {/* <p>
             Developed by{" "}
             <a className={styles.link} href="https://github.com/adrianmedeirosdev">
               adrianmedeirosdev
             </a>
-          </p>
-          <p>PROJIF {actualYear} © - Todos os direitos reservados</p>
+          </p> */}
+          <p>Esta plataforma está em estado de testes.</p>
+          <p>PROJIF Beta {actualYear} © - Todos os direitos reservados</p>
         </div>
       </div>
     </>

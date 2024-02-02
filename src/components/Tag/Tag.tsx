@@ -18,7 +18,6 @@ const Tag: React.FC<TagProps> = ({ children, color, onClick }) => {
   // };
 
   return <StyledCard
-    
     color={color}
     onClick={onClick}
   >

@@ -26,7 +26,8 @@ const Perfil: React.FC = () => {
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const { data: contacts, setData: setContacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${auth.user?.id}/contacts`)
+  const { data: contacts, setData: setContacts, isFetching } = useFetch<Contacts>(
+    `${api.defaults.baseURL}/users/${auth.user?.id}/contacts`)
 
   const userPhoto = auth.user?.url_foto_150x200;
   const handleLogOut = async () => {

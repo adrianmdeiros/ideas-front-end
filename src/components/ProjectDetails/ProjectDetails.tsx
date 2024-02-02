@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import GlobalStyle from "../../styles/global";
-import { DollarSign, Mail, Phone, Star, User } from "react-feather";
+import { DollarSign, Mail, Phone, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../Loader/Loader";
-import api from "../../api/api";
+// import api from "../../api/api";
 
 
 
@@ -31,7 +31,7 @@ type Contacts = {
 }
 
 const ProjectDetails: React.FC<PostProps> = ({
-  id,
+  // id,
   userId,
   ccolor,
   userName,
@@ -39,29 +39,31 @@ const ProjectDetails: React.FC<PostProps> = ({
   description,
   studentsRequired,
   modality,
-  amountUsersInterested,
+  // amountUsersInterested,
   projectCategory,
   // avatarUrl,
   userCourse
 }) => {
 
-  const { data: contacts, isFetching } = useFetch<Contacts>(`https://api-projif.vercel.app/users/${userId}/contacts`)
+  const { data: contacts, isFetching } = useFetch<Contacts>(
+    `https://api-projif.vercel.app/users/${userId}/contacts`
+    )
 
-  const [interestedUsers, setInterestedUsers] = useState(0)
-  const [isButtonVisible, setIsButtonVisible] = useState(true)
+  // const [interestedUsers, setInterestedUsers] = useState(0)
+  // const [isButtonVisible, setIsButtonVisible] = useState(true)
 
-  useEffect(() => {
-    setInterestedUsers(amountUsersInterested ? amountUsersInterested : 0)
-  }, [])
+  // useEffect(() => {
+  //   setInterestedUsers(amountUsersInterested ? amountUsersInterested : 0)
+  // }, [])
 
   // const perfilImage = avatarUrl;
 
-  const demonstrateInterest = async () => {
-    const response = await api.put(`/projects/${id}/increment`)
-    const { amountUsersInterested } = response.data
-    setInterestedUsers(amountUsersInterested)
-    setIsButtonVisible(false)
-  }
+  // const demonstrateInterest = async () => {
+  //   const response = await api.put(`/projects/${id}/increment`)
+  //   const { amountUsersInterested } = response.data
+  //   setInterestedUsers(amountUsersInterested)
+  //   setIsButtonVisible(false)
+  // }
 
   return (
     <>

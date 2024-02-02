@@ -3,7 +3,7 @@ import { TagProps } from "./Tag";
 
 export const StyledCard = styled.div<TagProps>`
     min-width: 14rem;
-    display: grid;
+    display: flex;
     place-content: start;
     width: fit-content;
     /* height: 6rem; */

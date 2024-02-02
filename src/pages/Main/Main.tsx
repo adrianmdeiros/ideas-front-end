@@ -52,10 +52,10 @@ type dbUser = {
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
   const { data: categories, isFetching: isFetchingCategories } = useFetch<Category[]>(
-    "https://api-projif.vercel.app/categories"
+    `${api.defaults.baseURL}/categories`
   );
-  const { data: user } = useFetch<dbUser>(`https://api-projif.vercel.app/users/${auth.user?.id}`)
-  const { data: projects, setData: setProjects, isFetching } = useFetch<Project[]>(`https://api-projif.vercel.app/projects?usercourseid=${user?.courseId}`, user)
+  const { data: user } = useFetch<dbUser>(`${api.defaults.baseURL}/users/${auth.user?.id}`)
+  const { data: projects, setData: setProjects, isFetching } = useFetch<Project[]>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}`, user)
 
   const [isSelected, setIsSelected] = useState(false)
   const [isFetchingProjects, setIsFetchingProjects] = useState(false)
