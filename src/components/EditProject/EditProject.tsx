@@ -7,6 +7,7 @@ import Button from "../Button/Button"
 import { Minus, Plus } from "react-feather"
 import Loader from "../Loader/Loader"
 import { Project } from "../../pages/MyProjects/MyProjects"
+import toast from "react-hot-toast"
 
 
 type EditProjectProps = {
@@ -93,7 +94,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
       
       setIsPublishing(false);
       modalClose()
-
+      toast.success('Ideia editada com sucesso.')
     }catch(e){
         alert("Ocorreu um erro ao atualizar o projeto!");
         console.log(e)

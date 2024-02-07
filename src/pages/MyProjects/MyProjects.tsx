@@ -10,7 +10,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import api from "../../api/api";
 import Loader from "../../components/Loader/Loader";
 import Post from "../../components/Post/Post";
-import toast from "react-hot-toast/headless";
+import toast from "react-hot-toast";
 
 export type Project = {
   id: string;
@@ -100,11 +100,12 @@ const MyProjects = () => {
         categoryid: categoryId,
         userid: auth.user?.id
       });
-
+      
       toast.success('Ideia de projeto criada!')
+      
       setIsPublishing(false);
       setIsModalOpen(false)
-
+      
       setMyProjects(myProjects ? [...myProjects, response.data] : [response.data]);
     } catch (e) {
       toast.error(":( Ocorreu um erro! Talvez o projeto já exista... Tente um título diferente :)!");
@@ -123,6 +124,7 @@ const MyProjects = () => {
 
     setIsExcluding(false);
     setIsModalOpen(false)
+    
     toast.success('Ideia de projeto removida.')
 
     if (myProjects !== null) {

@@ -11,6 +11,7 @@ import Button from "../../components/Button/Button";
 import api from "../../api/api";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 type Contacts = {
   email: string
@@ -46,6 +47,7 @@ const Perfil: React.FC = () => {
     setIsModalOpen(false)
 
     setContacts(response.data)
+    toast.success('Email salvo com sucesso.')
   }
 
   const savePhone = async (e: FormEvent<HTMLFormElement>) => {
@@ -59,6 +61,8 @@ const Perfil: React.FC = () => {
     setIsPhoneModalOpen(false)
     setLoading(false)
     setContacts(response.data)
+    toast.success('Telefone salvo com sucesso.')
+
   }
 
   return (

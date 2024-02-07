@@ -58,7 +58,7 @@ const Login: React.FC = () => {
               <img src={Logo} alt="Logo do app" />
             </Link>
             <div className={styles.tip}>
-              <Info color="#808080"/> <p>Entre com matrícula e senha do SUAP.</p>
+              <Info color="#cecece"/> <p>Entre com matrícula e senha do SUAP.</p>
             </div>
           </div>
           <form className={styles.middle} onSubmit={handleSubmit(handleSignIn)}>
