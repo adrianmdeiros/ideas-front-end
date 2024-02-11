@@ -160,7 +160,7 @@ const MyProjects = () => {
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
               {myProjects?.map((project) => (
-                <li key={project.id}>
+                <li key={project.title}>
                   <Post
                     id={project.id}
                     userId={auth.user?.id}

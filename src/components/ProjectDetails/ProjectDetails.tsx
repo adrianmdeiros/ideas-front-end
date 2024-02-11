@@ -119,15 +119,17 @@ const ProjectDetails: React.FC<PostProps> = ({
               <div className={styles.contacts}>
                 <div className={styles.contact}>
                   <Mail size={18} />
-                  <p>{contacts?.email ? contacts.email : "Sem email cadastrado"}</p>
+                  {isFetching && <Loader />}
+                  <p>{contacts?.email ? contacts?.email : !isFetching && "Sem email cadastrado"}</p>
                 </div>
                 <div className={styles.contact}>
                   <Phone size={18} />
-                  <p>{contacts?.phone ? contacts.phone : "Sem telefone cadastrado"}</p>
+                  {isFetching && <Loader />}
+                  <p>{contacts?.phone ? contacts.phone : !isFetching && "Sem telefone cadastrado"}</p>
                 </div>
               </div>
             </div>
-            {isFetching && <Loader />}
+           
             {/* {isButtonVisible && (
               <button className={styles.button} onClick={demonstrateInterest}  >
                 <Star size={18} />

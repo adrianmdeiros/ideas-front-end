@@ -55,6 +55,7 @@ const Main: React.FC = () => {
     `${api.defaults.baseURL}/categories`
   );
   const { data: user } = useFetch<dbUser>(`${api.defaults.baseURL}/users/${auth.user?.id}`)
+  
   const { data: projects, setData: setProjects, isFetching } = useFetch<Project[]>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}`, user)
 
   const [isSelected, setIsSelected] = useState(false)
@@ -179,9 +180,8 @@ const Main: React.FC = () => {
 
           <ul className={styles.postsContainer}>
             {projects?.map((project) =>
-              <li key={project.id}>
+              <li key={project.title}>
                 <Post
-                  id={project.id}
                   userId={project.user.id}
                   title={project.title}
                   description={project.description}
