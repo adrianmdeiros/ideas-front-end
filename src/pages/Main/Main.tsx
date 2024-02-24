@@ -109,7 +109,7 @@ const Main: React.FC = () => {
                   active={activeFilter === 1 ? 'active' : ''}
                   onClick={() => {
                     setActiveFilter(1)
-                    fetchProjectsByModality('bolsista')
+                    fetchProjectsByModality('voluntario')
                   }}
                   color="#009c9c"
                 >
