@@ -1,17 +1,9 @@
 li{
     list-style: none;
 }
-
-.body{
-    height: 100vh;
-    min-width: 100%;
+hr{
+    margin-top: 1rem;
 }
-.container{
-    width: 100%;
-    padding: 2rem;
-    overflow-y: auto;
-}
-
 .title{
     text-align: start;
     margin-top: 4rem;
@@ -67,20 +59,13 @@ li{
     text-align: center;
     font-weight: 700;
     font-size: 1.6rem;
-    
 }
 
 .categories{
     display: grid;
     gap: 1rem;
-    width: 100%;
 }
 
-.modalities{
-    display: grid;
-    gap: 1rem;
-    width: 100%;
-}
 
 .type{
     display: flex;
@@ -88,10 +73,16 @@ li{
     height: 6rem;
     border-radius: .8rem;
     padding: 1rem;
-    min-width: 34rem;
     width: 100%;
     background-color: #252525;
     cursor: pointer;
+}
+
+
+.modalities{
+    display: grid;
+    gap: 1rem;
+    width: auto;
 }
 
 .checkbox{
@@ -115,25 +106,24 @@ li{
     background-color: #AD00FF;
     color: #f5f5f5;
 }
-.checkbox[id='OUTROS']:checked + .type{
-    background-color: #f5f5f5;
-    color: #101010;
-}
 
+.checkbox[id='OUTROS']:checked + .type{
+    background-color: #909090;
+    color: #f5f5f5;
+}
 .checkbox[id='PIVITI']:checked + .type{
     background-color: #F57049;
     color: #f5f5f5;
 }
 
 .checkbox[id='bolsista']:checked + .type{
-    background-color: #19d600;
+    background-color: #15b600;
     color: #f5f5f5;
 }
 .checkbox[id='voluntario']:checked + .type{
     background-color: #009c9c;
     color: #f5f5f5;
 }
-
 
 .input{
     background-color: #252525;
@@ -144,15 +134,4 @@ li{
     font-weight: 500;
     height: 4.2rem;
     width: 100%;
-}
-
-@media only screen and (min-width: 768px){
-    .body{
-        display: flex;
-        padding: 0;
-    }
-    .postsContainer{
-        display: flex;
-        flex-wrap: wrap;
-    }
 }

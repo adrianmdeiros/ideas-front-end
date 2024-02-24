@@ -1,0 +1,9 @@
+.tagsContainer{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 0;
+    gap: 1rem;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}

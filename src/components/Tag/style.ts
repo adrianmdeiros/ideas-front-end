@@ -14,7 +14,6 @@ export const StyledCard = styled.div<TagProps>`
     cursor: pointer;
     transition: 500ms;
     &:hover{
-        scale: 1.1;
         background-color: ${props => props.color};
         color: #f5f5f5
     }

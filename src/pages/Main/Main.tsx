@@ -9,22 +9,19 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useContext, useState } from 'react'
 import Tag from "../../components/Tag/Tag";
 import api from "../../api/api";
-import Button from "../../components/Button/Button";
 import { ProjectPages } from "../../types/ProjectPages";
-import { Category } from "../../types/Category";
 import { dbUser } from "../../types/dbUser";
 import { Project } from "../../types/Project";
+import FiltersList from "../../components/FiltersList/FiltersList";
 
 
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
-  const { data: categories, isFetching: isFetchingCategories } = useFetch<Category[]>(
-    `${api.defaults.baseURL}/categories`
-  );
   const { data: user } = useFetch<dbUser>(`${api.defaults.baseURL}/users/${auth.user?.id}`)
 
   const { data: projects, setData: setProjects, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}`, user)
 
+  const [activeFilter, setActiveFilter] = useState<Number>()
 
   const [isSelected, setIsSelected] = useState(false)
   const [isFetchingProjects, setIsFetchingProjects] = useState(false)
@@ -86,40 +83,36 @@ const Main: React.FC = () => {
         <header>
           <h1 style={{ marginBottom: '2rem' }}>Mural</h1>
           <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por categoria</p>
-          <div className={styles.categories}>
-            {isFetchingCategories && <Loader color={"#ff7a00"} />}
-            <ul className={styles.tagsContainer}>
-              <li>
-                <Tag onClick={fetchAllProjects} color="crimson">
-                  TODOS
-                </Tag>
-              </li>
-              {categories?.map((category) => (
-                <li key={category.id}>
-                  <Tag
-                    onClick={() => {
-                      if (user) {
-                        fetchProjectsByUserCourseIdAndCategory(user?.courseId, category.id)
-                      }
-                    }}
-                    color={category.color}
-                  >
-                    <p>{category.name}</p>
-                  </Tag>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FiltersList
+            getProjects={fetchAllProjects}
+            getProjectsByUserCourseAndCategory={fetchProjectsByUserCourseIdAndCategory}
+          />
           <div className={styles.modalities}>
             <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por modalidade</p>
             <ul className={styles.tagsContainer}>
               <li>
-                <Tag onClick={() => fetchProjectsByModality('bolsista')} color="#15b600">
+                <Tag
+                  active={activeFilter === 0 ? 'active' : ''}
+                  onClick={
+                    () => {
+                      setActiveFilter(0)
+                      fetchProjectsByModality('bolsista')
+                    }
+                  }
+                  color="#15b600"
+                >
                   Bolsista
                 </Tag>
               </li>
               <li>
-                <Tag onClick={() => fetchProjectsByModality('voluntario')} color="#009c9c">
+                <Tag
+                  active={activeFilter === 1 ? 'active' : ''}
+                  onClick={() => {
+                    setActiveFilter(1)
+                    fetchProjectsByModality('bolsista')
+                  }}
+                  color="#009c9c"
+                >
                   Voluntário
                 </Tag>
               </li>
@@ -164,11 +157,6 @@ const Main: React.FC = () => {
               </li>
             )}
           </ul>
-          {projects && projects.totalPages > 1 && (
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4rem' }}>
-              <Button width="18.0rem" backgroundColor="#f5f5f5" borderRadius=".5rem" color="#101010" hover="#f5f5f5dd">Carregar mais</Button>
-            </div>
-          )}
         </div>
       </div>
     </div>
