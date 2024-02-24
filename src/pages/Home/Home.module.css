@@ -27,16 +27,11 @@
 
 .banner{
     margin-bottom: 3.8rem;
-    background-color: black;
-    display: grid;
-    place-content: center;
     position: relative;
 }
 
 .banner img{
     height: 52rem;
-    display: grid;
-    place-content: center;
     width: 100%;
     object-fit: cover;
     opacity: 30%;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import api from "../api/api"
 
-
 export function useFetch<T = unknown>(url: string, dependencies?: any ) {
     const [data, setData] = useState<T | null>(null)
     const [isFetching, setIsFetching] = useState(true)
@@ -19,7 +18,6 @@ export function useFetch<T = unknown>(url: string, dependencies?: any ) {
                 setIsFetching(false)
             })
     }, [dependencies])
-
 
 
     return { data, setData, isFetching, error }

@@ -1,40 +1,15 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import suapi from "../api/suapi";
 import api from "../api/api";
 
-type SignInData = {
-  matricula: string;
-  password: string;
-};
-
-export type User = {
-  id: number
-  nome_usual: string;
-  email: string;
-  phone: string;
-  url_foto_150x200: string
-  tipo_vinculo: string;
-  vinculo: {
-    curso: string;
-    campus: string;
-  }
-};
-
-export interface AuthContextType {
-  isAuthenticated: boolean;
-  user: User | null;
-  signIn: (data: SignInData) => Promise<boolean>;
-  signOut: () => void;
-}
+//types and intefaces
+import { SignInData } from "../types/SignInData";
+import { User } from "../types/User";
+import { AuthProviderProps } from "../types/AuthProvider";
+import { AuthContextType } from "../types/AuthContext";
 
 export const AuthContext = createContext<AuthContextType>(null!);
-
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
-
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -66,7 +41,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const tokens = response.data;
     
-
     if (tokens) {
       const user = await getUserData(tokens.access)
       setUser(user);
@@ -91,23 +65,22 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     cookies.set("refresh", tokens.refresh, { secure: true });
   };
 
-
   const saveUser = async (user: User) => {
-    try{
-      const response = await api.post('/users', {
-        id: user.id,
-        name: user.nome_usual,
-        email: user.email,
-        phone: user.phone,
-        bond: user.tipo_vinculo,
-        course: user.vinculo.curso
-      })
-      return response.data
-    }catch(err){
-      console.log(err);
-    }
+      try{
+        const response = await api.post('/users', {
+          id: user.id,
+          name: user.nome_usual,
+          email: user.email,
+          phone: user.phone,
+          bond: user.tipo_vinculo,
+          course: user.vinculo.curso
+        })
+        return response.data
+      }catch(err){
+        console.log(err);
+      }
+    
   }
-
 
   const getNewToken = async (refreshToken: string) => {
     const response = await suapi.post("autenticacao/token/refresh/", {

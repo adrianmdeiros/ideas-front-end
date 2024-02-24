@@ -12,11 +12,7 @@ import api from "../../api/api";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
 import toast from "react-hot-toast";
-
-type Contacts = {
-  email: string
-  phone: string
-}
+import { UserContacts } from "../../types/UserContacts";
 
 const Perfil: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -27,7 +23,7 @@ const Perfil: React.FC = () => {
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const { data: contacts, setData: setContacts, isFetching } = useFetch<Contacts>(
+  const { data: contacts, setData: setContacts, isFetching } = useFetch<UserContacts>(
     `${api.defaults.baseURL}/users/${auth.user?.id}/contacts`)
 
   const userPhoto = auth.user?.url_foto_150x200;

@@ -6,7 +6,7 @@ export const StyledPost = styled.div<PostProps>`
     @media (min-width: 768px){
         width: 30rem;
     }
-    border: .1rem solid ${props => props.ccolor};
+    border: .1rem solid ${props => props.color};
     border-radius: .8rem;
 `
 
@@ -34,7 +34,7 @@ export const StyledTitle = styled.p`
     font-size: 1.4rem;
     font-weight: 500;
     line-break: auto;
-    word-break: break-all;
+    word-break: normal;
 `
 
 export const StyledP = styled.p`
@@ -45,7 +45,7 @@ export const StyledDescription = styled.p<PostProps>`
     font-size: 1.4rem;
     text-align: start;
     word-break: normal;
-    color: ${props => props.ccolor};
+    color: ${props => props.color};
 `
 
 export const StyledProject = styled.div`
@@ -83,7 +83,7 @@ export const StyledProjectReq = styled.div`
 export const StyledColorTypeProject = styled.div<PostProps>`
     height: 1rem;
     width: 1rem;
-    background-color: ${props => props.ccolor};
+    background-color: ${props => props.color};
 `
 
 export const StyledBottom = styled.div`

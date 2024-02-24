@@ -12,12 +12,8 @@ const cx = classNames.bind(styles);
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-
   const actualYear = new Date().getFullYear()
 
-  
-    
-  
   return (
     <>
       <GlobalStyle />

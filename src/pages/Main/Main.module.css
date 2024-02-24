@@ -22,6 +22,7 @@ hr{
     display: grid;
     /* padding: 2rem; */
     /* margin-top: 6rem; */
+    margin-bottom: 10rem;
 }
 
 .tagsContainer{
@@ -37,7 +38,6 @@ hr{
 .postsContainer{
     display: grid;
     gap: 2.8rem;
-    margin-bottom: 10rem;
     align-items: flex-start;
 }
 

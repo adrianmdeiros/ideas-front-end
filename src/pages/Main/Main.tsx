@@ -9,45 +9,12 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useContext, useState } from 'react'
 import Tag from "../../components/Tag/Tag";
 import api from "../../api/api";
+import Button from "../../components/Button/Button";
+import { ProjectPages } from "../../types/ProjectPages";
+import { Category } from "../../types/Category";
+import { dbUser } from "../../types/dbUser";
+import { Project } from "../../types/Project";
 
-type Project = {
-  id: string;
-  title: string;
-  description: string;
-  studentsRequired: number;
-  modality: string;
-  amountUsersInterested: number;
-  user: {
-    id: number
-    name: string;
-    avatarURL: string;
-    course: {
-      id: number
-      name: string
-    };
-  };
-  category: {
-    name: string;
-    color: string
-  };
-  createdAt: Date
-};
-
-type Category = {
-  id: number;
-  name: string;
-  color: string;
-};
-
-type dbUser = {
-  id: number
-  name: string
-  email: string
-  phone: string
-  // avatarURL: string
-  bond: string
-  courseId: number
-}
 
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
@@ -55,8 +22,9 @@ const Main: React.FC = () => {
     `${api.defaults.baseURL}/categories`
   );
   const { data: user } = useFetch<dbUser>(`${api.defaults.baseURL}/users/${auth.user?.id}`)
-  
-  const { data: projects, setData: setProjects, isFetching } = useFetch<Project[]>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}`, user)
+
+  const { data: projects, setData: setProjects, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}`, user)
+
 
   const [isSelected, setIsSelected] = useState(false)
   const [isFetchingProjects, setIsFetchingProjects] = useState(false)
@@ -64,7 +32,7 @@ const Main: React.FC = () => {
 
   const fetchProjectsByUserCourseIdAndCategory = (usercourseid: number, categoryid: number) => {
     setIsSelected(false)
-    setProjects([]);
+    setProjects(null);
     setIsFetchingProjects(true)
 
     api.get(`/projects?usercourseid=${usercourseid}&categoryid=${categoryid}`)
@@ -80,7 +48,7 @@ const Main: React.FC = () => {
 
   const fetchAllProjects = () => {
     setIsSelected(false)
-    setProjects([]);
+    setProjects(null);
     setIsFetchingProjects(true)
 
     api.get(`/projects?usercourseid=${user?.courseId}`)
@@ -96,7 +64,7 @@ const Main: React.FC = () => {
 
   const fetchProjectsByModality = (modality: string) => {
     setIsSelected(false)
-    setProjects([]);
+    setProjects(null);
     setIsFetchingProjects(true)
 
     api.get(`/projects?modality=${modality}`)
@@ -159,7 +127,7 @@ const Main: React.FC = () => {
           </div>
         </header>
         <div className={styles.feed}>
-          {isSelected && projects?.length === 0 && (
+          {isSelected && projects?.projectsList?.length === 0 && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
@@ -179,24 +147,27 @@ const Main: React.FC = () => {
           {isFetchingProjects && <Loader color={"#ff7a00"} />}
 
           <ul className={styles.postsContainer}>
-            {projects?.map((project) =>
+            {projects?.projectsList?.map((project: Project) =>
               <li key={project.title}>
                 <Post
                   userId={project.user.id}
                   title={project.title}
                   description={project.description}
                   studentsRequired={project.studentsRequired}
-                  userName={project.user.name}
-                  projectCategory={project.category.name}
-                  avatarUrl={project.user.avatarURL}
-                  ccolor={project.category.color}
+                  username={project.user.name}
+                  category={project.category.name}
+                  color={project.category.color}
                   userCourse={project.user.course.name}
                   modality={project.modality}
-                  amountUsersInterested={project.amountUsersInterested}
                 />
               </li>
             )}
           </ul>
+          {projects && projects.totalPages > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4rem' }}>
+              <Button width="18.0rem" backgroundColor="#f5f5f5" borderRadius=".5rem" color="#101010" hover="#f5f5f5dd">Carregar mais</Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

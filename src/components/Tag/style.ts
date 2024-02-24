@@ -7,7 +7,7 @@ export const StyledCard = styled.div<TagProps>`
     place-content: start;
     width: fit-content;
     /* height: 6rem; */
-    border-radius: 99rem;
+    border-radius: .6rem;
     padding: 1.2rem;
     border: .2rem solid ${props => props.color};
     color: ${props => props.color};

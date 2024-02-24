@@ -1,3 +1,4 @@
+import React, { useContext, useState } from "react";
 import {
   StyledPost,
   StyledAutor,
@@ -9,76 +10,55 @@ import {
   StyledP,
   StyledProjectReq,
   StyledReqContainer,
-  // StyledUserPhoto,
   StyledProject,
   StyledDescription,
   StyledActions,
   StyledConfirmBox,
   StyledButtons
 } from "./style";
-import Button from "../Button/Button";
 import { AlertTriangle, DollarSign, Edit, Trash2, User } from "react-feather";
 import { useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import EditProject from "../EditProject/EditProject";
-import { Project } from "../../pages/MyProjects/MyProjects";
+import toast from "react-hot-toast";
+import { PostProps } from "../../types/PostProps";
+import { ProjectsContext } from "../../contexts/ProjectsContext";
+import api from "../../api/api";
 
-export type PostProps = {
-  id?: string;
-  title?: string;
-  description?: string;
-  studentsRequired?: number;
-  projectCategory?: string;
-  modality?: string;
-  amountUsersInterested?: number
-  avatarUrl?: string;
-  userName?: string;
-  ccolor?: string;
-  isExcluding?: boolean
-  userCourse?: string
-  userId?: number
-  deleteProject?: (e: any) => void
-  myProjects?: Project[] | null
-  setMyProjects?: React.Dispatch<React.SetStateAction<Project[] | null>>
-};
 
-const Post: React.FC<PostProps> = ({
-  id,
-  userId,
-  ccolor,
-  userName,
-  title,
-  description,
-  studentsRequired,
-  projectCategory,
-  modality,
-  amountUsersInterested,
-  avatarUrl,
-  deleteProject,
-  isExcluding,
-  userCourse,
-  myProjects,
-  setMyProjects
-}) => {
+const Post: React.FC<PostProps> = (props: PostProps) => {
+  const projectsData = useContext(ProjectsContext)
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [IsProjectDetailsModalOpen, setIsProjectDetailsModalOpen] = useState(false);
+  const [isExcluding, setIsExcluding] = useState(false)
 
-  //const perfilImage = avatarUrl;
   const location = useLocation();
+  
+  const deletePost = async (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    setIsExcluding(true)
+
+    const response = await api.delete(`/projects/${id}`)
+    projectsData.setProjects(response.data)
+
+    setIsExcluding(false);
+    setIsModalOpen(false)
+    toast.success('Ideia de projeto removida.')
+  }
 
   return (
-    <StyledPost ccolor={ccolor}>
+    <StyledPost color={props.color}>
       <StyledProject>
         <StyledTop>
           <StyledAutor>
-            {/* <StyledUserPhoto src={perfilImage} /> */}
             <div>
-              <StyledTitle>{userName}</StyledTitle>
-              <StyledP>{userCourse}</StyledP>
+              <StyledTitle>{props.username}</StyledTitle>
+              <StyledP>{props.userCourse}</StyledP>
             </div>
           </StyledAutor>
           {location.pathname === "/projects" && (
@@ -109,7 +89,7 @@ const Post: React.FC<PostProps> = ({
                       color="#101010"
                       borderRadius=".8rem"
                       hover="#ccc"
-                      onClick={deleteProject}
+                      onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => deletePost(props.id!, e)}
                       height="4rem"
                     >
                       {isExcluding ? (
@@ -126,8 +106,7 @@ const Post: React.FC<PostProps> = ({
               </Modal>
               <Modal isOpen={isEditModalOpen} setOpenModal={() =>
                 setIsEditModalOpen(!isEditModalOpen)}>
-                <EditProject id={id} myProjects={myProjects}
-                  setMyProjects={setMyProjects} modalClose={() =>
+                <EditProject modalClose={() =>
                     setIsEditModalOpen(!isEditModalOpen)}
                 />
               </Modal>
@@ -135,36 +114,31 @@ const Post: React.FC<PostProps> = ({
           )}
         </StyledTop>
         <StyledMiddle>
-          <StyledTitle>{title}</StyledTitle>
-          <StyledDescription setMyProjects={setMyProjects} ccolor={ccolor}>
-            {description ? description?.length > 50 ? description?.slice(0, 60)
-              + '...' : description : "Não há descrição"}
+          <StyledTitle>{props.title}</StyledTitle>
+          <StyledDescription color={props.color}>
+            {props.description ? props.description?.length > 50 ? props.description?.slice(0, 60)
+              + '...' : props.description : "Não há descrição"}
           </StyledDescription>
         </StyledMiddle>
         <StyledProjectReq>
-          <StyledColorTypeProject setMyProjects={setMyProjects} ccolor={ccolor} />
-          <StyledP>{projectCategory}</StyledP>
+          <StyledColorTypeProject color={props.color} />
+          <StyledP>{props.category}</StyledP>
         </StyledProjectReq>
         <StyledBottom>
           <StyledReqContainer>
-            {/* <StyledProjectReq>
-              <Star size={18} />
-              <StyledP>{amountUsersInterested ? amountUsersInterested : 0}</StyledP>
-            </StyledProjectReq> */}
             <div style={{ display: 'flex', alignItems: 'end', gap: '1rem' }}>
               <StyledProjectReq>
                 <DollarSign size={18} />
-                <StyledP>{modality ? modality : '-'}</StyledP>
+                <StyledP>{props.modality ?? '-'}</StyledP>
               </StyledProjectReq>
               <div>
                 <StyledProjectReq>
                   <User size={18} />
-                  <StyledP>{studentsRequired} aluno(s)</StyledP>
+                  <StyledP>{props.studentsRequired} aluno(s)</StyledP>
                 </StyledProjectReq>
               </div>
             </div>
           </StyledReqContainer>
-
           <Button
             backgroundColor={"#2c2c2c"}
             color={"#d9d9d9"}
@@ -179,18 +153,17 @@ const Post: React.FC<PostProps> = ({
         </StyledBottom>
         <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() => setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}>
           <ProjectDetails
-            id={id}
-            userId={userId}
-            title={title}
-            description={description}
-            userName={userName}
-            userCourse={userCourse}
-            avatarUrl={avatarUrl}
-            ccolor={ccolor}
-            studentsRequired={studentsRequired}
-            projectCategory={projectCategory}
-            modality={modality}
-            amountUsersInterested={amountUsersInterested}
+            userId={props.userId}
+            title={props.title}
+            description={props.description}
+            username={props.username}
+            userCourse={props.userCourse}
+            color={props.color}
+            studentsRequired={props.studentsRequired}
+            category={props.category}
+            modality={props.modality}
+            email={props.email}
+            phone={props.phone}
           />
         </Modal>
       </StyledProject>

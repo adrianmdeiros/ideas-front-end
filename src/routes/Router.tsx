@@ -7,6 +7,7 @@ import Perfil from "../pages/Perfil/Perfil";
 import App from "../App";
 import { RequireAuth } from "../contexts/RequireAuth";
 import NotFound from "../pages/NotFound/NotFound";
+import ProjectsProvider from "../contexts/ProjectsContext";
 
 const router = createBrowserRouter([
   {
@@ -24,27 +25,29 @@ const router = createBrowserRouter([
       },
       {
         path: '/main',
-        element: 
-        <RequireAuth>
-          <Main />
-        </RequireAuth>
+        element:
+          <RequireAuth>
+            <Main />
+          </RequireAuth>
       },
       {
         path: "/projects",
-        element: 
-        <RequireAuth>
-          <MyProjects />
-        </RequireAuth>
+        element:
+          <RequireAuth>
+            <ProjectsProvider>
+              <MyProjects />
+            </ProjectsProvider>
+          </RequireAuth>
       },
       {
         path: '/perfil',
-        element: 
-        <RequireAuth>
-          <Perfil />
-        </RequireAuth>
+        element:
+          <RequireAuth>
+            <Perfil />
+          </RequireAuth>
       }
     ]
   }
 ])
-  
-  export default router
+
+export default router
