@@ -150,7 +150,6 @@ const Main: React.FC = () => {
             {projects?.projectsList?.map((project: Project) =>
               <li key={project.title}>
                 <Post
-                  userId={project.user.id}
                   title={project.title}
                   description={project.description}
                   studentsRequired={project.studentsRequired}
@@ -159,6 +158,8 @@ const Main: React.FC = () => {
                   color={project.category.color}
                   userCourse={project.user.course.name}
                   modality={project.modality}
+                  email={project.user.email}
+                  phone={project.user.phone}
                 />
               </li>
             )}

@@ -6,11 +6,11 @@ export type Project = {
     modality: string
     amountUsersInterested: number
     category: {
+        id: number
         name: string
         color: string
     }
     user: {
-        id: string
         name: string
         course: {
             id: number

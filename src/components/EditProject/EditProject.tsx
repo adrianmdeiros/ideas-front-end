@@ -6,31 +6,27 @@ import { AuthContext } from "../../contexts/AuthContext"
 import Button from "../Button/Button"
 import { Minus, Plus } from "react-feather"
 import Loader from "../Loader/Loader"
-import { Project } from "../../pages/MyProjects/MyProjects"
 import toast from "react-hot-toast"
+import { Category } from "../../types/Category"
+import { Project } from "../../types/Project"
+import { ProjectsContext } from "../../contexts/ProjectsContext"
 
 
 type EditProjectProps = {
     id?: string
-    myProjects?: Project[] | null
-    setMyProjects?: React.Dispatch<React.SetStateAction<Project[] | null>>
     modalClose: () => void
 }
 
-type Category = {
-    id: number;
-    name: string;
-    color: string;
-  };
 
-const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects, modalClose}) => {
+const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
   const auth = useContext(AuthContext);
+  const projectsData = useContext(ProjectsContext)
 
   const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]
-  >("https://api-projif.vercel.app/categories");  
+  >(`${api.defaults.baseURL}/categories`);  
 
-  const { data: project } = useFetch<Project>(`https://api-projif.vercel.app/projects/${id}`)
+  const { data: project } = useFetch<Project>(`${api.defaults.baseURL}/projects/${id}`)
   
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -84,20 +80,13 @@ const EditProject: React.FC<EditProjectProps> = ({ id, myProjects, setMyProjects
             userid: auth.user?.id
         }) 
         
-        if(myProjects != null){
-          if(setMyProjects){
-            setMyProjects(myProjects.map(project=>{
-              return project.id === id ? { ...response.data } : project
-            }))
-          }
-        }
+        projectsData.setProjects(response.data)
       
       setIsPublishing(false);
       modalClose()
       toast.success('Ideia editada com sucesso.')
     }catch(e){
-        alert("Ocorreu um erro ao atualizar o projeto!");
-        console.log(e)
+        alert("Ocorreu um erro ao atualizar o projeto.");
         setIsPublishing(false);
     }
 

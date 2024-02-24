@@ -1,18 +1,10 @@
 import GlobalStyle from "../../styles/global";
 import { DollarSign, Mail, Phone, User } from "react-feather";
-import { useFetch } from "../../hooks/useFetch";
 import { ProjectDetailsProps } from "../../types/ProjectDetailsProps";
-import { UserContacts } from "../../types/UserContacts";
-import Loader from "../Loader/Loader";
-import api from "../../api/api";
 import styles from "./ProjectDetaills.module.css";
 
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProps) => {
-
-  const { data: contacts, isFetching } = useFetch<UserContacts>(
-    `${api.defaults.baseURL}/users/${props.userId}/contacts`
-  )
 
   return (
     <>
@@ -59,13 +51,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProp
               <div className={styles.contacts}>
                 <div className={styles.contact}>
                   <Mail size={18} />
-                  {isFetching && <Loader />}
-                  <p>{props.email ?? (contacts?.email ? contacts?.email : !isFetching && "Sem email cadastrado")}</p>
+                  <p>{props.email}</p>
                 </div>
                 <div className={styles.contact}>
                   <Phone size={18} />
-                  {isFetching && <Loader />}
-                  <p>{props.phone ?? (contacts?.phone ? contacts?.phone : !isFetching && "Sem telefone cadastrado")}</p>
+                  <p>{props.phone}</p>
                 </div>
               </div>
             </div>

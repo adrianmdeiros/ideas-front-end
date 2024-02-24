@@ -45,6 +45,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
 
     const response = await api.delete(`/projects/${id}`)
     projectsData.setProjects(response.data)
+    
 
     setIsExcluding(false);
     setIsModalOpen(false)
@@ -106,7 +107,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
               </Modal>
               <Modal isOpen={isEditModalOpen} setOpenModal={() =>
                 setIsEditModalOpen(!isEditModalOpen)}>
-                <EditProject modalClose={() =>
+                <EditProject id={props.id} modalClose={() =>
                     setIsEditModalOpen(!isEditModalOpen)}
                 />
               </Modal>
@@ -153,7 +154,6 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
         </StyledBottom>
         <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() => setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}>
           <ProjectDetails
-            userId={props.userId}
             title={props.title}
             description={props.description}
             username={props.username}

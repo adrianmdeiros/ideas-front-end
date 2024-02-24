@@ -1,5 +1,4 @@
 export type ProjectDetailsProps = {
-    userId?: string
     username?: string;
     title?: string;
     description?: string;
@@ -8,6 +7,6 @@ export type ProjectDetailsProps = {
     category?: string;
     color?: string;
     userCourse?: string
-    phone?: string;
     email?: string;
+    phone?: string;
   };

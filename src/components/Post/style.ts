@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PostProps } from "./Post";
+import { PostProps } from "../../types/PostProps";
 
 export const StyledPost = styled.div<PostProps>`
     max-width: 38rem;
