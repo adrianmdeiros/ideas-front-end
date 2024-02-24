@@ -13,7 +13,6 @@ const ProjectsProvider: FC<ProjectsProviderProps> = ({ children }) => {
     
     const { data: projects, setData: setProjects, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?userid=${auth.user?.id}`)
 
-    
     return (
         <ProjectsContext.Provider value={ { projects, setProjects, isFetching } }>
             {children}

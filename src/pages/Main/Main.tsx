@@ -135,7 +135,7 @@ const Main: React.FC = () => {
               <p>Não há projetos dessa categoria.</p>
             </div>
           )}
-          {!projects && !isFetching && (
+          {!projects && !isFetching && !isFetchingProjects && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
