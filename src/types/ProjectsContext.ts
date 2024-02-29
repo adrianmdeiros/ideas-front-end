@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from "react"
-import { ProjectPages } from "./ProjectPages"
+import { Project } from "./Project"
 
-export type ProjectsContextType = {
-    projects: ProjectPages | null
-    setProjects: Dispatch<SetStateAction<ProjectPages | null>>
-    isFetching: boolean
+export type MyProjectsContextType = {
+    myProjects: Project[] | null
+    setMyProjects: Dispatch<SetStateAction<Project[] | null>>
+    isFetching: boolean,
+    setCurrentPage: Dispatch<SetStateAction<number>>
 }

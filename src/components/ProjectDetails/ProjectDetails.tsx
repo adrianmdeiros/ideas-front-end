@@ -3,7 +3,6 @@ import { DollarSign, Mail, Phone, User } from "react-feather";
 import { ProjectDetailsProps } from "../../types/ProjectDetailsProps";
 import styles from "./ProjectDetaills.module.css";
 
-
 const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProps) => {
 
   return (

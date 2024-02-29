@@ -20,7 +20,7 @@ type EditProjectProps = {
 
 const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
   const auth = useContext(AuthContext);
-  const projectsData = useContext(MyProjectsContext)
+  const myProjectsContext = useContext(MyProjectsContext)
 
   const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]
@@ -80,7 +80,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
             userid: auth.user?.id
         }) 
         
-        projectsData.setProjects(response.data)
+        myProjectsContext.setMyProjects(response.data.projectsList)
       
       setIsPublishing(false);
       modalClose()

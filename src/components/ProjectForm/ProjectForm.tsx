@@ -14,7 +14,7 @@ import { ProjectFormProps } from "../../types/ProjectFormProps";
 
 const ProjectForm = (props: ProjectFormProps) => {
     const auth = useContext(AuthContext);
-    const projectsData = useContext(MyProjectsContext)
+    const myProjectsContext = useContext(MyProjectsContext)
 
     const { data: categories, isFetching: isFetchingCategory } = useFetch<
         Category[]
@@ -68,7 +68,7 @@ const ProjectForm = (props: ProjectFormProps) => {
             setIsPublishing(false);
             props.setIsModalOpen(false)
 
-            projectsData.setData(response.data);
+            myProjectsContext.setMyProjects(response.data.projectsList);
         } catch (e) {
             toast.error("Ocorreu um erro. Talvez já exista uma ideia de projeto com esse título.");
             setIsPublishing(false);

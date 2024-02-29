@@ -30,7 +30,7 @@ import api from "../../api/api";
 
 
 const Post: React.FC<PostProps> = (props: PostProps) => {
-  const projectsData = useContext(MyProjectsContext)
+  const myProjectsContext = useContext(MyProjectsContext)
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -44,7 +44,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
     setIsExcluding(true)
 
     const response = await api.delete(`/projects/${id}`)
-    projectsData.setProjects(response.data)
+    myProjectsContext.setMyProjects(response.data.projectsList)
     
 
     setIsExcluding(false);

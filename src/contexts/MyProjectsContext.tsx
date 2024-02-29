@@ -1,22 +1,31 @@
-import { FC, createContext, useContext } from 'react'
+import { FC, createContext, useContext, useEffect, useState } from 'react'
 import { ProjectPages } from '../types/ProjectPages'
-import { ProjectsContextType } from '../types/ProjectsContext'
+import { MyProjectsContextType } from '../types/ProjectsContext'
 import { ProjectsProviderProps } from '../types/ProjectsProvider'
 import { useFetch } from '../hooks/useFetch'
 import { AuthContext } from "./AuthContext";
 import api from '../api/api'
+import { Project } from '../types/Project'
 
-
-
-export const MyProjectsContext = createContext<ProjectsContextType>(null!)
+export const MyProjectsContext = createContext<MyProjectsContextType>(null!)
 
 const MyProjectsProvider: FC<ProjectsProviderProps> = ({ children }) => {
   const auth = useContext(AuthContext)
 
-  const { data: projects, setData: setProjects, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?userid=${auth.user?.id}`)
+  const [myProjects, setMyProjects] = useState<Project[] | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 12
+  const { data, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?userid=${auth.user?.id}&skip=${( currentPage - 1 ) * itemsPerPage}`, [currentPage])
   
+  useEffect(() => {
+    if (data) {
+      setMyProjects(prevProjects => prevProjects ? [...prevProjects, ...data?.projectsList!] : data?.projectsList!) 
+    }
+  }, [data])
+  
+    
     return (
-        <MyProjectsContext.Provider value={ { projects, setProjects, isFetching } }>
+        <MyProjectsContext.Provider value={ { myProjects, setMyProjects, isFetching, setCurrentPage } }>
             {children}
         </MyProjectsContext.Provider>
     )

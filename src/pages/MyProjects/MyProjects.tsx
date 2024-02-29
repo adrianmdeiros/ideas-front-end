@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AlertCircle, PlusCircle } from "react-feather";
 import Button from "../../components/Button/Button";
 import Loader from "../../components/Loader/Loader";
@@ -10,14 +10,20 @@ import GlobalStyle from "../../styles/global";
 import styles from "./MyProjects.module.css";
 import { Project } from "../../types/Project";
 import ProjectForm from "../../components/ProjectForm/ProjectForm";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 
 
 
 const MyProjects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const myProjectsContext = useContext(MyProjectsContext)
+  const bottomElement = useRef<HTMLDivElement>(null)
 
-  const projectsData = useContext(MyProjectsContext)
+  useInfiniteScroll(bottomElement, loadMoreContent)
 
+  function loadMoreContent(){
+    myProjectsContext.setCurrentPage(prevPage => prevPage + 1)
+  }
 
   return (
     <>
@@ -41,7 +47,7 @@ const MyProjects = () => {
           </header>
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
-              {projectsData?.projects?.projectsList?.map((project: Project) => (
+              {myProjectsContext.myProjects?.map((project: Project) => (
                 <li key={project.title}>
                   <Post
                     id={project.id}
@@ -59,7 +65,15 @@ const MyProjects = () => {
                 </li>
               ))}
             </ul>
-            {!projectsData?.projects && !projectsData.isFetching && (
+            <div ref={bottomElement} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
+              {myProjectsContext.isFetching &&
+                <>
+                  <Loader color="#fa7700" />
+                  <p>Carregando...</p>
+                </>
+              }
+            </div>
+            {!myProjectsContext.myProjects && !myProjectsContext.isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
@@ -67,7 +81,6 @@ const MyProjects = () => {
                 <p>Você ainda não adicionou nenhuma ideia de projeto.</p>
               </div>
             )}
-            {projectsData?.isFetching && <Loader color={"#ff7a00"} />}
           </div>
           <div>
             <Modal

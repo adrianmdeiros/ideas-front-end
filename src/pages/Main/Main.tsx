@@ -21,19 +21,23 @@ const Main: React.FC = () => {
   const { data: user } = useFetch<dbUser>(`${api.defaults.baseURL}/users/${auth.user?.id}`)
 
   const [projects, setProjects] = useState<Project[] | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const itemsPerPage = 12
   const bottomElement = useRef<HTMLDivElement>(null)
 
-  const { currentPage } = useInfiniteScroll(bottomElement) 
+  useInfiniteScroll(bottomElement, loadMoreContent)
 
   const { data, setData, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}&skip=${(currentPage - 1) * itemsPerPage}`, [user, currentPage])
-  
+
   useEffect(() => {
     if (data) {
-      setProjects(prevProjects => prevProjects ? [...prevProjects, ...data.projectsList!] : data.projectsList) 
+      setProjects(prevProjects => prevProjects ? [...prevProjects, ...data.projectsList!] : data.projectsList)
     }
   }, [data])
 
+  function loadMoreContent() {
+    setCurrentPage(prevPage => prevPage + 1)
+  }
 
   const [activeFilter, setActiveFilter] = useState<number>()
   const [isSelected, setIsSelected] = useState<boolean>(false)
@@ -91,7 +95,7 @@ const Main: React.FC = () => {
     <div className={styles.body}>
       <GlobalStyle />
       <Menu />
-      <div className={styles.container}>
+      <div id='container' className={styles.container}>
         <header>
           <h1 style={{ marginBottom: '2rem' }}>Mural</h1>
           <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por categoria</p>
@@ -113,7 +117,7 @@ const Main: React.FC = () => {
                   }
                   color="#15b600"
                 >
-                  Bolsista
+                  Bolsa
                 </Tag>
               </li>
               <li>
@@ -168,14 +172,14 @@ const Main: React.FC = () => {
               </li>
             )}
           </ul>
-            <div ref={bottomElement} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
-              {isFetching &&
-                <>
-                  <Loader color="#fa7700" />
-                  <p>Carregando...</p>
-                </>
-              }
-            </div>
+          <div ref={bottomElement} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
+            {isFetching &&
+              <>
+                <Loader color="#fa7700" />
+                <p>Carregando...</p>
+              </>
+            }
+          </div>
         </div>
       </div>
     </div>

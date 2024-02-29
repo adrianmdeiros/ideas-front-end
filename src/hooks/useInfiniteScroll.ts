@@ -1,15 +1,14 @@
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useEffect } from "react";
 
 export function useInfiniteScroll(
-    refElement: RefObject<HTMLDivElement>
+    refElement: RefObject<HTMLDivElement>,
+    callback: () => void
 ) {
-
-    const [currentPage, setCurrentPage] = useState<number>(1)
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             if (entries.some((entry) => entry.isIntersecting)) {
-                loadMoreContent()
+                callback()
             }
         })
 
@@ -24,7 +23,4 @@ export function useInfiniteScroll(
         }
     }, [])
 
-    const loadMoreContent = () => setCurrentPage(prevPage => prevPage + 1)
-
-    return { currentPage }
 } 
