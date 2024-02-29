@@ -5,20 +5,20 @@ import Loader from "../../components/Loader/Loader";
 import Menu from "../../components/Menu/Menu";
 import Modal from "../../components/Modal/Modal";
 import Post from "../../components/Post/Post";
-import { ProjectsContext } from "../../contexts/ProjectsContext";
+import { MyProjectsContext } from "../../contexts/MyProjectsContext";
 import GlobalStyle from "../../styles/global";
 import styles from "./MyProjects.module.css";
-
 import { Project } from "../../types/Project";
 import ProjectForm from "../../components/ProjectForm/ProjectForm";
 
 
-const MyProjects = () => {
-  const projectsData = useContext(ProjectsContext)
 
+const MyProjects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  
+  const projectsData = useContext(MyProjectsContext)
+
+
   return (
     <>
       <div className={styles.body}>
@@ -41,7 +41,7 @@ const MyProjects = () => {
           </header>
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
-              {projectsData.projects?.projectsList?.map((project: Project) => (
+              {projectsData?.projects?.projectsList?.map((project: Project) => (
                 <li key={project.title}>
                   <Post
                     id={project.id}
@@ -59,7 +59,7 @@ const MyProjects = () => {
                 </li>
               ))}
             </ul>
-            {!projectsData.projects?.projectsList && !projectsData.isFetching && (
+            {!projectsData?.projects && !projectsData.isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
@@ -67,14 +67,14 @@ const MyProjects = () => {
                 <p>Você ainda não adicionou nenhuma ideia de projeto.</p>
               </div>
             )}
-            {projectsData.isFetching && <Loader color={"#ff7a00"} />}
+            {projectsData?.isFetching && <Loader color={"#ff7a00"} />}
           </div>
           <div>
             <Modal
               isOpen={isModalOpen}
               setOpenModal={() => setIsModalOpen(!isModalOpen)}
             >
-              <ProjectForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+              <ProjectForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             </Modal>
           </div>
         </div>

@@ -1,4 +1,4 @@
 export type FiltersListProps = {
-    getProjects: () => void
-    getProjectsByUserCourseAndCategory: (usercourseid: number, categoryid: number) => void
+    filterAll: () => void
+    filterByUserCourseAndCategory: (usercourseid: number, categoryid: number) => void
 }

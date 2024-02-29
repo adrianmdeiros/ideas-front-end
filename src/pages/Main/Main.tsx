@@ -6,35 +6,47 @@ import { useFetch } from "../../hooks/useFetch";
 import Post from "../../components/Post/Post";
 import Loader from "../../components/Loader/Loader";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import Tag from "../../components/Tag/Tag";
 import api from "../../api/api";
 import { ProjectPages } from "../../types/ProjectPages";
 import { dbUser } from "../../types/dbUser";
 import { Project } from "../../types/Project";
 import FiltersList from "../../components/FiltersList/FiltersList";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 
 
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
   const { data: user } = useFetch<dbUser>(`${api.defaults.baseURL}/users/${auth.user?.id}`)
 
-  const { data: projects, setData: setProjects, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}`, user)
+  const [projects, setProjects] = useState<Project[] | null>(null)
+  const itemsPerPage = 12
+  const bottomElement = useRef<HTMLDivElement>(null)
 
-  const [activeFilter, setActiveFilter] = useState<Number>()
+  const { currentPage } = useInfiniteScroll(bottomElement) 
 
-  const [isSelected, setIsSelected] = useState(false)
-  const [isFetchingProjects, setIsFetchingProjects] = useState(false)
+  const { data, setData, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}&skip=${(currentPage - 1) * itemsPerPage}`, [user, currentPage])
+  
+  useEffect(() => {
+    if (data) {
+      setProjects(prevProjects => prevProjects ? [...prevProjects, ...data.projectsList!] : data.projectsList) 
+    }
+  }, [data])
 
 
-  const fetchProjectsByUserCourseIdAndCategory = (usercourseid: number, categoryid: number) => {
+  const [activeFilter, setActiveFilter] = useState<number>()
+  const [isSelected, setIsSelected] = useState<boolean>(false)
+  const [isFetchingProjects, setIsFetchingProjects] = useState<boolean>(false)
+
+  const fetchProjectsByUserCourseAndCategory = (usercourseid: number, categoryid: number) => {
     setIsSelected(false)
     setProjects(null);
     setIsFetchingProjects(true)
 
     api.get(`/projects?usercourseid=${usercourseid}&categoryid=${categoryid}`)
       .then(response => {
-        setProjects(response.data);
+        setData(response.data);
         setIsFetchingProjects(false);
       })
       .catch(() => {
@@ -50,7 +62,7 @@ const Main: React.FC = () => {
 
     api.get(`/projects?usercourseid=${user?.courseId}`)
       .then(response => {
-        setProjects(response.data);
+        setData(response.data);
         setIsFetchingProjects(false);
       })
       .catch(() => {
@@ -66,7 +78,7 @@ const Main: React.FC = () => {
 
     api.get(`/projects?modality=${modality}`)
       .then(response => {
-        setProjects(response.data)
+        setData(response.data)
         setIsFetchingProjects(false)
       })
       .catch(() => {
@@ -84,8 +96,8 @@ const Main: React.FC = () => {
           <h1 style={{ marginBottom: '2rem' }}>Mural</h1>
           <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por categoria</p>
           <FiltersList
-            getProjects={fetchAllProjects}
-            getProjectsByUserCourseAndCategory={fetchProjectsByUserCourseIdAndCategory}
+            filterAll={fetchAllProjects}
+            filterByUserCourseAndCategory={fetchProjectsByUserCourseAndCategory}
           />
           <div className={styles.modalities}>
             <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por modalidade</p>
@@ -120,7 +132,7 @@ const Main: React.FC = () => {
           </div>
         </header>
         <div className={styles.feed}>
-          {isSelected && projects?.projectsList?.length === 0 && (
+          {isSelected && projects?.length === 0 && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
@@ -136,12 +148,11 @@ const Main: React.FC = () => {
               <p>Não há ideias de projeto cadastradas.</p>
             </div>
           )}
-          {isFetching && <Loader color={"#ff7a00"} />}
           {isFetchingProjects && <Loader color={"#ff7a00"} />}
 
           <ul className={styles.postsContainer}>
-            {projects?.projectsList?.map((project: Project) =>
-              <li key={project.title}>
+            {projects?.map((project: Project, index) =>
+              <li key={index}>
                 <Post
                   title={project.title}
                   description={project.description}
@@ -157,6 +168,14 @@ const Main: React.FC = () => {
               </li>
             )}
           </ul>
+            <div ref={bottomElement} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
+              {isFetching &&
+                <>
+                  <Loader color="#fa7700" />
+                  <p>Carregando...</p>
+                </>
+              }
+            </div>
         </div>
       </div>
     </div>

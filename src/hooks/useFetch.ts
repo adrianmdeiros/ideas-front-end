@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import api from "../api/api"
 
-export function useFetch<T = unknown>(url: string, dependencies?: any ) {
+export function useFetch<T = unknown> (url: string, dependencies: any[] = [] ){
     const [data, setData] = useState<T | null>(null)
     const [isFetching, setIsFetching] = useState(true)
     const [error, setError] = useState<Error | null>(null)
@@ -17,9 +17,8 @@ export function useFetch<T = unknown>(url: string, dependencies?: any ) {
             .finally(() => {
                 setIsFetching(false)
             })
-    }, [dependencies])
+    }, [...dependencies])
 
-
+    
     return { data, setData, isFetching, error }
-
 }

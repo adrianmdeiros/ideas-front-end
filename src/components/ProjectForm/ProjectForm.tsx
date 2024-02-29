@@ -1,6 +1,6 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ProjectsContext } from "../../contexts/ProjectsContext";
+import { MyProjectsContext } from "../../contexts/MyProjectsContext";
 import { useFetch } from "../../hooks/useFetch";
 import { Category } from "../../types/Category";
 import api from "../../api/api";
@@ -14,7 +14,7 @@ import { ProjectFormProps } from "../../types/ProjectFormProps";
 
 const ProjectForm = (props: ProjectFormProps) => {
     const auth = useContext(AuthContext);
-    const projectsData = useContext(ProjectsContext)
+    const projectsData = useContext(MyProjectsContext)
 
     const { data: categories, isFetching: isFetchingCategory } = useFetch<
         Category[]
@@ -68,7 +68,7 @@ const ProjectForm = (props: ProjectFormProps) => {
             setIsPublishing(false);
             props.setIsModalOpen(false)
 
-            projectsData.setProjects(response.data);
+            projectsData.setData(response.data);
         } catch (e) {
             toast.error("Ocorreu um erro. Talvez já exista uma ideia de projeto com esse título.");
             setIsPublishing(false);

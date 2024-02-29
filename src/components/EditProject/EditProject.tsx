@@ -9,7 +9,7 @@ import Loader from "../Loader/Loader"
 import toast from "react-hot-toast"
 import { Category } from "../../types/Category"
 import { Project } from "../../types/Project"
-import { ProjectsContext } from "../../contexts/ProjectsContext"
+import { MyProjectsContext } from "../../contexts/MyProjectsContext"
 
 
 type EditProjectProps = {
@@ -20,7 +20,7 @@ type EditProjectProps = {
 
 const EditProject: React.FC<EditProjectProps> = ({ id, modalClose}) => {
   const auth = useContext(AuthContext);
-  const projectsData = useContext(ProjectsContext)
+  const projectsData = useContext(MyProjectsContext)
 
   const { data: categories, isFetching: isFetchingCategory } = useFetch<
     Category[]

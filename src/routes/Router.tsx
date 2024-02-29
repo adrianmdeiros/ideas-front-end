@@ -7,7 +7,7 @@ import Perfil from "../pages/Perfil/Perfil";
 import App from "../App";
 import { RequireAuth } from "../contexts/RequireAuth";
 import NotFound from "../pages/NotFound/NotFound";
-import ProjectsProvider from "../contexts/ProjectsContext";
+import MyProjectsProvider from "../contexts/MyProjectsContext";
 
 const router = createBrowserRouter([
   {
@@ -34,9 +34,9 @@ const router = createBrowserRouter([
         path: "/projects",
         element:
           <RequireAuth>
-            <ProjectsProvider>
+            <MyProjectsProvider>
               <MyProjects />
-            </ProjectsProvider>
+            </MyProjectsProvider>
           </RequireAuth>
       },
       {

@@ -25,12 +25,12 @@ import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import EditProject from "../EditProject/EditProject";
 import toast from "react-hot-toast";
 import { PostProps } from "../../types/PostProps";
-import { ProjectsContext } from "../../contexts/ProjectsContext";
+import { MyProjectsContext } from "../../contexts/MyProjectsContext";
 import api from "../../api/api";
 
 
 const Post: React.FC<PostProps> = (props: PostProps) => {
-  const projectsData = useContext(ProjectsContext)
+  const projectsData = useContext(MyProjectsContext)
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

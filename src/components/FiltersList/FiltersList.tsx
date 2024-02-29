@@ -29,7 +29,7 @@ const FiltersList = (props: FiltersListProps) => {
                     <Tag
                         active={activeFilter === undefined ? 'active' : ''}
                         onClick={() => {
-                            props.getProjects()
+                            props.filterAll()
                             setActiveFilter(undefined)
                         }}
                         color="crimson">
@@ -44,7 +44,7 @@ const FiltersList = (props: FiltersListProps) => {
                             onClick={() => {
                                 setActiveFilter(index)
                                 if (user) {
-                                    props.getProjectsByUserCourseAndCategory(user?.courseId, category.id)
+                                    props.filterByUserCourseAndCategory(user?.courseId, category.id)
                                 }
                             }}>
                             {category.name}

@@ -28,7 +28,7 @@ export const StyledSideMenu = styled.nav`
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 1rem;
     justify-content: space-between;
     background-color: #151515;
     font-size: 500;
