@@ -46,7 +46,7 @@ const MyProjects = () => {
           </header>
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
-              {myProjectsContext.myProjects?.map((project: Project) => (
+              {myProjectsContext.myProjectIdeas?.map((project: Project) => (
                 <li key={project.title}>
                   <Post
                     id={project.id}
@@ -72,7 +72,7 @@ const MyProjects = () => {
                 </>
               }
             </div>
-            {!myProjectsContext.myProjects && !myProjectsContext.isFetching && (
+            {!myProjectsContext.myProjectIdeas && !myProjectsContext.isFetching && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >

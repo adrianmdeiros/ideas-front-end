@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { AlertCircle } from "react-feather";
 import { useFetch } from "../../hooks/useFetch";
-import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { AuthContext } from "../../contexts/AuthContext";
 import GlobalStyle from "../../styles/global";
 import styles from "./Main.module.css";
@@ -10,8 +9,9 @@ import Post from "../../components/Post/Post";
 import Loader from "../../components/Loader/Loader";
 import api from "../../api/api";
 import { Project } from '../../contexts/MyProjectsContext';
-import ProjectIdeasFilters from '../../components/FiltersList/ProjectIdeasFilters';
+import ProjectIdeasFilters from '../../components/ProjectIdeasFilters/ProjectIdeasFilters';
 import { useSearchParams } from 'react-router-dom';
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 
 type dbUser = {
   name: string
@@ -27,13 +27,12 @@ type dbUser = {
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
   const [dbUser, setDbUser] = useState<dbUser>()
-  const [searchParams, setSearchParams] = useSearchParams()  
-  
+
   useEffect(() => {
     api.get(`${api.defaults.baseURL}/users?id=${auth.user?.id}`)
-    .then(response => setDbUser(response.data))
-    .catch(e => console.error(e)
-    )
+      .then(response => setDbUser(response.data))
+      .catch(e => console.error(e)
+      )
 
     setSearchParams(state => {
       state.delete('categoryid')
@@ -43,22 +42,29 @@ const Main: React.FC = () => {
 
   }, [auth.user])
 
-  const [currentPage, setCurrentPage] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12
   const paginate = (currentPage - 1) * itemsPerPage
+  const [searchParams, setSearchParams] = useSearchParams()
   const bottomElement = useRef<HTMLDivElement>(null)
+
+  const [mainProjectIdeas, setMainProjectIdeas] = useState<Project [] | null>(null)
+  const { data: projects, isFetching } = useFetch<Project>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
 
   useInfiniteScroll(bottomElement, loadMoreContent)
 
- 
-  const { data: projects, setData: setProjects, isFetching } = useFetch<Project>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
+  useEffect(() => {
+    if (projects) {
+      mainProjectIdeas ? setMainProjectIdeas([...mainProjectIdeas, ...projects]) : setMainProjectIdeas(projects)
+    }
+  }, [projects])
 
 
-  
-  function loadMoreContent() {
+  function loadMoreContent(){
     setCurrentPage(prevPage => prevPage + 1)
   }
- 
+
+
   return (
     <div className={styles.body}>
       <GlobalStyle />
@@ -68,12 +74,13 @@ const Main: React.FC = () => {
           <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
           <div className={styles.filters}>
             <ProjectIdeasFilters
-              setData={setProjects}
+              changeMainProjectIdeas={setMainProjectIdeas}
               setCurrentPage={setCurrentPage}
             />
           </div>
         </header>
         <div className={styles.feed}>
+        {isFetching && <Loader color="#fa7700" />}
           {!projects && !isFetching && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
@@ -89,9 +96,8 @@ const Main: React.FC = () => {
               <AlertCircle size={32} />
               <p>Não foram encontradas ideias de projeto.</p>
             </div>)}
-
           <ul className={styles.postsContainer}>
-            {projects?.map((project: Project, index) =>
+            {mainProjectIdeas?.map((project: Project, index) =>
               <li key={index}>
                 <Post
                   title={project.title}
@@ -109,12 +115,7 @@ const Main: React.FC = () => {
             )}
           </ul>
           <div ref={bottomElement} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
-            {isFetching &&
-              <>
-                <Loader color="#fa7700" />
-                <p>Carregando...</p>
-              </>
-            }
+            {isFetching && <Loader color="#fa7700" />}
           </div>
         </div>
       </div>

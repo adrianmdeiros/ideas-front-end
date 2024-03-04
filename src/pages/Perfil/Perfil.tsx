@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import styles from "./Perfil.module.css";
 import GlobalStyle from "../../styles/global";
 import { Edit, LogOut, Mail, Phone } from "react-feather";
@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Menu from "../../components/Menu/Menu";
 import Modal from "../../components/Modal/Modal";
 import api from "../../api/api";
-import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
 import ContactForm from "../../components/ContactForm/ContactForm";
 import toast from "react-hot-toast";
@@ -24,9 +23,15 @@ const Perfil: React.FC = () => {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false)
+  const [contacts, setContacts] = useState<UserContacts | null>(null)
+  const [isFetchingContacts, setFetchingContacts] = useState(true)
 
-  const { data: contacts, setData: setContacts, isFetching } = useFetch<UserContacts>(
-    `${api.defaults.baseURL}/users/contacts?userid=${auth.user?.id}`)
+  useEffect(() => {
+    api.get(`${api.defaults.baseURL}/users/contacts?userid=${auth.user?.id}`)
+    .then(response => setContacts(response.data))
+    .catch(e => console.error(e.message))
+    .finally(() => setFetchingContacts(false))
+  }, [])
 
   const userPhoto = auth.user?.url_foto_150x200;
 
@@ -98,7 +103,7 @@ const Perfil: React.FC = () => {
                       <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
                         <Mail size={18} />
                         <p>{contacts?.email ? contacts.email : "Adicione seu email"}</p>
-                        {isFetching && <Loader />}
+                        {isFetchingContacts && <Loader />}
                       </div>
                       <Edit cursor={'pointer'} />
                     </div>
@@ -112,7 +117,7 @@ const Perfil: React.FC = () => {
                       <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
                         <Phone size={18} />
                         <p>{contacts?.phone ? contacts.phone : "Adicione seu número de telefone"}</p>
-                        {isFetching && <Loader />}
+                        {isFetchingContacts && <Loader />}
                       </div>
                       <Edit cursor={'pointer'} />
                     </div>

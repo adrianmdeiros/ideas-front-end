@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { Project } from "../../contexts/MyProjectsContext";
 
 type FiltersFunctions = {
-    setData: Dispatch<SetStateAction<Project[] | null>>
+    changeMainProjectIdeas: Dispatch<SetStateAction<Project[] | null>>
     setCurrentPage: Dispatch<SetStateAction<number>>
 }
 
@@ -34,6 +34,8 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
         e.preventDefault()
 
         props.setCurrentPage(1)
+        props.changeMainProjectIdeas(null)
+
         const { categoryid, modality } = e.target.elements
 
         setSearchParams(state => {
@@ -45,8 +47,8 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             modality.value !== '' ? state.set('modality', modality.value) : state.delete('modality')
             return state
         })
-        
-        props.setData(null)
+
+
 
     }
 
@@ -72,6 +74,9 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             state.delete('modality')
             return state
         })
+        props.setCurrentPage(1)
+
+        props.changeMainProjectIdeas(null)
 
     }
 
@@ -79,19 +84,19 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
         <div className={styles.container}>
             <form className={styles.form} onSubmit={handleFilterProjectsIdeas} >
                 <div>
-                    <p className={styles.p} > <Filter size={18} /> Filtrar por categoria</p>
+                    <label className={styles.p} > <Filter size={18} /> Filtrar por categoria</label>
                     <select name="categoryid" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
-                        <option value={''} selected>Selecione</option>
+                        <option value={''} >Selecione</option>
                         {categories?.map((category) => (
                             <option style={{ color: category.color }} key={category.id} value={category.id}>
                                 {category.name}
                             </option>
                         ))}
-                        {isFetchingCat && <Loader color={"#ff7a00"} />}
                     </select>
+                    {isFetchingCat && <Loader color={"#ff7a00"} />}
                 </div>
                 <div>
-                    <p className={styles.p}> <Filter size={18} /> Filtrar por modalidade</p>
+                    <label className={styles.p}> <Filter size={18} /> Filtrar por modalidade</label>
                     <select name="modality" className={styles.select} value={String(selectedModalityValue)} onChange={handleModalitySelected}>
                         <option value={''}>Selecione</option>
                         <option value={'bolsista'}>BOLSISTA</option>

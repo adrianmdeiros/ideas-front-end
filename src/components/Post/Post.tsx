@@ -27,7 +27,7 @@ import toast from "react-hot-toast";
 import { MyProjectsContext } from "../../contexts/MyProjectsContext";
 import api from "../../api/api";
 
-type Post = {
+export type PostProps = {
   id?: string
   username?: string
   userCourse?: string
@@ -41,7 +41,7 @@ type Post = {
   phone?: string
 };
 
-const Post: React.FC<Post> = (props: Post) => {
+const Post: React.FC<PostProps> = (props: PostProps) => {
   const myProjectsContext = useContext(MyProjectsContext)
   
   const [isModalOpen, setIsModalOpen] = useState(false);

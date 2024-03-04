@@ -2,7 +2,6 @@ import { Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } 
 import { Minus, Plus } from "react-feather";
 import { AuthContext } from "../../contexts/AuthContext";
 import { MyProjectsContext } from "../../contexts/MyProjectsContext";
-import { useFetch } from "../../hooks/useFetch";
 import api from "../../api/api";
 import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
@@ -23,10 +22,15 @@ export type Category = {
 const ProjectForm = (props: ProjectFormModalBehavior) => {
     const auth = useContext(AuthContext);
     const myProjectsContext = useContext(MyProjectsContext)
+    const [categories, setCategories] = useState<Category[] | null>(null)
+    const [isFetchingCat, setIsFetchingCat] = useState(true)
 
-    const { data: categories, isFetching: isFetchingCategory } = useFetch<
-        Category[]
-    >(`${api.defaults.baseURL}/categories`)
+    useEffect(() => {
+        api.get(`${api.defaults.baseURL}/categories`)
+            .then(response => setCategories(response.data))
+            .catch(e => console.error(e.messages))
+            .finally(() => setIsFetchingCat(false))
+    }, [])
 
     const [title, setTitle] = useState<String>('');
     const [description, setDescription] = useState<String>('');
@@ -76,7 +80,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
             setIsPublishing(false);
             props.setIsModalOpen(false)
 
-            myProjectsContext.setMyProjects(response.data.projectsList);
+            myProjectsContext.setMyProjects(response.data);
         } catch (e) {
             toast.error("Ocorreu um erro. Talvez já exista uma ideia de projeto com esse título.");
             setIsPublishing(false);
@@ -178,7 +182,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                     <label htmlFor="projectCategory">
                         Categoria do projeto
                     </label>
-                    {isFetchingCategory && <Loader />}
+                    {isFetchingCat && <Loader />}
                     <ul className={styles.categories}>
                         {categories?.map((category) => (
                             <li key={category.id}>
