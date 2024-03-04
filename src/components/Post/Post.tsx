@@ -56,9 +56,8 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
     setIsExcluding(true)
 
     const response = await api.delete(`/projects/${id}`)
-    myProjectsContext.setMyProjects(response.data.projectsList)
+    myProjectsContext.setMyProjects(response.data)
     
-
     setIsExcluding(false);
     setIsModalOpen(false)
     toast.success('Ideia de projeto removida.')

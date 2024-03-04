@@ -87,7 +87,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
         userid: auth.user?.id
       })
 
-      myProjectsContext.setMyProjects(response.data.projectsList)
+      myProjectsContext.setMyProjects(response.data)
 
       setIsPublishing(false);
       modalClose()
