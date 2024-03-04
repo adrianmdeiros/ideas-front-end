@@ -11,7 +11,6 @@ const Menu: React.FC = () => {
   
   const userPhoto = auth.user?.url_foto_150x200
   
-
   const navigate = useNavigate()
   const [isMobile, setIsMobile] = useState(false);
   

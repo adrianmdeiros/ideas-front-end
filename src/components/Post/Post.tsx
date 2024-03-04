@@ -24,12 +24,24 @@ import Loader from "../Loader/Loader";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import EditProject from "../EditProject/EditProject";
 import toast from "react-hot-toast";
-import { PostProps } from "../../types/PostProps";
 import { MyProjectsContext } from "../../contexts/MyProjectsContext";
 import api from "../../api/api";
 
+type Post = {
+  id?: string
+  username?: string
+  userCourse?: string
+  title?: string
+  description?: string
+  studentsRequired?: number
+  modality?: string
+  category?: string
+  color?: string
+  email?: string
+  phone?: string
+};
 
-const Post: React.FC<PostProps> = (props: PostProps) => {
+const Post: React.FC<Post> = (props: Post) => {
   const myProjectsContext = useContext(MyProjectsContext)
   
   const [isModalOpen, setIsModalOpen] = useState(false);

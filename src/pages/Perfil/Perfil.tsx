@@ -7,59 +7,63 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "../../components/Menu/Menu";
 import Modal from "../../components/Modal/Modal";
-import Button from "../../components/Button/Button";
 import api from "../../api/api";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
+import ContactForm from "../../components/ContactForm/ContactForm";
 import toast from "react-hot-toast";
-import { UserContacts } from "../../types/UserContacts";
+
+type UserContacts = {
+  email: string;
+  phone: string;
+}
 
 const Perfil: React.FC = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   const { data: contacts, setData: setContacts, isFetching } = useFetch<UserContacts>(
-    `${api.defaults.baseURL}/users/${auth.user?.id}/contacts`)
+    `${api.defaults.baseURL}/users/contacts?userid=${auth.user?.id}`)
 
   const userPhoto = auth.user?.url_foto_150x200;
-  const handleLogOut = async () => {
-    await auth.signOut();
+
+  const handleLogOut = () => {
+    auth.signOut();
     navigate("/login");
   };
 
-  const saveEmail = async (e: FormEvent<HTMLFormElement>) => {
+  const saveEmail = async (email: string, e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
+    setIsSaving(true)
 
-    const response = await api.put(`/users/${auth.user?.id}`, {
+    const response = await api.put(`/users/contacts?userid=${auth.user?.id}`, {
       email: email
     })
-    setLoading(false)
-    setIsModalOpen(false)
+    setIsSaving(false)
+    setIsEmailModalOpen(false)
 
     setContacts(response.data)
     toast.success('Email salvo com sucesso.')
   }
 
-  const savePhone = async (e: FormEvent<HTMLFormElement>) => {
+  const savePhone = async (phone: string, e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
+    setIsSaving(true)
 
-    const response = await api.put(`/users/${auth.user?.id}`, {
+    const response = await api.put(`/users/contacts?userid=${auth.user?.id}`, {
       phone: phone
     })
 
     setIsPhoneModalOpen(false)
-    setLoading(false)
+    setIsSaving(false)
     setContacts(response.data)
     toast.success('Telefone salvo com sucesso.')
 
   }
+
 
   return (
     <>
@@ -88,61 +92,33 @@ const Perfil: React.FC = () => {
               <div className={styles.bottom}>
                 <h3>Meus contatos</h3>
                 <div className={styles.contacts}>
-                  <div className={styles.contact} onClick={() => setIsModalOpen(true)}>
+                  <div className={styles.contact} onClick={() => setIsEmailModalOpen(true)}>
                     <p>Email</p>
                     <div className={styles.email}>
                       <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
                         <Mail size={18} />
-                        <p>{contacts?.email ? contacts.email : "Adicione um email"}</p>
+                        <p>{contacts?.email ? contacts.email : "Adicione seu email"}</p>
                         {isFetching && <Loader />}
                       </div>
                       <Edit cursor={'pointer'} />
                     </div>
-                    {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                   </div>
-                  <Modal isOpen={isModalOpen} setOpenModal={() => setIsModalOpen(!isModalOpen)} >
-                    <form className={styles.form} onSubmit={saveEmail}>
-                      <h2>Adicionar ou editar email</h2>
-                      <label htmlFor="email">Email</label>
-                      <input className={styles.input} type="email" name="email" id="email" placeholder="Digite seu email..." required onChange={(e) => setEmail(e.target.value)} />
-                      <Button backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
-                        {loading ? (
-                          <>
-                            <Loader />
-                            <p>Salvando</p>
-                          </>
-                        ) : <p>Salvar</p>
-                        }
-                      </Button>
-                    </form>
+                  <Modal isOpen={isEmailModalOpen} setOpenModal={() => setIsEmailModalOpen(!isEmailModalOpen)} >
+                    <ContactForm title={'Adicionar ou editar email'} label={'Email'} isSaving={isSaving} saveEmail={saveEmail} />
                   </Modal>
                   <div className={styles.contact} onClick={() => setIsPhoneModalOpen(true)}>
                     <p>Telefone</p>
                     <div className={styles.phone}>
                       <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
                         <Phone size={18} />
-                        <p>{contacts?.phone ? contacts.phone : "Adicione um telefone"}</p>
+                        <p>{contacts?.phone ? contacts.phone : "Adicione seu número de telefone"}</p>
                         {isFetching && <Loader />}
                       </div>
                       <Edit cursor={'pointer'} />
                     </div>
-                    {/* <Trash2 cursor={'pointer'} onClick={() => setIsModalOpen(true)}/> */}
                   </div>
                   <Modal isOpen={isPhoneModalOpen} setOpenModal={() => setIsPhoneModalOpen(!isPhoneModalOpen)} >
-                    <form className={styles.form} onSubmit={savePhone}>
-                      <h2>Adicionar ou editar telefone</h2>
-                      <label htmlFor="phone">Telefone</label>
-                      <input type="number" required={true} minLength={11} className={styles.input} name="phone" id="phone" placeholder="Digite seu telefone..." onChange={(e) => setPhone(e.target.value)} />
-                      <Button backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
-                        {loading ? (
-                          <>
-                            <Loader />
-                            <p>Salvando</p>
-                          </>
-                        ) : <p>Salvar</p>
-                        }
-                      </Button>
-                    </form>
+                    <ContactForm title={'Adicionar ou editar telefone'} label={'Telefone'} isSaving={isSaving} savePhone={savePhone}/>
                   </Modal>
                 </div>
               </div>

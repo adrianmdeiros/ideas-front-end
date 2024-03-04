@@ -1,16 +1,16 @@
-hr{
+hr {
     border: none;
     height: .1rem;
     background-color: #252525;
 }
 
 
-.body{
+.body {
     height: 100vh;
     min-width: 100%;
 }
 
-.container{
+.container {
     width: 100%;
     padding: 2rem;
     overflow-y: auto;
@@ -18,30 +18,22 @@ hr{
 }
 
 
-.feed{
+.feed {
     display: grid;
     /* padding: 2rem; */
     /* margin-top: 6rem; */
     margin-bottom: 10rem;
 }
 
-.tagsContainer{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 2rem 0;
-    gap: 1rem;
-    overflow-x: auto;
-    margin-bottom: 2rem;
-}
 
-.postsContainer{
+
+.postsContainer {
     display: grid;
     gap: 2.8rem;
     align-items: flex-start;
 }
 
-.img{
+.img {
     max-width: 24rem;
     max-height: 24rem;
     height: auto;
@@ -50,15 +42,14 @@ hr{
 }
 
 
-@media only screen and (min-width: 768px){
-    .body{
+@media only screen and (min-width: 768px) {
+    .body {
         display: flex;
         padding: 0;
     }
-    .postsContainer{
+
+    .postsContainer {
         display: flex;
         flex-wrap: wrap;
     }
 }
-
-

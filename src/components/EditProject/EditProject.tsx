@@ -7,10 +7,8 @@ import Button from "../Button/Button"
 import { Minus, Plus } from "react-feather"
 import Loader from "../Loader/Loader"
 import toast from "react-hot-toast"
-import { Category } from "../../types/Category"
-import { Project } from "../../types/Project"
-import { MyProjectsContext } from "../../contexts/MyProjectsContext"
-
+import { MyProjectsContext, Project } from "../../contexts/MyProjectsContext"
+import { Category } from "../ProjectForm/ProjectForm"
 
 type EditProjectProps = {
     id?: string

@@ -1,6 +1,5 @@
 import { StyledLoader } from './style'
 
-
 export type LoaderProps = {
   color?: string
 }

@@ -1,158 +1,94 @@
+import { useContext, useEffect, useRef, useState } from 'react'
+import { AlertCircle } from "react-feather";
+import { useFetch } from "../../hooks/useFetch";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+import { AuthContext } from "../../contexts/AuthContext";
 import GlobalStyle from "../../styles/global";
 import styles from "./Main.module.css";
 import Menu from "../../components/Menu/Menu";
-import { AlertCircle, Filter } from "react-feather";
-import { useFetch } from "../../hooks/useFetch";
 import Post from "../../components/Post/Post";
 import Loader from "../../components/Loader/Loader";
-import { AuthContext } from "../../contexts/AuthContext";
-import { useContext, useEffect, useRef, useState } from 'react'
-import Tag from "../../components/Tag/Tag";
 import api from "../../api/api";
-import { ProjectPages } from "../../types/ProjectPages";
-import { dbUser } from "../../types/dbUser";
-import { Project } from "../../types/Project";
-import FiltersList from "../../components/FiltersList/FiltersList";
-import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+import { Project } from '../../contexts/MyProjectsContext';
+import ProjectIdeasFilters from '../../components/FiltersList/ProjectIdeasFilters';
+import { useSearchParams } from 'react-router-dom';
 
+type dbUser = {
+  name: string
+  email: string
+  phone: string
+  bond: string
+  course: {
+    id: number
+    name: string
+  }
+}
 
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
-  const { data: user } = useFetch<dbUser>(`${api.defaults.baseURL}/users/${auth.user?.id}`)
+  const [dbUser, setDbUser] = useState<dbUser>()
+  const [searchParams, setSearchParams] = useSearchParams()  
+  
+  useEffect(() => {
+    api.get(`${api.defaults.baseURL}/users?id=${auth.user?.id}`)
+    .then(response => setDbUser(response.data))
+    .catch(e => console.error(e)
+    )
 
-  const [projects, setProjects] = useState<Project[] | null>(null)
-  const [currentPage, setCurrentPage] = useState<number>(1)
+    setSearchParams(state => {
+      state.delete('categoryid')
+      state.delete('modality')
+      return state
+    })
+
+  }, [auth.user])
+
+  const [currentPage, setCurrentPage] = useState<number>(0)
   const itemsPerPage = 12
+  const paginate = (currentPage - 1) * itemsPerPage
   const bottomElement = useRef<HTMLDivElement>(null)
 
   useInfiniteScroll(bottomElement, loadMoreContent)
 
-  const { data, setData, isFetching } = useFetch<ProjectPages>(`${api.defaults.baseURL}/projects?usercourseid=${user?.courseId}&skip=${(currentPage - 1) * itemsPerPage}`, [user, currentPage])
+ 
+  const { data: projects, setData: setProjects, isFetching } = useFetch<Project>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
 
-  useEffect(() => {
-    if (data) {
-      setProjects(prevProjects => prevProjects ? [...prevProjects, ...data.projectsList!] : data.projectsList)
-    }
-  }, [data])
 
+  
   function loadMoreContent() {
     setCurrentPage(prevPage => prevPage + 1)
   }
-
-  const [activeFilter, setActiveFilter] = useState<number>()
-  const [isSelected, setIsSelected] = useState<boolean>(false)
-  const [isFetchingProjects, setIsFetchingProjects] = useState<boolean>(false)
-
-  const fetchProjectsByUserCourseAndCategory = (usercourseid: number, categoryid: number) => {
-    setIsSelected(false)
-    setProjects(null);
-    setIsFetchingProjects(true)
-
-    api.get(`/projects?usercourseid=${usercourseid}&categoryid=${categoryid}`)
-      .then(response => {
-        setData(response.data);
-        setIsFetchingProjects(false);
-      })
-      .catch(() => {
-        setIsSelected(true);
-        setIsFetchingProjects(false);
-      })
-  };
-
-  const fetchAllProjects = () => {
-    setIsSelected(false)
-    setProjects(null);
-    setIsFetchingProjects(true)
-
-    api.get(`/projects?usercourseid=${user?.courseId}`)
-      .then(response => {
-        setData(response.data);
-        setIsFetchingProjects(false);
-      })
-      .catch(() => {
-        setIsSelected(true);
-        setIsFetchingProjects(false);
-      })
-  }
-
-  const fetchProjectsByModality = (modality: string) => {
-    setIsSelected(false)
-    setProjects(null);
-    setIsFetchingProjects(true)
-
-    api.get(`/projects?modality=${modality}`)
-      .then(response => {
-        setData(response.data)
-        setIsFetchingProjects(false)
-      })
-      .catch(() => {
-        setIsSelected(true);
-        setIsFetchingProjects(false);
-      })
-  }
-
+ 
   return (
     <div className={styles.body}>
       <GlobalStyle />
       <Menu />
       <div id='container' className={styles.container}>
         <header>
-          <h1 style={{ marginBottom: '2rem' }}>Mural</h1>
-          <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por categoria</p>
-          <FiltersList
-            filterAll={fetchAllProjects}
-            filterByUserCourseAndCategory={fetchProjectsByUserCourseAndCategory}
-          />
-          <div className={styles.modalities}>
-            <p style={{ display: 'flex', alignItems: 'center', gap: '.6rem', color: '#909090' }} > <Filter size={18} /> Filtrar projetos por modalidade</p>
-            <ul className={styles.tagsContainer}>
-              <li>
-                <Tag
-                  active={activeFilter === 0 ? 'active' : ''}
-                  onClick={
-                    () => {
-                      setActiveFilter(0)
-                      fetchProjectsByModality('bolsista')
-                    }
-                  }
-                  color="#15b600"
-                >
-                  Bolsa
-                </Tag>
-              </li>
-              <li>
-                <Tag
-                  active={activeFilter === 1 ? 'active' : ''}
-                  onClick={() => {
-                    setActiveFilter(1)
-                    fetchProjectsByModality('voluntario')
-                  }}
-                  color="#009c9c"
-                >
-                  Voluntário
-                </Tag>
-              </li>
-            </ul>
+          <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
+          <div className={styles.filters}>
+            <ProjectIdeasFilters
+              setData={setProjects}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </header>
         <div className={styles.feed}>
-          {isSelected && projects?.length === 0 && (
+          {!projects && !isFetching && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
               <AlertCircle size={32} />
-              <p>Não há projetos dessa categoria.</p>
+              <p>Não foram encontradas ideias de projeto.</p>
             </div>
           )}
-          {!projects && !isFetching && !isFetchingProjects && (
+          {projects?.length === 0 && !isFetching && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
               <AlertCircle size={32} />
-              <p>Não há ideias de projeto cadastradas.</p>
-            </div>
-          )}
-          {isFetchingProjects && <Loader color={"#ff7a00"} />}
+              <p>Não foram encontradas ideias de projeto.</p>
+            </div>)}
 
           <ul className={styles.postsContainer}>
             {projects?.map((project: Project, index) =>

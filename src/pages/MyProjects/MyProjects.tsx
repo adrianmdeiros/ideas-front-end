@@ -5,10 +5,9 @@ import Loader from "../../components/Loader/Loader";
 import Menu from "../../components/Menu/Menu";
 import Modal from "../../components/Modal/Modal";
 import Post from "../../components/Post/Post";
-import { MyProjectsContext } from "../../contexts/MyProjectsContext";
+import { MyProjectsContext, Project } from "../../contexts/MyProjectsContext";
 import GlobalStyle from "../../styles/global";
 import styles from "./MyProjects.module.css";
-import { Project } from "../../types/Project";
 import ProjectForm from "../../components/ProjectForm/ProjectForm";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 

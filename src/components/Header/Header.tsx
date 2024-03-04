@@ -1,7 +1,7 @@
 import React from "react"
 import { StyledHeader } from './style'
 
-export type Props = {
+export type HeaderProps = {
     children: React.ReactNode
     height?: string
     padding?: string
@@ -11,10 +11,10 @@ export type Props = {
     zIndex?: string
 }
 
-const Header: React.FC<Props> = ({children, zIndex, backgroundColor, margin, position, padding, height}) => {
+const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
   return (
-      <StyledHeader height={height} padding={padding} position={position} margin={margin} backgroundColor={backgroundColor} zIndex={zIndex}>
-        {children}
+      <StyledHeader height={props.height} padding={props.padding} position={props.position} margin={props.margin} backgroundColor={props.backgroundColor} zIndex={props.zIndex}>
+        {props.children}
       </StyledHeader>
   )
 }

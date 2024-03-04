@@ -7,12 +7,20 @@ import Banner from "../../assets/Banner.png";
 import styles from "./Home.module.css";
 import classNames from "classnames/bind";
 import Header from "../../components/Header/Header";
+import { useEffect } from "react";
+import Cookies from "universal-cookie";
 
 const cx = classNames.bind(styles);
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const actualYear = new Date().getFullYear()
+
+  useEffect(() => {
+    const cookies = new Cookies()
+    cookies.remove('token')
+    cookies.remove('refresh')
+  }, [])
 
   return (
     <>

@@ -1,18 +1,26 @@
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } from "react";
+import { Minus, Plus } from "react-feather";
 import { AuthContext } from "../../contexts/AuthContext";
 import { MyProjectsContext } from "../../contexts/MyProjectsContext";
 import { useFetch } from "../../hooks/useFetch";
-import { Category } from "../../types/Category";
 import api from "../../api/api";
 import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
 import styles from './ProjectForm.module.css'
-import { Minus, Plus } from "react-feather";
-import { ProjectFormProps } from "../../types/ProjectFormProps";
 
+type ProjectFormModalBehavior = {
+    isModalOpen: boolean
+    setIsModalOpen: Dispatch<SetStateAction<boolean>>
+}
 
-const ProjectForm = (props: ProjectFormProps) => {
+export type Category = {
+    id: number;
+    name: string;
+    color: string;
+};
+
+const ProjectForm = (props: ProjectFormModalBehavior) => {
     const auth = useContext(AuthContext);
     const myProjectsContext = useContext(MyProjectsContext)
 

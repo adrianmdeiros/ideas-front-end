@@ -13,31 +13,20 @@ export interface BtnProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   position?: string;
 };
 
-const Button: React.FC<BtnProps> = ({
-  margin,
-  onClick,
-  color,
-  backgroundColor,
-  width,
-  height,
-  hover,
-  borderRadius,
-  children,
-  position
-}) => {
+const Button: React.FC<BtnProps> = (props: BtnProps) => {
   return (
     <StyledButton
-      onClick={onClick}
-      color={color}
-      backgroundColor={backgroundColor}
-      width={width}
-      height={height}
-      hover={hover}
-      borderRadius={borderRadius}
-      margin={margin}
-      position={position}
+      onClick={props.onClick}
+      color={props.color}
+      backgroundColor={props.backgroundColor}
+      width={props.width}
+      height={props.height}
+      hover={props.hover}
+      borderRadius={props.borderRadius}
+      margin={props.margin}
+      position={props.position}
     >
-      {children}
+      {props.children}
     </StyledButton>
   );
 };
