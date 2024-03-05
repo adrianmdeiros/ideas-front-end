@@ -24,9 +24,9 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
 
   useEffect(() => {
     api.get(`${api.defaults.baseURL}/projects?id=${id}`)
-    .then(response => setProject(response.data))
-    .catch(e => console.error(e.message))
-    .finally(() => setIsFetchingProj(false))
+      .then(response => setProject(response.data))
+      .catch(e => console.error(e.message))
+      .finally(() => setIsFetchingProj(false))
 
     api.get(`${api.defaults.baseURL}/categories`)
       .then(response => setCategories(response.data))
@@ -77,6 +77,9 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
     e.preventDefault();
     setIsPublishing(true)
 
+    console.log(categoryId);
+
+
     try {
       const response = await api.put(`/projects/${id}`, {
         title,
@@ -87,7 +90,11 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
         userid: auth.user?.id
       })
 
-      myProjectsContext.setMyProjects(response.data)
+      const newList = myProjectsContext.myProjectIdeas?.map(myProject => {
+        return myProject.id === id ? { ...response.data } : myProject
+      }) as Project[]
+
+      myProjectsContext.setMyProjectIdeas(newList)
 
       setIsPublishing(false);
       modalClose()

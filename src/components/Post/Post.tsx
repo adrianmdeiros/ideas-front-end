@@ -43,24 +43,38 @@ export type PostProps = {
 
 const Post: React.FC<PostProps> = (props: PostProps) => {
   const myProjectsContext = useContext(MyProjectsContext)
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [IsProjectDetailsModalOpen, setIsProjectDetailsModalOpen] = useState(false);
   const [isExcluding, setIsExcluding] = useState(false)
 
   const location = useLocation();
-  
+
   const deletePost = async (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     setIsExcluding(true)
+    try {
+      await api.delete(`/projects/${id}`)
 
-    const response = await api.delete(`/projects/${id}`)
-    myProjectsContext.setMyProjects(response.data)
-    
-    setIsExcluding(false);
-    setIsModalOpen(false)
-    toast.success('Ideia de projeto removida.')
+      if (myProjectsContext.myProjectIdeas) {
+        myProjectsContext.setMyProjectIdeas(
+          myProjectsContext.myProjectIdeas?.filter(myProjectIdea => {
+            return myProjectIdea.id !== id
+          })
+        )
+      }
+
+      setIsExcluding(false);
+      setIsModalOpen(false)
+      toast.success('Ideia de projeto removida.')
+    } catch (e) {
+      console.error('Ocorreu um erro ao excluir o projeto:', e);
+      toast.error('Ocorreu um erro ao excluir o projeto.');
+      setIsExcluding(false);
+    }
+
+
   }
 
   return (
@@ -119,7 +133,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
               <Modal isOpen={isEditModalOpen} setOpenModal={() =>
                 setIsEditModalOpen(!isEditModalOpen)}>
                 <EditProject id={props.id} modalClose={() =>
-                    setIsEditModalOpen(!isEditModalOpen)}
+                  setIsEditModalOpen(!isEditModalOpen)}
                 />
               </Modal>
             </StyledActions>

@@ -1,6 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import api from "../../api/api";
-import Loader from "../Loader/Loader";
 import styles from './ProjectIdeasFilters.module.css'
 import { Category } from "../ProjectForm/ProjectForm";
 import { Filter, Search } from "react-feather";
@@ -19,13 +18,12 @@ type ProjectIdeasFilters = {
 
 const ProjectIdeasFilters = (props: FiltersFunctions) => {
     const [categories, setCategories] = useState<Category[] | null>(null)
-    const [isFetchingCat, setIsFetchingCat] = useState(true)
 
     useEffect(() => {
         api.get(`${api.defaults.baseURL}/categories`)
             .then(response => setCategories(response.data))
             .catch(e => console.error(e.messages))
-            .finally(() => setIsFetchingCat(false))
+            
     }, [])
 
     const [_, setSearchParams] = useSearchParams()
@@ -93,7 +91,6 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
                             </option>
                         ))}
                     </select>
-                    {isFetchingCat && <Loader color={"#ff7a00"} />}
                 </div>
                 <div>
                     <label className={styles.p}> <Filter size={18} /> Filtrar por modalidade</label>

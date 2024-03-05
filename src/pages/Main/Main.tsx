@@ -80,7 +80,6 @@ const Main: React.FC = () => {
           </div>
         </header>
         <div className={styles.feed}>
-        {isFetching && <Loader color="#fa7700" />}
           {!projects && !isFetching && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}

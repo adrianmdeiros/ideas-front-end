@@ -75,12 +75,17 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                 userid: auth.user?.id
             });
 
+            console.log(response.data);
+            
             toast.success('Ideia de projeto criada!')
 
             setIsPublishing(false);
             props.setIsModalOpen(false)
 
-            myProjectsContext.setMyProjects(response.data);
+            myProjectsContext.setMyProjectIdeas(
+                myProjectsContext.myProjectIdeas ? [...myProjectsContext.myProjectIdeas, response.data] : response.data
+            );
+
         } catch (e) {
             toast.error("Ocorreu um erro. Talvez já exista uma ideia de projeto com esse título.");
             setIsPublishing(false);
