@@ -24,7 +24,7 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
         api.get(`${api.defaults.baseURL}/categories`)
             .then(response => setCategories(response.data))
             .catch(e => console.error(e.messages))
-            
+
     }, [])
 
 
@@ -101,8 +101,10 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
                         <option value={'voluntario'}>VOLUNTÁRIO</option>
                     </select>
                 </div>
-                <button className={styles.button}> <Search size={18} /> Aplicar Filtros </button>
-                <button className={styles.cleanFiltersBtn} onClick={cleanFilters} > Limpar Filtros </button>
+                <div className={styles.buttonsContainer}>
+                    <button className={styles.button}> <Search size={18} /> Aplicar Filtros </button>
+                    <button className={styles.cleanFiltersBtn} onClick={cleanFilters} > Limpar Filtros </button>
+                </div>
             </form>
         </div >
     )

@@ -48,7 +48,7 @@ const Main: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const bottomElement = useRef<HTMLDivElement>(null)
 
-  const [mainProjectIdeas, setMainProjectIdeas] = useState<Project [] | null>(null)
+  const [mainProjectIdeas, setMainProjectIdeas] = useState<Project[] | null>(null)
   const { data: projects, isFetching } = useFetch<Project>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
 
   useInfiniteScroll(bottomElement, loadMoreContent)
@@ -60,7 +60,7 @@ const Main: React.FC = () => {
   }, [projects])
 
 
-  function loadMoreContent(){
+  function loadMoreContent() {
     setCurrentPage(prevPage => prevPage + 1)
   }
 
@@ -70,14 +70,15 @@ const Main: React.FC = () => {
       <GlobalStyle />
       <Menu />
       <div id='container' className={styles.container}>
-        <header>
-          <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
-          <div className={styles.filters}>
+        <header className={styles.header}>
+          <div className={styles.title}>
+            <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
+            <p>{auth.user?.vinculo.curso} <br /> Campus - {auth.user?.vinculo.campus}</p>
+          </div>
             <ProjectIdeasFilters
               changeMainProjectIdeas={setMainProjectIdeas}
               setCurrentPage={setCurrentPage}
             />
-          </div>
         </header>
         <div className={styles.feed}>
           {!projects && !isFetching && (
