@@ -1,6 +1,5 @@
 import { useContext, useRef, useState } from "react";
 import { AlertCircle, PlusCircle } from "react-feather";
-import Button from "../../components/Button/Button";
 import Loader from "../../components/Loader/Loader";
 import Menu from "../../components/Menu/Menu";
 import Modal from "../../components/Modal/Modal";
@@ -32,17 +31,12 @@ const MyProjects = () => {
         <div className={styles.container}>
           <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between  ', backgroundColor: "#101010" }} >
             <h1>Meus Projetos</h1>
-            <Button
-              backgroundColor="#ff7a00"
-              borderRadius=".5rem"
-              color="#f5f5f5"
-              hover="#ff7b00e8"
-              height="4.8rem"
+             <button className={styles.addButton}
               onClick={() => setIsModalOpen(true)}
             >
               <PlusCircle size={18} />
-              Novo
-            </Button>
+              Adicionar
+            </button>
           </header>
           <div className={styles.projectsContainer}>
             <ul className={styles.postsContainer}>
@@ -89,6 +83,7 @@ const MyProjects = () => {
               <ProjectForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             </Modal>
           </div>
+         
         </div>
       </div>
     </>

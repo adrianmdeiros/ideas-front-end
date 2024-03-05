@@ -18,6 +18,7 @@ type ProjectIdeasFilters = {
 
 const ProjectIdeasFilters = (props: FiltersFunctions) => {
     const [categories, setCategories] = useState<Category[] | null>(null)
+    const [_, setSearchParams] = useSearchParams()
 
     useEffect(() => {
         api.get(`${api.defaults.baseURL}/categories`)
@@ -26,7 +27,6 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             
     }, [])
 
-    const [_, setSearchParams] = useSearchParams()
 
     function handleFilterProjectsIdeas(e: any) {
         e.preventDefault()
@@ -72,9 +72,10 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             state.delete('modality')
             return state
         })
-        props.setCurrentPage(1)
 
+        props.setCurrentPage(1)
         props.changeMainProjectIdeas(null)
+
 
     }
 

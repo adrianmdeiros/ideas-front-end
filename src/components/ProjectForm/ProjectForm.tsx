@@ -95,7 +95,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
     };
     return (
         <>
-            <h2 className={styles.title}>Adicionar Projeto</h2>
+            <h2 className={styles.title}>Adicionar Ideia de Projeto</h2>
             <form className={styles.projectForm} onSubmit={createProject}>
                 <div className={styles.projectTitleContainer}>
                     <label htmlFor="title">Titulo</label>
