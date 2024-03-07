@@ -74,8 +74,6 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                 categoryid: categoryId,
                 userid: auth.user?.id
             });
-
-            console.log(response.data);
             
             toast.success('Ideia de projeto criada!')
 
