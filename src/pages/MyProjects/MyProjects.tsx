@@ -19,7 +19,7 @@ const MyProjects = () => {
 
   useInfiniteScroll(bottomElement, loadMoreContent)
 
-  function loadMoreContent(){
+  function loadMoreContent() {
     myProjectsContext.setCurrentPage(prevPage => prevPage + 1)
   }
 
@@ -31,7 +31,7 @@ const MyProjects = () => {
         <div className={styles.container}>
           <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between  ', backgroundColor: "#101010" }} >
             <h1>Meus Projetos</h1>
-             <button className={styles.addButton}
+            <button className={styles.addButton}
               onClick={() => setIsModalOpen(true)}
             >
               <PlusCircle size={18} />
@@ -39,7 +39,15 @@ const MyProjects = () => {
             </button>
           </header>
           <div className={styles.projectsContainer}>
-          {!myProjectsContext.myProjectIdeas || myProjectsContext.myProjectIdeas.length === 0 && !myProjectsContext.isFetching && (
+            {!myProjectsContext.myProjectIdeas && !myProjectsContext.isFetching && (
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
+                <AlertCircle size={32} />
+                <p>Você não possui ideias de projeto criadas.</p>
+              </div>
+            )}
+            {myProjectsContext.myProjectIdeas?.length === 0 && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
@@ -83,7 +91,7 @@ const MyProjects = () => {
               <ProjectForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             </Modal>
           </div>
-         
+
         </div>
       </div>
     </>
