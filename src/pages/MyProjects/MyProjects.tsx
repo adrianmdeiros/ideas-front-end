@@ -39,6 +39,14 @@ const MyProjects = () => {
             </button>
           </header>
           <div className={styles.projectsContainer}>
+          {!myProjectsContext.myProjectIdeas || myProjectsContext.myProjectIdeas.length === 0 && !myProjectsContext.isFetching && (
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
+                <AlertCircle size={32} />
+                <p>Você não possui ideias de projeto criadas.</p>
+              </div>
+            )}
             <ul className={styles.postsContainer}>
               {myProjectsContext.myProjectIdeas?.map((project: Project) => (
                 <li key={project.title}>
@@ -66,14 +74,6 @@ const MyProjects = () => {
                 </>
               }
             </div>
-            {!myProjectsContext.myProjectIdeas && !myProjectsContext.isFetching && (
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-              >
-                <AlertCircle size={32} />
-                <p>Você ainda não adicionou nenhuma ideia de projeto.</p>
-              </div>
-            )}
           </div>
           <div>
             <Modal

@@ -40,7 +40,7 @@ const Main: React.FC = () => {
       return state
     })
 
-  }, [auth.user])
+  }, [])
 
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12
