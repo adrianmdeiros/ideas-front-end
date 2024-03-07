@@ -75,13 +75,14 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                 userid: auth.user?.id
             });
             
+
             toast.success('Ideia de projeto criada!')
 
             setIsPublishing(false);
             props.setIsModalOpen(false)
 
             myProjectsContext.setMyProjectIdeas(
-                myProjectsContext.myProjectIdeas ? [...myProjectsContext.myProjectIdeas, response.data] : response.data
+                myProjectsContext.myProjectIdeas ? [...myProjectsContext.myProjectIdeas, response.data] : [response.data]
             );
 
         } catch (e) {

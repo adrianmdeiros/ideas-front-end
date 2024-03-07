@@ -77,7 +77,6 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
     e.preventDefault();
     setIsPublishing(true)
 
-    console.log(categoryId);
 
 
     try {
@@ -90,16 +89,20 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
         userid: auth.user?.id
       })
 
+      
+
       const newList = myProjectsContext.myProjectIdeas?.map(myProject => {
         return myProject.id === id ? { ...response.data } : myProject
       }) as Project[]
+
 
       myProjectsContext.setMyProjectIdeas(newList)
 
       setIsPublishing(false);
       modalClose()
-      toast.success('Ideia editada com sucesso.')
+      toast.success('Ideia atulizada com sucesso.')
     } catch (e) {
+      toast.error('Erro ao atualizar o projeto.')
       alert("Ocorreu um erro ao atualizar o projeto.");
       setIsPublishing(false);
     }

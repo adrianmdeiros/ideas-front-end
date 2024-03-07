@@ -44,9 +44,11 @@ const Perfil: React.FC = () => {
     e.preventDefault()
     setIsSaving(true)
 
+    
     const response = await api.put(`/users/contacts?userid=${auth.user?.id}`, {
       email: email
     })
+
     setIsSaving(false)
     setIsEmailModalOpen(false)
 

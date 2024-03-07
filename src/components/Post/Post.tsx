@@ -65,6 +65,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
         )
       }
 
+
       setIsExcluding(false);
       setIsModalOpen(false)
       toast.success('Ideia de projeto removida.')
