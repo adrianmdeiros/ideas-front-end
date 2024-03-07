@@ -163,15 +163,15 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                             </label>
                             <ul className={styles.modalities}>
                                 <li key={'bolsista'}>
-                                    <input id="bolsista" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("Bolsista")} />
+                                    <input id="bolsista" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("bolsa")} />
                                     <label
                                         htmlFor="bolsista"
                                         className={styles.type}>
-                                        Bolsista
+                                        Bolsa
                                     </label>
                                 </li>
                                 <li key={'voluntario'}>
-                                    <input id="voluntario" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("Voluntário")} />
+                                    <input id="voluntario" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("voluntário")} />
                                     <label
                                         htmlFor="voluntario"
                                         className={styles.type}>

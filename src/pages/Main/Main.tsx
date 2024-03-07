@@ -43,15 +43,16 @@ const Main: React.FC = () => {
   }, [])
 
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 12
+  const itemsPerPage = 12 
   const paginate = (currentPage - 1) * itemsPerPage
+
   const [searchParams, setSearchParams] = useSearchParams()
   const bottomElement = useRef<HTMLDivElement>(null)
-
   const [mainProjectIdeas, setMainProjectIdeas] = useState<Project[] | null>(null)
   const { data: projects, isFetching } = useFetch<Project>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
 
-  useInfiniteScroll(bottomElement, loadMoreContent)
+
+  useInfiniteScroll(bottomElement, loadMoreContent, isFetching)
 
   useEffect(() => {
     if (projects) {
@@ -75,27 +76,27 @@ const Main: React.FC = () => {
             <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
             <p>{auth.user?.vinculo.curso} <br /> Campus - {auth.user?.vinculo.campus}</p>
           </div>
-            <ProjectIdeasFilters
-              changeMainProjectIdeas={setMainProjectIdeas}
-              setCurrentPage={setCurrentPage}
-            />
+          <ProjectIdeasFilters
+            changeMainProjectIdeas={setMainProjectIdeas}
+            setCurrentPage={setCurrentPage}
+          />
         </header>
         <div className={styles.feed}>
-          {!projects && !isFetching && (
+          {!mainProjectIdeas && !isFetching && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
               <AlertCircle size={32} />
               <p>Não foram encontradas ideias de projeto.</p>
-            </div>
+            </div> 
           )}
-          {projects?.length === 0 && !isFetching && (
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-            >
-              <AlertCircle size={32} />
-              <p>Não foram encontradas ideias de projeto.</p>
-            </div>)}
+          {mainProjectIdeas?.length == 0 && 
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            <AlertCircle size={32} />
+            <p>Não foram encontradas ideias de projeto.</p>
+          </div>}
           <ul className={styles.postsContainer}>
             {mainProjectIdeas?.map((project: Project, index) =>
               <li key={index}>
@@ -115,7 +116,11 @@ const Main: React.FC = () => {
             )}
           </ul>
           <div ref={bottomElement} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
-            {isFetching && <Loader color="#fa7700" />}
+            {isFetching && (
+              <>
+                <Loader color="#fa7700" /> <p>Carregando...</p>
+              </>
+            )}
           </div>
         </div>
       </div>

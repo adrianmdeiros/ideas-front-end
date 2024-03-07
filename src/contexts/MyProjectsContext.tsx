@@ -10,26 +10,26 @@ export type Project = {
   studentsRequired: number
   modality: string
   category: {
-      id: number
-      name: string
-      color: string
+    id: number
+    name: string
+    color: string
   }
   user: {
+    name: string
+    course: {
+      id: number
       name: string
-      course: {
-          id: number
-          name: string
-      }
-      email: string
-      phone: string
+    }
+    email: string
+    phone: string
   }
 }
 
 type MyProjectsContextProps = {
   myProjectIdeas: Project[] | null
   setMyProjectIdeas: Dispatch<SetStateAction<Project[] | null>>
-  isFetching: boolean,
   setCurrentPage: Dispatch<SetStateAction<number>>
+  isFetching: boolean
 }
 
 type MyProjectsProviderProps = {
@@ -43,22 +43,23 @@ const MyProjectsProvider: FC<MyProjectsProviderProps> = ({ children }) => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12
-  const paginate = ( currentPage - 1 ) * itemsPerPage
+  const paginate = (currentPage - 1) * itemsPerPage
 
-  const [myProjectIdeas, setMyProjectIdeas] = useState<Project [] | null>(null)
+  const [myProjectIdeas, setMyProjectIdeas] = useState<Project[] | null>(null)
   const { data: myProjects,  isFetching } = useFetch<Project>(`${api.defaults.baseURL}/projects?userid=${auth.user?.id}&skip=${paginate}`)
-  
+
   useEffect(() => {
     if (myProjects) {
       myProjectIdeas ? setMyProjectIdeas([...myProjectIdeas, ...myProjects]) : setMyProjectIdeas(myProjects)
     }
   }, [myProjects])
-    
-    return (
-        <MyProjectsContext.Provider value={ { myProjectIdeas, setMyProjectIdeas, isFetching, setCurrentPage } }>
-            {children}
-        </MyProjectsContext.Provider>
-    )
+
+
+  return (
+    <MyProjectsContext.Provider value={{ myProjectIdeas, setMyProjectIdeas, isFetching, setCurrentPage }}>
+      {children}
+    </MyProjectsContext.Provider>
+  )
 }
 
 export default MyProjectsProvider

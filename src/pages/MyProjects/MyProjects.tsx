@@ -17,7 +17,7 @@ const MyProjects = () => {
   const myProjectsContext = useContext(MyProjectsContext)
   const bottomElement = useRef<HTMLDivElement>(null)
 
-  useInfiniteScroll(bottomElement, loadMoreContent)
+  useInfiniteScroll(bottomElement, loadMoreContent, myProjectsContext.isFetching)
 
   function loadMoreContent() {
     myProjectsContext.setCurrentPage(prevPage => prevPage + 1)
@@ -47,14 +47,13 @@ const MyProjects = () => {
                 <p>Você não possui ideias de projeto criadas.</p>
               </div>
             )}
-            {myProjectsContext.myProjectIdeas?.length === 0 && (
+            {myProjectsContext.myProjectIdeas?.length == 0 &&
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
                 <AlertCircle size={32} />
-                <p>Você não possui ideias de projeto criadas.</p>
-              </div>
-            )}
+                <p>Não foram encontradas ideias de projeto.</p>
+              </div>}
             <ul className={styles.postsContainer}>
               {myProjectsContext.myProjectIdeas?.map((project: Project) => (
                 <li key={project.title}>

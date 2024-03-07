@@ -18,23 +18,25 @@ type ProjectIdeasFilters = {
 
 const ProjectIdeasFilters = (props: FiltersFunctions) => {
     const [categories, setCategories] = useState<Category[] | null>(null)
-    const [_, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
         api.get(`${api.defaults.baseURL}/categories`)
             .then(response => setCategories(response.data))
             .catch(e => console.error(e.messages))
-
     }, [])
 
 
     function handleFilterProjectsIdeas(e: any) {
         e.preventDefault()
 
-        props.setCurrentPage(1)
-        props.changeMainProjectIdeas(null)
-
+        
         const { categoryid, modality } = e.target.elements
+        
+        if(categoryid.value !== '' || modality.value !== ''){
+            props.changeMainProjectIdeas(null)
+            props.setCurrentPage(1)
+        }
 
         setSearchParams(state => {
             categoryid.value !== '' ? state.set('categoryid', categoryid.value) : state.delete('categoryid')
@@ -45,7 +47,6 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             modality.value !== '' ? state.set('modality', modality.value) : state.delete('modality')
             return state
         })
-
 
 
     }
@@ -61,7 +62,7 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
         setSelectedModalityValue(e.target.value)
     }
 
-    function cleanFilters(e: any) {
+    async function cleanFilters(e: any) {
         e.preventDefault()
 
         setSelectedCategoryValue(null)
@@ -97,13 +98,19 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
                     <label className={styles.p}> <Filter size={18} /> Filtrar por modalidade</label>
                     <select name="modality" className={styles.select} value={String(selectedModalityValue)} onChange={handleModalitySelected}>
                         <option value={''}>Selecione</option>
-                        <option value={'bolsista'}>BOLSISTA</option>
+                        <option value={'bolsa'}>BOLSA</option>
                         <option value={'voluntario'}>VOLUNTÁRIO</option>
                     </select>
                 </div>
                 <div className={styles.buttonsContainer}>
-                    <button className={styles.button}> <Search size={18} /> Aplicar Filtros </button>
-                    <button className={styles.cleanFiltersBtn} onClick={cleanFilters} > Limpar Filtros </button>
+                    <button className={styles.button} > <Search size={18} /> Aplicar Filtros </button>
+                    {searchParams.get('categoryid') || searchParams.get('modality') ? 
+                        <button className={styles.cleanFiltersBtn} onClick={cleanFilters} >
+                            Limpar Filtros
+                        </button>
+                        :
+                        ''
+                    }
                 </div>
             </form>
         </div >

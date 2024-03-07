@@ -16,7 +16,7 @@ import {
   StyledConfirmBox,
   StyledButtons
 } from "./style";
-import { AlertTriangle, DollarSign, Edit, Trash2, User } from "react-feather";
+import { AlertTriangle, Edit, Flag, Trash2, User } from "react-feather";
 import { useLocation } from "react-router-dom";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
@@ -155,8 +155,8 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
           <StyledReqContainer>
             <div style={{ display: 'flex', alignItems: 'end', gap: '1rem' }}>
               <StyledProjectReq>
-                <DollarSign size={18} />
-                <StyledP>{props.modality ?? '-'}</StyledP>
+                <Flag size={18} />
+                <StyledP>{props.modality ? props.modality : '-'}</StyledP>
               </StyledProjectReq>
               <div>
                 <StyledProjectReq>
