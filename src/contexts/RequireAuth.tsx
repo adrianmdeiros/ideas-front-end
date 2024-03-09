@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "./AuthContext";
-import Login from "../pages/Login/Login";
-import Loader from "../components/Loader/Loader";
+import { AuthContext } from "./Auth";
+import Login from "../pages/Login";
+import Loader from "../components/Loader";
 
 type RequireAuthProps = {
   children: JSX.Element;

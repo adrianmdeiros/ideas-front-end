@@ -2,14 +2,14 @@ import React, { FormEvent, useContext, useEffect, useState } from "react";
 import styles from "./Perfil.module.css";
 import GlobalStyle from "../../styles/global";
 import { Edit, LogOut, Mail, Phone } from "react-feather";
-import Header from "../../components/Header/Header";
-import { AuthContext } from "../../contexts/AuthContext";
+import Header from "../../components/Header";
+import { AuthContext } from "../../contexts/Auth";
 import { Link, useNavigate } from "react-router-dom";
-import Menu from "../../components/Menu/Menu";
-import Modal from "../../components/Modal/Modal";
+import Menu from "../../components/Menu";
+import Modal from "../../components/Modal";
 import api from "../../api/api";
-import Loader from "../../components/Loader/Loader";
-import ContactForm from "../../components/ContactForm/ContactForm";
+import Loader from "../../components/Loader";
+import ContactForm from "../../components/ContactForm";
 import toast from "react-hot-toast";
 
 type UserContacts = {
@@ -92,6 +92,7 @@ const Perfil: React.FC = () => {
                 <div>
                   <h3 >{auth.user?.nome_usual}</h3>
                   <p>{auth.user?.vinculo.curso}</p>
+                  <p>{auth.user?.vinculo.setor_suap}</p>
                   <p>IFMA Campus - {auth.user?.vinculo.campus}</p>
                   <p>{auth.user?.tipo_vinculo}</p>
                 </div>

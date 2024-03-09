@@ -3,16 +3,15 @@ import { DollarSign, Mail, Phone, User } from "react-feather";
 import styles from "./ProjectDetaills.module.css";
 
 type ProjectDetailsProps = {
-  username?: string;
   title?: string;
   description?: string;
   studentsRequired?: number;
   modality?: string;
   category?: string;
-  color?: string;
-  userCourse?: string
+  username?: string;
   email?: string;
   phone?: string;
+  department?: string;
 };
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProps) => {
@@ -28,7 +27,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProp
               <div className={styles.autor}>
                 <div>
                   <h3>{props.username}</h3>
-                  <p>{props.userCourse}</p>
+                  <p>{props.department}</p>
                 </div>
               </div>
             </div>
@@ -36,15 +35,15 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProp
               <h3>Título</h3>
               <p>{props.title}</p>
               <h4>Descrição</h4>
-              <p style={{ color: props.color }}>
+              <p>
                 {props.description}
               </p>
               <div className={styles.projectReq}>
-                <div className={styles.projectTypeColor} style={{ backgroundColor: props.color }} />
+                <div className={styles.projectTypeColor} />
                 <p>{props.category}</p>
               </div>
               <div className={styles.projectReqContainer}>
-                <div style={{ display: 'flex', alignItems: 'end', gap: '1rem' }}>
+                <div >
                   <div className={styles.projectReq}>
                     <DollarSign size={18} />
                     <p>{props.modality ? props.modality : '-'}</p>

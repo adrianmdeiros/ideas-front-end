@@ -1,11 +1,11 @@
 import { Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } from "react";
 import { Minus, Plus } from "react-feather";
-import { AuthContext } from "../../contexts/AuthContext";
-import { MyProjectsContext } from "../../contexts/MyProjectsContext";
+import { AuthContext } from "../../contexts/Auth";
+import { ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
 import api from "../../api/api";
 import toast from "react-hot-toast";
-import Loader from "../Loader/Loader";
-import Button from "../Button/Button";
+import Loader from "../Loader";
+import Button from "../Button";
 import styles from './ProjectForm.module.css'
 
 type ProjectFormModalBehavior = {
@@ -14,14 +14,12 @@ type ProjectFormModalBehavior = {
 }
 
 export type Category = {
-    id: number;
     name: string;
-    color: string;
 };
 
 const ProjectForm = (props: ProjectFormModalBehavior) => {
     const auth = useContext(AuthContext);
-    const myProjectsContext = useContext(MyProjectsContext)
+    const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
     const [categories, setCategories] = useState<Category[] | null>(null)
     const [isFetchingCat, setIsFetchingCat] = useState(true)
 
@@ -32,20 +30,20 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
             .finally(() => setIsFetchingCat(false))
     }, [])
 
-    const [title, setTitle] = useState<String>('');
-    const [description, setDescription] = useState<String>('');
-    const [modality, setModality] = useState<String>('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [modality, setModality] = useState('');
     const [studentsRequired, setStudentsRequired] = useState(1);
 
-    const [categoryId, setCategoryId] = useState<Number>(0);
+    const [category, setCategory] = useState('');
     const [isPublishing, setIsPublishing] = useState<Boolean>(false)
 
     useEffect(() => {
-        if (categoryId === 6) {
+        if (category === 'MONOGRAFIA') {
             setStudentsRequired(1)
             setModality('')
         }
-    }, [categoryId])
+    }, [category])
 
     const addStudent = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -71,7 +69,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                 description,
                 studentsRequired,
                 modality,
-                categoryid: categoryId,
+                category: category,
                 userid: auth.user?.id
             });
             
@@ -81,15 +79,15 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
             setIsPublishing(false);
             props.setIsModalOpen(false)
 
-            myProjectsContext.setMyProjectIdeas(
-                myProjectsContext.myProjectIdeas ? [...myProjectsContext.myProjectIdeas, response.data] : [response.data]
+            servantProjectIdeasContext.setServantProjectIdeas(
+                servantProjectIdeasContext.servantProjectIdeas ? [...servantProjectIdeasContext.servantProjectIdeas, response.data] : [response.data]
             );
 
         } catch (e) {
             toast.error("Ocorreu um erro. Talvez já exista uma ideia de projeto com esse título.");
             setIsPublishing(false);
         }
-        setCategoryId(0)
+        setCategory('')
         setModality('')
     };
     return (
@@ -121,7 +119,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
-                {categoryId !== 6 && (
+                {category != 'MONOGRAFIA' && (
                     <>
                         <div className={styles.numberOfStudentsContainer}>
                             <label htmlFor="numberOfStudents">
@@ -188,15 +186,15 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                     </label>
                     {isFetchingCat && <Loader />}
                     <ul className={styles.categories}>
-                        {categories?.map((category) => (
-                            <li key={category.id}>
+                        {categories?.map((category, index) => (
+                            <li key={index}>
                                 <input
                                     required={true}
                                     type="radio"
                                     id={category.name}
                                     name="projectCategory"
                                     className={styles.checkbox}
-                                    onClick={() => setCategoryId(category.id)}
+                                    onClick={() => setCategory(category.name)}
                                 />
                                 <label
                                     htmlFor={category.name}

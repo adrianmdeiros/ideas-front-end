@@ -18,6 +18,7 @@ type User = {
   vinculo: {
     curso: string
     campus: string
+    setor_suap: string
   }
 };
 
@@ -56,14 +57,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const getUserData = async (token: string) => {
-    const response = await suapi.get("minhas-informacoes/meus-dados/", {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  };
+  
 
   const getNewToken = async (refreshToken: string) => {
     const response = await suapi.post("autenticacao/token/refresh/", {
@@ -94,20 +88,38 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return false;
   };
 
+  const getUserData = async (token: string) => {
+    const response = await suapi.get("minhas-informacoes/meus-dados/", {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
+
   const saveUser = async (user: User) => {
-    try{
-      const response = await api.post('/users', {
+    if(user.tipo_vinculo === "Aluno"){
+      const student = await api.post('/students', {
         id: user.id,
         name: user.nome_usual,
         email: user.email,
         phone: user.phone,
-        bond: user.tipo_vinculo,
         course: user.vinculo.curso
       })
-      return response.data
-    }catch(err){
-      console.log(err);
+      return student
     }
+
+    if(user.tipo_vinculo === "Servidor"){
+      const servant = await api.post('/servants', {
+        id: user.id,
+        name: user.nome_usual,
+        email: user.email,
+        phone: user.phone,
+        department: user.vinculo.setor_suap
+      })
+      return servant
+    }
+    
 }
 
   const setTokens = (tokens: any) => {

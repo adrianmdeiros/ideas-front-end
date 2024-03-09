@@ -1,13 +1,13 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import api from "../../api/api";
 import styles from './ProjectIdeasFilters.module.css'
-import { Category } from "../ProjectForm/ProjectForm";
+import { Category } from "../ProjectForm";
 import { Filter, Search } from "react-feather";
 import { useSearchParams } from "react-router-dom";
-import { Project } from "../../contexts/MyProjectsContext";
+import { ProjectIdea } from "../../contexts/ServantProjectIdeas";
 
 type FiltersFunctions = {
-    changeMainProjectIdeas: Dispatch<SetStateAction<Project[] | null>>
+    changeMainProjectIdeas: Dispatch<SetStateAction<ProjectIdea[] | null>>
     setCurrentPage: Dispatch<SetStateAction<number>>
 }
 
@@ -16,8 +16,13 @@ type ProjectIdeasFilters = {
     modality: string
 }
 
+type Modality = {
+    name: string
+}
+
 const ProjectIdeasFilters = (props: FiltersFunctions) => {
     const [categories, setCategories] = useState<Category[] | null>(null)
+    const [modalities, setModalities] = useState<Modality[] | null>(null)
     const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
@@ -26,20 +31,25 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             .catch(e => console.error(e.messages))
     }, [])
 
+    useEffect(() => {
+        api.get(`${api.defaults.baseURL}/modalities`)
+            .then(response => setModalities(response.data))
+            .catch(e => console.error(e.messages))
+    }, [])
 
     function handleFilterProjectsIdeas(e: any) {
         e.preventDefault()
 
+        const { category, modality } = e.target.elements
         
-        const { categoryid, modality } = e.target.elements
-        
-        if(categoryid.value !== '' || modality.value !== ''){
+        if(category.value !== '' || modality.value !== ''){
             props.changeMainProjectIdeas(null)
             props.setCurrentPage(1)
+            
         }
 
         setSearchParams(state => {
-            categoryid.value !== '' ? state.set('categoryid', categoryid.value) : state.delete('categoryid')
+            category.value !== '' ? state.set('category', category.value) : state.delete('category')
             return state
         })
 
@@ -69,7 +79,7 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
         setSelectedModalityValue(null)
 
         setSearchParams(state => {
-            state.delete('categoryid')
+            state.delete('category')
             state.delete('modality')
             return state
         })
@@ -85,10 +95,10 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             <form className={styles.form} onSubmit={handleFilterProjectsIdeas} >
                 <div>
                     <label className={styles.p} > <Filter size={18} /> Filtrar por categoria</label>
-                    <select name="categoryid" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
+                    <select name="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
                         <option value={''} >Selecione</option>
-                        {categories?.map((category) => (
-                            <option style={{ color: category.color }} key={category.id} value={category.id}>
+                        {categories?.map((category, index) => (
+                            <option key={index} value={category.name}>
                                 {category.name}
                             </option>
                         ))}
@@ -98,13 +108,16 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
                     <label className={styles.p}> <Filter size={18} /> Filtrar por modalidade</label>
                     <select name="modality" className={styles.select} value={String(selectedModalityValue)} onChange={handleModalitySelected}>
                         <option value={''}>Selecione</option>
-                        <option value={'bolsa'}>BOLSA</option>
-                        <option value={'voluntario'}>VOLUNTÁRIO</option>
+                        {modalities?.map((modality, index) => (
+                            <option key={index} value={modality.name}>
+                                {modality.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div className={styles.buttonsContainer}>
                     <button className={styles.button} > <Search size={18} /> Aplicar Filtros </button>
-                    {searchParams.get('categoryid') || searchParams.get('modality') ? 
+                    {searchParams.get('category') || searchParams.get('modality') ? 
                         <button className={styles.cleanFiltersBtn} onClick={cleanFilters} >
                             Limpar Filtros
                         </button>

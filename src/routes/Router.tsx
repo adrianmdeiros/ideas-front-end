@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home/Home";
-import Login from "../pages/Login/Login";
-import Main from "../pages/Main/Main";
-import MyProjects from "../pages/MyProjects/MyProjects";
-import Perfil from "../pages/Perfil/Perfil";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import Main from "../pages/Main";
+import Perfil from "../pages/Perfil";
 import App from "../App";
 import { RequireAuth } from "../contexts/RequireAuth";
-import NotFound from "../pages/NotFound/NotFound";
-import MyProjectsProvider from "../contexts/MyProjectsContext";
+import NotFound from "../pages/NotFound";
+import ServantProjectIdeasProvider from "../contexts/ServantProjectIdeas";
+import ServantProjectIdeas from "../pages/ServantProjectIdeas";
 
 const router = createBrowserRouter([
   {
@@ -34,9 +34,9 @@ const router = createBrowserRouter([
         path: "/projects",
         element:
           <RequireAuth>
-            <MyProjectsProvider>
-              <MyProjects />
-            </MyProjectsProvider>
+            <ServantProjectIdeasProvider>
+              <ServantProjectIdeas />
+            </ServantProjectIdeasProvider>
           </RequireAuth>
       },
       {

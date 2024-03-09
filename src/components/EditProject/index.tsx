@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import styles from './EdiProject.module.css'
 import api from "../../api/api"
-import { AuthContext } from "../../contexts/AuthContext"
-import Button from "../Button/Button"
+import { AuthContext } from "../../contexts/Auth"
+import Button from "../Button"
 import { Minus, Plus } from "react-feather"
-import Loader from "../Loader/Loader"
+import Loader from "../Loader"
 import toast from "react-hot-toast"
-import { MyProjectsContext, Project } from "../../contexts/MyProjectsContext"
-import { Category } from "../ProjectForm/ProjectForm"
+import { ServantProjectIdeasContext, ProjectIdea } from "../../contexts/ServantProjectIdeas"
+import { Category } from "../ProjectForm"
 
 type EditProjectProps = {
   id?: string
@@ -16,15 +16,15 @@ type EditProjectProps = {
 
 const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
   const auth = useContext(AuthContext);
-  const myProjectsContext = useContext(MyProjectsContext)
-  const [project, setProject] = useState<Project | null>(null)
+  const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
+  const [projectIdea, setProjectIdea] = useState<ProjectIdea | null>(null)
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [isFetchingCat, setIsFetchingCat] = useState(true)
   const [isFetchingProj, setIsFetchingProj] = useState(true)
 
   useEffect(() => {
     api.get(`${api.defaults.baseURL}/projects?id=${id}`)
-      .then(response => setProject(response.data))
+      .then(response => setProjectIdea(response.data))
       .catch(e => console.error(e.message))
       .finally(() => setIsFetchingProj(false))
 
@@ -35,29 +35,29 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
   }, [])
 
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [modality, setModality] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [modality, setModality] = useState('');
 
   const [studentsRequired, setStudentsRequired] = useState(1);
-  const [categoryId, setCategoryId] = useState(0);
+  const [category, setCategory] = useState('');
   const [isPublishing, setIsPublishing] = useState(false)
 
   useEffect(() => {
-    if (project) {
-      setTitle(project.title);
-      setDescription(project.description);
-      setStudentsRequired(project.studentsRequired);
-      setCategoryId(project.category.id);
+    if (projectIdea) {
+      setTitle(projectIdea.title);
+      setDescription(projectIdea.description);
+      setStudentsRequired(projectIdea.studentsRequired);
+      setCategory(projectIdea.category);
     }
-  }, [project])
+  }, [projectIdea])
 
 
   useEffect(() => {
-    if (categoryId === 6) {
+    if (category === 'MONOGRAFIA') {
       setStudentsRequired(1)
     }
-  }, [categoryId])
+  }, [category])
 
   const addStudent = (e: any) => {
     e.preventDefault();
@@ -78,25 +78,23 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
     setIsPublishing(true)
 
 
-
     try {
-      const response = await api.put(`/projects/${id}`, {
+      const response = await api.put(`/project-ideas/${id}`, {
         title,
         description,
         studentsRequired,
         modality,
-        categoryid: categoryId,
-        userid: auth.user?.id
+        category,
+        servantId: auth.user?.id 
       })
 
       
+      const newList = servantProjectIdeasContext.servantProjectIdeas?.map(servantProjectIdea => {
+        return servantProjectIdea.id === id ? { ...response.data } : servantProjectIdea
+      }) as ProjectIdea[]
 
-      const newList = myProjectsContext.myProjectIdeas?.map(myProject => {
-        return myProject.id === id ? { ...response.data } : myProject
-      }) as Project[]
 
-
-      myProjectsContext.setMyProjectIdeas(newList)
+      servantProjectIdeasContext.setServantProjectIdeas(newList)
 
       setIsPublishing(false);
       modalClose()
@@ -142,7 +140,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        {categoryId !== 6 && (
+        {category != "MONOGRAFIA" && (
           <>
             <div className={styles.numberOfStudentsContainer}>
               <label htmlFor="numberOfStudents">
@@ -210,15 +208,15 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
           </label>
           {isFetchingCat && <Loader />}
           <ul className={styles.categories}>
-            {categories?.map((category) => (
-              <li key={category.id}>
+            {categories?.map((category, index) => (
+              <li key={index}>
                 <input
                   required={true}
                   type="radio"
                   id={category.name}
                   name="projectCategory"
                   className={styles.checkbox}
-                  onClick={() => setCategoryId(category.id)}
+                  onClick={() => setCategory(category.name)}
                 />
                 <label
                   htmlFor={category.name}

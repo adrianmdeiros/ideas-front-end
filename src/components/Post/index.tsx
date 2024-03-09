@@ -18,31 +18,30 @@ import {
 } from "./style";
 import { AlertTriangle, Edit, Flag, Trash2, User } from "react-feather";
 import { useLocation } from "react-router-dom";
-import Button from "../Button/Button";
-import Modal from "../Modal/Modal";
-import Loader from "../Loader/Loader";
-import ProjectDetails from "../ProjectDetails/ProjectDetails";
-import EditProject from "../EditProject/EditProject";
+import Button from "../Button";
+import Modal from "../Modal";
+import Loader from "../Loader";
+import ProjectDetails from "../ProjectDetails";
+import EditProject from "../EditProject";
 import toast from "react-hot-toast";
-import { MyProjectsContext } from "../../contexts/MyProjectsContext";
 import api from "../../api/api";
+import { ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
 
 export type PostProps = {
   id?: string
-  username?: string
-  userCourse?: string
   title?: string
   description?: string
   studentsRequired?: number
   modality?: string
   category?: string
-  color?: string
+  username?: string
   email?: string
   phone?: string
+  department?: string
 };
 
 const Post: React.FC<PostProps> = (props: PostProps) => {
-  const myProjectsContext = useContext(MyProjectsContext)
+  const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -57,10 +56,10 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
     try {
       await api.delete(`/projects/${id}`)
 
-      if (myProjectsContext.myProjectIdeas) {
-        myProjectsContext.setMyProjectIdeas(
-          myProjectsContext.myProjectIdeas?.filter(myProjectIdea => {
-            return myProjectIdea.id !== id
+      if (servantProjectIdeasContext.servantProjectIdeas) {
+        servantProjectIdeasContext.setServantProjectIdeas(
+          servantProjectIdeasContext.servantProjectIdeas?.filter(serventProjectIdea => {
+            return serventProjectIdea.id !== id
           })
         )
       }
@@ -79,13 +78,13 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
   }
 
   return (
-    <StyledPost color={props.color}>
+    <StyledPost>
       <StyledProject>
         <StyledTop>
           <StyledAutor>
             <div>
               <StyledTitle>{props.username}</StyledTitle>
-              <StyledP>{props.userCourse}</StyledP>
+              <StyledP>{props.department}</StyledP>
             </div>
           </StyledAutor>
           {location.pathname === "/projects" && (
@@ -142,13 +141,13 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
         </StyledTop>
         <StyledMiddle>
           <StyledTitle>{props.title}</StyledTitle>
-          <StyledDescription color={props.color}>
+          <StyledDescription>
             {props.description ? props.description?.length > 50 ? props.description?.slice(0, 60)
               + '...' : props.description : "Não há descrição"}
           </StyledDescription>
         </StyledMiddle>
         <StyledProjectReq>
-          <StyledColorTypeProject color={props.color} />
+          <StyledColorTypeProject />
           <StyledP>{props.category}</StyledP>
         </StyledProjectReq>
         <StyledBottom>
@@ -182,14 +181,13 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
           <ProjectDetails
             title={props.title}
             description={props.description}
-            username={props.username}
-            userCourse={props.userCourse}
-            color={props.color}
             studentsRequired={props.studentsRequired}
-            category={props.category}
             modality={props.modality}
+            category={props.category}
+            username={props.username}
             email={props.email}
             phone={props.phone}
+            department={props.department}
           />
         </Modal>
       </StyledProject>

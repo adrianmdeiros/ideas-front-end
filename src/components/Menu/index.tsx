@@ -1,10 +1,11 @@
-import NavLink from "../NavLink/NavLink";
+import NavLink from "../NavLink";
 import { LogOut, Folder, Grid } from "react-feather";
 import { Perfil, StyledTabBar, StyledSideMenu, StyledPerfil, StyledUserInfo, StyledNav } from "./style";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/Auth";
 import Logo from "../../assets/LogoHome.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { userIsServant } from "../../utils/userIsServant";
 
 const Menu: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -35,7 +36,7 @@ const Menu: React.FC = () => {
       {isMobile ? (
         <StyledTabBar>
           <NavLink to={"/main"} icon={<Grid />} label="Mural" />
-          <NavLink to={"/projects"} icon={<Folder />} label="Meus Projetos" />
+          {userIsServant() && <NavLink to={"/projects"} icon={<Folder />} label="Meus Projetos" />}
           <NavLink
             to={"/perfil"}
             icon={<Perfil src={userPhoto} alt="Foto de perfil" />}
@@ -54,12 +55,12 @@ const Menu: React.FC = () => {
               label="Mural"
               display={"flex"}
             />
-            <NavLink
+            {userIsServant() && <NavLink
               to={"/projects"}
               icon={<Folder />}
               label="Meus Projetos"
               display={"flex"}
-            />
+            />}
           </StyledNav>
           <StyledPerfil>
             <NavLink

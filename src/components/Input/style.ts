@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { InputProps } from './Input'
+import { InputProps } from '.'
 
 export const StyledInput = styled.input<InputProps>`
   height: ${props => props.height};

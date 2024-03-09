@@ -2,12 +2,12 @@ import GlobalStyle from "../../styles/global";
 import styles from "./Login.module.css";
 import Banner from "../../assets/Banner.png";
 import Logo from "../../assets/LogoHome.svg";
-import Button from "../../components/Button/Button";
+import Button from "../../components/Button";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
-import Loader from "../../components/Loader/Loader";
+import { AuthContext } from "../../contexts/Auth";
+import Loader from "../../components/Loader";
 import { Eye, EyeOff, Info } from "react-feather";
 import toast from "react-hot-toast";
 

@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import styles from './ContactForm.module.css'
 
-import Button from '../Button/Button'
-import Loader from '../Loader/Loader'
+import Button from '../Button'
+import Loader from '../Loader'
 
 
 type ContactFormProps = {

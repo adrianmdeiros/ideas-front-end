@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Props } from "./NavLink";
+import { Props } from ".";
 import { NavLink } from "react-router-dom";
 
 export const StyledNavLink = styled(NavLink)<Props>`

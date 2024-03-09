@@ -1,15 +1,15 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { AlertCircle } from "react-feather";
 import { useFetch } from "../../hooks/useFetch";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/Auth";
 import GlobalStyle from "../../styles/global";
 import styles from "./Main.module.css";
-import Menu from "../../components/Menu/Menu";
-import Post from "../../components/Post/Post";
-import Loader from "../../components/Loader/Loader";
+import Menu from "../../components/Menu";
+import Post from "../../components/Post";
+import Loader from "../../components/Loader";
 import api from "../../api/api";
-import { Project } from '../../contexts/MyProjectsContext';
-import ProjectIdeasFilters from '../../components/ProjectIdeasFilters/ProjectIdeasFilters';
+import { ProjectIdea } from '../../contexts/ServantProjectIdeas';
+import ProjectIdeasFilters from '../../components/ProjectIdeasFilters';
 import { useSearchParams } from 'react-router-dom';
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 
@@ -34,22 +34,16 @@ const Main: React.FC = () => {
       .catch(e => console.error(e)
       )
 
-    setSearchParams(state => {
-      state.delete('categoryid')
-      state.delete('modality')
-      return state
-    })
-
   }, [])
 
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 12 
+  const itemsPerPage = 12
   const paginate = (currentPage - 1) * itemsPerPage
 
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const bottomElement = useRef<HTMLDivElement>(null)
-  const [mainProjectIdeas, setMainProjectIdeas] = useState<Project[] | null>(null)
-  const { data: projects, isFetching } = useFetch<Project>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
+  const [mainProjectIdeas, setMainProjectIdeas] = useState<ProjectIdea[] | null>(null)
+  const { data: projects, isFetching } = useFetch<ProjectIdea>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
 
 
   useInfiniteScroll(bottomElement, loadMoreContent, isFetching)
@@ -74,7 +68,11 @@ const Main: React.FC = () => {
         <header className={styles.header}>
           <div className={styles.title}>
             <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
-            <p>{auth.user?.vinculo.curso} <br /> Campus - {auth.user?.vinculo.campus}</p>
+            <div>
+              <p>{auth.user?.vinculo.curso} </p>
+              <p> Campus - {auth.user?.vinculo.campus}  </p>
+              <p>{auth.user?.vinculo.setor_suap}</p>
+            </div>
           </div>
           <ProjectIdeasFilters
             changeMainProjectIdeas={setMainProjectIdeas}
@@ -88,29 +86,28 @@ const Main: React.FC = () => {
             >
               <AlertCircle size={32} />
               <p>Não foram encontradas ideias de projeto.</p>
-            </div> 
+            </div>
           )}
-          {mainProjectIdeas?.length == 0 && 
-          <div
-            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-          >
-            <AlertCircle size={32} />
-            <p>Não foram encontradas ideias de projeto.</p>
-          </div>}
+          {mainProjectIdeas?.length == 0 &&
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+            >
+              <AlertCircle size={32} />
+              <p>Não foram encontradas ideias de projeto.</p>
+            </div>}
           <ul className={styles.postsContainer}>
-            {mainProjectIdeas?.map((project: Project, index) =>
+            {mainProjectIdeas?.map((projectIdea: ProjectIdea, index) =>
               <li key={index}>
                 <Post
-                  title={project.title}
-                  description={project.description}
-                  studentsRequired={project.studentsRequired}
-                  username={project.user.name}
-                  category={project.category.name}
-                  color={project.category.color}
-                  userCourse={project.user.course.name}
-                  modality={project.modality}
-                  email={project.user.email}
-                  phone={project.user.phone}
+                  title={projectIdea.title}
+                  description={projectIdea.description}
+                  studentsRequired={projectIdea.studentsRequired}
+                  modality={projectIdea.modality}
+                  category={projectIdea.category}
+                  username={projectIdea.servant.user.name}
+                  email={projectIdea.servant.user.email}
+                  phone={projectIdea.servant.user.phone}
+                  department={projectIdea.servant.department}
                 />
               </li>
             )}

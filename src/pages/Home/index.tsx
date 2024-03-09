@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../../components/Button/Button";
+import Button from "../../components/Button";
 import GlobalStyle from "../../styles/global";
 import { CheckCircle, LogIn, Search, Share2, User } from "react-feather";
 import LogoHome from "../../assets/LogoMain.svg";
 import Banner from "../../assets/Banner.png";
 import styles from "./Home.module.css";
 import classNames from "classnames/bind";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
 

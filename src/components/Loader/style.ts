@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { LoaderProps } from './Loader'
+import { LoaderProps } from '.'
 
 export const StyledLoader = styled.div<LoaderProps>`
    width: 3.8rem;

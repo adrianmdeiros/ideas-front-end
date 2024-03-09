@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BtnProps } from "./Button";
+import { BtnProps } from ".";
 
 
 export const StyledButton = styled.button<BtnProps>`

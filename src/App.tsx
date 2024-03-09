@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import GlobalStyle from "./styles/global";
-import AuthProvider from "./contexts/AuthContext";
+import AuthProvider from "./contexts/Auth";
 import { Toaster } from "react-hot-toast";
 
 function App() {

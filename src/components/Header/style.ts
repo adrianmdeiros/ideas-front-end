@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HeaderProps } from './Header'
+import { HeaderProps } from '.'
 
 export const StyledHeader = styled.div<HeaderProps>`
     padding: ${props => props.padding};
