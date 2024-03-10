@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react"
-import styles from './EdiProject.module.css'
+import { ChangeEvent, useContext, useEffect, useState } from "react"
+import styles from './styles.module.css'
 import api from "../../api/api"
 import { AuthContext } from "../../contexts/Auth"
 import Button from "../Button"
@@ -7,7 +7,14 @@ import { Minus, Plus } from "react-feather"
 import Loader from "../Loader"
 import toast from "react-hot-toast"
 import { ServantProjectIdeasContext, ProjectIdea } from "../../contexts/ServantProjectIdeas"
-import { Category } from "../ProjectForm"
+
+type Category = {
+  name: string
+}
+
+type Modality = {
+  name: string
+}
 
 type EditProjectProps = {
   id?: string
@@ -19,11 +26,13 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
   const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
   const [projectIdea, setProjectIdea] = useState<ProjectIdea | null>(null)
   const [categories, setCategories] = useState<Category[] | null>(null)
+  const [modalities, setModalities] = useState<Modality[] | null>(null)
+
   const [isFetchingCat, setIsFetchingCat] = useState(true)
   const [isFetchingProj, setIsFetchingProj] = useState(true)
 
   useEffect(() => {
-    api.get(`${api.defaults.baseURL}/projects?id=${id}`)
+    api.get(`${api.defaults.baseURL}/project-ideas?id=${id}`)
       .then(response => setProjectIdea(response.data))
       .catch(e => console.error(e.message))
       .finally(() => setIsFetchingProj(false))
@@ -32,12 +41,18 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
       .then(response => setCategories(response.data))
       .catch(e => console.error(e.messages))
       .finally(() => setIsFetchingCat(false))
+
+    api.get(`${api.defaults.baseURL}/modalities`)
+      .then(response => setModalities(response.data))
+      .catch(e => console.error(e.messages))
   }, [])
 
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [modality, setModality] = useState('');
+  const [selectedModalityValue, setSelectedModalityValue] = useState<string | null>()
+  const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>()
 
   const [studentsRequired, setStudentsRequired] = useState(1);
   const [category, setCategory] = useState('');
@@ -48,7 +63,10 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
       setTitle(projectIdea.title);
       setDescription(projectIdea.description);
       setStudentsRequired(projectIdea.studentsRequired);
-      setCategory(projectIdea.category);
+      setSelectedCategoryValue(projectIdea.category.name)
+      setSelectedModalityValue(projectIdea.modality.name)
+      setCategory(projectIdea.category.name)
+      setModality(projectIdea.modality.name)
     }
   }, [projectIdea])
 
@@ -56,6 +74,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
   useEffect(() => {
     if (category === 'MONOGRAFIA') {
       setStudentsRequired(1)
+      setModality('VOLUNTÁRIO')
     }
   }, [category])
 
@@ -73,6 +92,17 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
     }
   };
 
+  function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
+    setSelectedCategoryValue(e.target.value)
+    setCategory(e.target.value)
+  }
+
+  function handleModalitySelected(e: ChangeEvent<HTMLSelectElement>) {
+    setSelectedModalityValue(e.target.value)
+    setModality(e.target.value)
+  }
+
+
   const updateProject = async (id?: string, e?: any) => {
     e.preventDefault();
     setIsPublishing(true)
@@ -85,10 +115,10 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
         studentsRequired,
         modality,
         category,
-        servantId: auth.user?.id 
+        servantId: auth.user?.id
       })
 
-      
+
       const newList = servantProjectIdeasContext.servantProjectIdeas?.map(servantProjectIdea => {
         return servantProjectIdea.id === id ? { ...response.data } : servantProjectIdea
       }) as ProjectIdea[]
@@ -140,94 +170,74 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        {category != "MONOGRAFIA" && (
-          <>
-            <div className={styles.numberOfStudentsContainer}>
-              <label htmlFor="numberOfStudents">
-                Quantidade de alunos
-              </label>
-              <div className={styles.addOrRemoveStudentsContainer}>
-                <Button
-                  backgroundColor="#f5f5f5"
-                  color="#101010"
-                  borderRadius=".8rem"
-                  hover="#dedede"
-                  onClick={removeStudent}
-                  width="38%"
-                >
-                  <Minus />
-                </Button>
-                <input
-                  type="number"
-                  id="studentsRequired"
-                  className={styles.numberOfStudents}
-                  disabled={true}
-                  value={studentsRequired}
-                />
-                <Button
-                  width="38%"
-                  backgroundColor="#f5f5f5"
-                  color="#101010"
-                  borderRadius=".8rem"
-                  hover="#dedede"
-                  onClick={addStudent}
-                >
-                  <Plus />
-                </Button>
-              </div>
+        {category !== 'MONOGRAFIA' && (
+          <div className={styles.numberOfStudentsContainer}>
+            <label htmlFor="numberOfStudents">
+              Quantidade de alunos
+            </label>
+            <p style={{ color: '#5a5a5a' }}>Determine a quantidade de alunos</p>
+            <div className={styles.addOrRemoveStudentsContainer}>
+              <Button
+                backgroundColor="#f5f5f5"
+                color="#101010"
+                borderRadius=".8rem"
+                hover="#dedede"
+                onClick={removeStudent}
+                width="38%"
+              >
+                <Minus />
+              </Button>
+              <input
+                type="number"
+                id="studentsRequired"
+                className={styles.numberOfStudents}
+                disabled={true}
+                value={studentsRequired}
+              />
+              <Button
+                width="38%"
+                backgroundColor="#f5f5f5"
+                color="#101010"
+                borderRadius=".8rem"
+                hover="#dedede"
+                onClick={addStudent}
+              >
+                <Plus />
+              </Button>
             </div>
-            <div className={styles.projectCategoryContainer}>
-              <label htmlFor="projectModality">
-                Modalidade do projeto
-              </label>
-              <ul className={styles.modalities}>
-                <li key={'bolsista'}>
-                  <input id="bolsista" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Bolsista")} />
-                  <label
-                    htmlFor="bolsista"
-                    className={styles.type}>
-                    Bolsista
-                  </label>
-                </li>
-                <li key={'voluntario'}>
-                  <input id="voluntario" className={styles.checkbox} required={true} type="radio" name="projectModality" onClick={() => setModality("Voluntário")} />
-                  <label
-                    htmlFor="voluntario"
-                    className={styles.type}>
-                    Voluntário
-                  </label>
-                </li>
-              </ul>
-            </div>
-          </>
+          </div>
         )}
-
         <div className={styles.projectCategoryContainer}>
           <label htmlFor="projectCategory">
-            Categoria do projeto
+            Categoria
           </label>
+          <p style={{ color: '#5a5a5a' }}> Selecione a categoria da ideia de projeto</p>
           {isFetchingCat && <Loader />}
-          <ul className={styles.categories}>
+          <select name="category" id="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
+            <option value="" >Selecione</option>
             {categories?.map((category, index) => (
-              <li key={index}>
-                <input
-                  required={true}
-                  type="radio"
-                  id={category.name}
-                  name="projectCategory"
-                  className={styles.checkbox}
-                  onClick={() => setCategory(category.name)}
-                />
-                <label
-                  htmlFor={category.name}
-                  className={styles.type}
-                >
-                  {category.name}
-                </label>
-              </li>
+              <option key={index} value={category.name}>
+                {category.name}
+              </option>
             ))}
-          </ul>
+          </select>
         </div>
+        {category !== 'MONOGRAFIA' && (
+          <div className={styles.projectCategoryContainer}>
+            <label htmlFor="projectModality">
+              Modalidade
+            </label>
+            <p style={{ color: '#5a5a5a' }}> Selecione uma modalidade</p>
+            <select name="modality" id="modality" value={String(selectedModalityValue)} onChange={handleModalitySelected} className={styles.select}>
+              <option value="">Selecione</option>
+              {modalities?.map((modality, index) => (
+                <option key={index} value={modality.name}>
+                  {modality.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <Button
           backgroundColor="#f5f5f5"
           borderRadius=".5rem"

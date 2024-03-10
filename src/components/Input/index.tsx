@@ -10,11 +10,11 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement>{
   height?: string
 };
 
-const Input: React.FC<InputProps> = ({name, height, all,  id, type, placeholder, borderRadius, backgroundColor, border, value, onChange}) => {
+const Input: React.FC<InputProps> = (props: InputProps) => {
     
 
   return (
-      <StyledInput  name={name} height={height} all={all} type={type} id={id} placeholder={placeholder}  borderRadius={borderRadius} backgroundColor={backgroundColor} border={border} value={value} onChange={onChange}/>
+      <StyledInput  name={props.name} height={props.height} all={props.all} type={props.type} id={props.id} placeholder={props.placeholder}  borderRadius={props.borderRadius} backgroundColor={props.backgroundColor} border={props.border} value={props.value} onChange={props.onChange}/>
   )
 };
 

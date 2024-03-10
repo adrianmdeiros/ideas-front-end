@@ -1,14 +1,12 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import api from "../../api/api";
-import styles from './ProjectIdeasFilters.module.css'
-import { Category } from "../ProjectForm";
+import styles from './styles.module.css'
 import { Filter, Search } from "react-feather";
 import { useSearchParams } from "react-router-dom";
 import { ProjectIdea } from "../../contexts/ServantProjectIdeas";
 
 type FiltersFunctions = {
-    changeMainProjectIdeas: Dispatch<SetStateAction<ProjectIdea[] | null>>
-    setCurrentPage: Dispatch<SetStateAction<number>>
+    setMuralProjectIdeas: Dispatch<SetStateAction<ProjectIdea[] | null>>
 }
 
 type ProjectIdeasFilters = {
@@ -17,6 +15,10 @@ type ProjectIdeasFilters = {
 }
 
 type Modality = {
+    name: string
+}
+
+type Category = {
     name: string
 }
 
@@ -43,9 +45,7 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
         const { category, modality } = e.target.elements
         
         if(category.value !== '' || modality.value !== ''){
-            props.changeMainProjectIdeas(null)
-            props.setCurrentPage(1)
-            
+            props.setMuralProjectIdeas(null)
         }
 
         setSearchParams(state => {
@@ -84,8 +84,7 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
             return state
         })
 
-        props.setCurrentPage(1)
-        props.changeMainProjectIdeas(null)
+        props.setMuralProjectIdeas(null)
 
 
     }
@@ -98,7 +97,7 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
                     <select name="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
                         <option value={''} >Selecione</option>
                         {categories?.map((category, index) => (
-                            <option key={index} value={category.name}>
+                            <option key={index} value={category.name.toLowerCase()}>
                                 {category.name}
                             </option>
                         ))}
@@ -109,7 +108,7 @@ const ProjectIdeasFilters = (props: FiltersFunctions) => {
                     <select name="modality" className={styles.select} value={String(selectedModalityValue)} onChange={handleModalitySelected}>
                         <option value={''}>Selecione</option>
                         {modalities?.map((modality, index) => (
-                            <option key={index} value={modality.name}>
+                            <option key={index} value={modality.name.toLowerCase()}>
                                 {modality.name}
                             </option>
                         ))}

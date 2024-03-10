@@ -21,7 +21,7 @@ export const CloseButton = styled(X)`
 
 export const StyledModal = styled.div`
     max-width: 100%;
-    min-width: 34rem;
+    min-width: 28rem;
     background-color: #101010;
     border-radius: .8rem;
     padding: 2rem;
@@ -39,7 +39,7 @@ export const StyledModal = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-        background: #ff7a00; 
+        background: #39ff14; 
         border-radius: .6rem; 
     }
 

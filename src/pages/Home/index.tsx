@@ -1,10 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
-import GlobalStyle from "../../styles/global";
 import { CheckCircle, LogIn, Search, Share2, User } from "react-feather";
 import LogoHome from "../../assets/LogoMain.svg";
 import Banner from "../../assets/Banner.png";
-import styles from "./Home.module.css";
+import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import Header from "../../components/Header";
 import { useEffect } from "react";
@@ -24,7 +23,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <GlobalStyle />
       <div className={styles.container}>
         <Header height="9rem" padding="0 2rem" position="absolute" zIndex="1">
           <Link to={'/'}>

@@ -5,7 +5,6 @@ import {
   StyledTop,
   StyledTitle,
   StyledBottom,
-  StyledColorTypeProject,
   StyledMiddle,
   StyledP,
   StyledProjectReq,
@@ -16,7 +15,7 @@ import {
   StyledConfirmBox,
   StyledButtons
 } from "./style";
-import { AlertTriangle, Edit, Flag, Trash2, User } from "react-feather";
+import { AlertTriangle, Edit, Trash2 } from "react-feather";
 import { useLocation } from "react-router-dom";
 import Button from "../Button";
 import Modal from "../Modal";
@@ -54,7 +53,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
     e.preventDefault()
     setIsExcluding(true)
     try {
-      await api.delete(`/projects/${id}`)
+      await api.delete(`/project-ideas/${id}`)
 
       if (servantProjectIdeasContext.servantProjectIdeas) {
         servantProjectIdeasContext.setServantProjectIdeas(
@@ -146,23 +145,21 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
               + '...' : props.description : "Não há descrição"}
           </StyledDescription>
         </StyledMiddle>
-        <StyledProjectReq>
-          <StyledColorTypeProject />
-          <StyledP>{props.category}</StyledP>
-        </StyledProjectReq>
         <StyledBottom>
           <StyledReqContainer>
-            <div style={{ display: 'flex', alignItems: 'end', gap: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'end', gap: '1rem', flexWrap: 'wrap' }}>
               <StyledProjectReq>
-                <Flag size={18} />
+                🧪
+                <StyledP>{props.category}</StyledP>
+              </StyledProjectReq>
+              <StyledProjectReq>
+                ✨
                 <StyledP>{props.modality ? props.modality : '-'}</StyledP>
               </StyledProjectReq>
-              <div>
                 <StyledProjectReq>
-                  <User size={18} />
-                  <StyledP>{props.studentsRequired} aluno(s)</StyledP>
+                  👨‍🎓
+                  <StyledP>{props.studentsRequired} ALUNO(S)</StyledP>
                 </StyledProjectReq>
-              </div>
             </div>
           </StyledReqContainer>
           <Button
@@ -174,7 +171,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
             onClick={() => setIsProjectDetailsModalOpen(true)}
             borderRadius={".8rem"}
           >
-            Saiba mais
+            Detalhes
           </Button>
         </StyledBottom>
         <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() => setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}>

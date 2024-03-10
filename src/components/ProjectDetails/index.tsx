@@ -1,6 +1,5 @@
-import GlobalStyle from "../../styles/global";
 import { DollarSign, Mail, Phone, User } from "react-feather";
-import styles from "./ProjectDetaills.module.css";
+import styles from "./styles.module.css";
 
 type ProjectDetailsProps = {
   title?: string;
@@ -18,7 +17,6 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProp
   return (
     <>
       <div className={styles.body}>
-        <GlobalStyle />
         <h2 className={styles.title}>Detalhes do projeto</h2>
         <div className={styles.container}>
           <div className={styles.projectContainer}>

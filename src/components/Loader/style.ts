@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { LoaderProps } from '.'
 
 export const StyledLoader = styled.div<LoaderProps>`
-   width: 3.8rem;
-   height: 3.8rem;
+   width: 3.2rem;
+   height: 3.2rem;
    border-radius: 50%;
    border: .6rem solid ${props => props.color};
    animation: spinner-bulqg1 0.8s infinite linear alternate,

@@ -1,70 +1,31 @@
-import { useContext, useEffect, useRef, useState } from 'react'
-import { AlertCircle } from "react-feather";
+import { useContext } from 'react'
+import {  HardDrive } from "react-feather";
 import { useFetch } from "../../hooks/useFetch";
 import { AuthContext } from "../../contexts/Auth";
-import GlobalStyle from "../../styles/global";
-import styles from "./Main.module.css";
+import { ProjectIdea } from '../../contexts/ServantProjectIdeas';
 import Menu from "../../components/Menu";
 import Post from "../../components/Post";
 import Loader from "../../components/Loader";
 import api from "../../api/api";
-import { ProjectIdea } from '../../contexts/ServantProjectIdeas';
 import ProjectIdeasFilters from '../../components/ProjectIdeasFilters';
-import { useSearchParams } from 'react-router-dom';
-import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
+import styles from "./styles.module.css";
 
-type dbUser = {
-  name: string
-  email: string
-  phone: string
-  bond: string
-  course: {
-    id: number
-    name: string
-  }
-}
 
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
-  const [dbUser, setDbUser] = useState<dbUser>()
 
-  useEffect(() => {
-    api.get(`${api.defaults.baseURL}/users?id=${auth.user?.id}`)
-      .then(response => setDbUser(response.data))
-      .catch(e => console.error(e)
-      )
+  const {
+    data: muralProjectIdeas,
+    setData: setMuralProjectIdeas,
+    isFetching
+  } = useFetch<ProjectIdea[] | null>(`${api.defaults.baseURL}/project-ideas`)
 
-  }, [])
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 12
-  const paginate = (currentPage - 1) * itemsPerPage
-
-  const [searchParams] = useSearchParams()
-  const bottomElement = useRef<HTMLDivElement>(null)
-  const [mainProjectIdeas, setMainProjectIdeas] = useState<ProjectIdea[] | null>(null)
-  const { data: projects, isFetching } = useFetch<ProjectIdea>(`${api.defaults.baseURL}/projects?usercourseid=${dbUser?.course.id}&skip=${paginate}`, searchParams, [dbUser, searchParams])
-
-
-  useInfiniteScroll(bottomElement, loadMoreContent, isFetching)
-
-  useEffect(() => {
-    if (projects) {
-      mainProjectIdeas ? setMainProjectIdeas([...mainProjectIdeas, ...projects]) : setMainProjectIdeas(projects)
-    }
-  }, [projects])
-
-
-  function loadMoreContent() {
-    setCurrentPage(prevPage => prevPage + 1)
-  }
-
+  
 
   return (
     <div className={styles.body}>
-      <GlobalStyle />
       <Menu />
-      <div id='container' className={styles.container}>
+      <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.title}>
             <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
@@ -75,44 +36,43 @@ const Main: React.FC = () => {
             </div>
           </div>
           <ProjectIdeasFilters
-            changeMainProjectIdeas={setMainProjectIdeas}
-            setCurrentPage={setCurrentPage}
+            setMuralProjectIdeas={setMuralProjectIdeas}
           />
         </header>
         <div className={styles.feed}>
-          {!mainProjectIdeas && !isFetching && (
+          {!muralProjectIdeas && !isFetching && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
-              <AlertCircle size={32} />
-              <p>Não foram encontradas ideias de projeto.</p>
+              ✨
+              <p>Não foram encotradas ideias de projetos.</p>
             </div>
           )}
-          {mainProjectIdeas?.length == 0 &&
+          {muralProjectIdeas?.length == 0 &&
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
-              <AlertCircle size={32} />
+              <HardDrive size={32} />
               <p>Não foram encontradas ideias de projeto.</p>
             </div>}
           <ul className={styles.postsContainer}>
-            {mainProjectIdeas?.map((projectIdea: ProjectIdea, index) =>
+            {muralProjectIdeas?.map((projectIdea: ProjectIdea, index) =>
               <li key={index}>
                 <Post
                   title={projectIdea.title}
                   description={projectIdea.description}
                   studentsRequired={projectIdea.studentsRequired}
-                  modality={projectIdea.modality}
-                  category={projectIdea.category}
+                  modality={projectIdea.modality.name}
+                  category={projectIdea.category.name}
                   username={projectIdea.servant.user.name}
                   email={projectIdea.servant.user.email}
                   phone={projectIdea.servant.user.phone}
-                  department={projectIdea.servant.department}
+                  department={projectIdea.servant.department.name}
                 />
               </li>
             )}
           </ul>
-          <div ref={bottomElement} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.4rem', height: '14rem', marginTop: '4rem' }}>
             {isFetching && (
               <>
                 <Loader color="#fa7700" /> <p>Carregando...</p>

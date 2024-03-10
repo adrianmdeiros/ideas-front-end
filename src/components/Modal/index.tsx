@@ -1,4 +1,3 @@
-import GlobalStyle from "../../styles/global";
 import { CloseButton, StyledContainer, StyledModal } from "./style";
 
 type ModalProps = {
@@ -11,7 +10,6 @@ const Modal: React.FC<ModalProps> = ({ setOpenModal, isOpen, children }) => {
   if (isOpen) {
     return (
       <>
-        <GlobalStyle />
         <StyledContainer>
           <StyledModal>
             <CloseButton onClick={setOpenModal}/>

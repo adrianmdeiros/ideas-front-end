@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import styles from './ContactForm.module.css'
+import styles from './styles.module.css'
 
 import Button from '../Button'
 import Loader from '../Loader'
@@ -37,7 +37,7 @@ const ContactForm = (props: ContactFormProps) => {
         <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
             <h3>{props.title}</h3>
             <label htmlFor={props.label}>{props.label}</label>
-            <input className={styles.input} type={props.label} name={props.label} id={props.label} placeholder={`Digite seu ${props.label}`} required onChange={(e) => handleOnChange(e)}
+            <input className={styles.input} type={props.label} name={props.label} id={props.label} placeholder={`Digite seu ${props.label}`} onChange={(e) => handleOnChange(e)}
             />
             <Button backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
                 {props.isSaving ? (

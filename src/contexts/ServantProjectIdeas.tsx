@@ -1,4 +1,4 @@
-import { Dispatch, FC, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react'
+import { Dispatch, FC, ReactNode, SetStateAction, createContext, useContext } from 'react'
 import { useFetch } from '../hooks/useFetch'
 import { AuthContext } from "./Auth";
 import api from '../api/api'
@@ -8,22 +8,27 @@ export type ProjectIdea = {
   title: string
   description: string
   studentsRequired: number
-  modality: string
-  category: string
+  modality: {
+    name: string
+  }
+  category: {
+    name: string
+  }
   servant: {
+    department: {
+      name: string
+    }
     user: {
       name: string
       email: string
       phone: string
     }
-    department: string
   }
 }
 
 type ServantProjectsContextProps = {
   servantProjectIdeas: ProjectIdea[] | null
   setServantProjectIdeas: Dispatch<SetStateAction<ProjectIdea[] | null>>
-  setCurrentPage: Dispatch<SetStateAction<number>>
   isFetching: boolean
 }
 
@@ -36,22 +41,10 @@ export const ServantProjectIdeasContext = createContext<ServantProjectsContextPr
 const ServantProjectIdeasProvider: FC<ServantProjectIdeasProviderProps> = ({ children }) => {
   const auth = useContext(AuthContext)
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 12
-  const paginate = (currentPage - 1) * itemsPerPage
-
-  const [servantProjectIdeas, setServantProjectIdeas] = useState<ProjectIdea[] | null>(null)
-  const { data: servantProjects,  isFetching } = useFetch<ProjectIdea>(`${api.defaults.baseURL}/projects?userid=${auth.user?.id}&skip=${paginate}`)
-
-  useEffect(() => {
-    if (servantProjects) {
-      servantProjectIdeas ? setServantProjectIdeas([...servantProjectIdeas, ...servantProjects]) : setServantProjectIdeas(servantProjects)
-    }
-  }, [servantProjects])
-
+  const { data: servantProjectIdeas, setData: setServantProjectIdeas, isFetching } = useFetch<ProjectIdea[] | null>(`${api.defaults.baseURL}/project-ideas?servantId=${123}`) // trocar para id do usuário autenticado
 
   return (
-    <ServantProjectIdeasContext.Provider value={{ servantProjectIdeas, setServantProjectIdeas, isFetching, setCurrentPage }}>
+    <ServantProjectIdeasContext.Provider value={{ servantProjectIdeas, setServantProjectIdeas, isFetching }}>
       {children}
     </ServantProjectIdeasContext.Provider>
   )

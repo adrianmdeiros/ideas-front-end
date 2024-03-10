@@ -1,5 +1,4 @@
-import GlobalStyle from "../../styles/global";
-import styles from "./Login.module.css";
+import styles from "./styles.module.css";
 import Banner from "../../assets/Banner.png";
 import Logo from "../../assets/LogoHome.svg";
 import Button from "../../components/Button";
@@ -49,7 +48,6 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <GlobalStyle />
       <img className={styles.background} src={Banner} />
       <div className={styles.container}>
         <div className={styles.loginContainer}>

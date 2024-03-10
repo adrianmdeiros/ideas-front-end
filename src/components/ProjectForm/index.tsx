@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } from "react";
 import { Minus, Plus } from "react-feather";
 import { AuthContext } from "../../contexts/Auth";
 import { ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
@@ -6,44 +6,56 @@ import api from "../../api/api";
 import toast from "react-hot-toast";
 import Loader from "../Loader";
 import Button from "../Button";
-import styles from './ProjectForm.module.css'
+import styles from './styles.module.css'
 
 type ProjectFormModalBehavior = {
     isModalOpen: boolean
     setIsModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export type Category = {
+type Modality = {
+    name: string
+}
+
+
+type Category = {
     name: string;
 };
 
 const ProjectForm = (props: ProjectFormModalBehavior) => {
     const auth = useContext(AuthContext);
     const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
+    const [modalities, setModalities] = useState<Modality[] | null>(null)
     const [categories, setCategories] = useState<Category[] | null>(null)
     const [isFetchingCat, setIsFetchingCat] = useState(true)
+
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [studentsRequired, setStudentsRequired] = useState(1);
+    const [modality, setModality] = useState('');
+    const [category, setCategory] = useState('');
+    const [isPublishing, setIsPublishing] = useState<Boolean>(false)
+    const [selectedModalityValue, setSelectedModalityValue] = useState<string | null>()
+    const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>()
 
     useEffect(() => {
         api.get(`${api.defaults.baseURL}/categories`)
             .then(response => setCategories(response.data))
             .catch(e => console.error(e.messages))
             .finally(() => setIsFetchingCat(false))
+        api.get(`${api.defaults.baseURL}/modalities`)
+            .then(response => setModalities(response.data))
+            .catch(e => console.error(e.messages))
     }, [])
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [modality, setModality] = useState('');
-    const [studentsRequired, setStudentsRequired] = useState(1);
-
-    const [category, setCategory] = useState('');
-    const [isPublishing, setIsPublishing] = useState<Boolean>(false)
 
     useEffect(() => {
         if (category === 'MONOGRAFIA') {
             setStudentsRequired(1)
-            setModality('')
+            setModality('VOLUNTÁRIO')
         }
     }, [category])
+
 
     const addStudent = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -59,20 +71,31 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
         }
     };
 
+    function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
+        setSelectedCategoryValue(e.target.value)
+        setCategory(e.target.value)
+    }
+
+    function handleModalitySelected(e: ChangeEvent<HTMLSelectElement>) {
+        setSelectedModalityValue(e.target.value)
+        setModality(e.target.value)
+    }
+
+
     const createProject = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsPublishing(true)
 
         try {
-            const response = await api.post("/projects", {
+            const response = await api.post("/project-ideas", {
                 title,
                 description,
                 studentsRequired,
                 modality,
-                category: category,
-                userid: auth.user?.id
+                category,
+                servantId: 123 //trocar depois para auth.user.id do servidor
             });
-            
+
 
             toast.success('Ideia de projeto criada!')
 
@@ -84,12 +107,15 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
             );
 
         } catch (e) {
-            toast.error("Ocorreu um erro. Talvez já exista uma ideia de projeto com esse título.");
+            toast.error("Verifique se todos os campos foram preenchidos. Lembrete: Não pode haver dois projetos com o mesmo título.");
             setIsPublishing(false);
         }
+        setSelectedCategoryValue(null)
+        setSelectedModalityValue(null)
         setCategory('')
         setModality('')
     };
+
     return (
         <>
             <h2 className={styles.title}>Adicionar Ideia de Projeto</h2>
@@ -119,99 +145,81 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
-                {category != 'MONOGRAFIA' && (
-                    <>
-                        <div className={styles.numberOfStudentsContainer}>
-                            <label htmlFor="numberOfStudents">
-                                Quantidade de alunos
-                            </label>
-                            <div className={styles.addOrRemoveStudentsContainer}>
-                                <Button
-                                    backgroundColor="#f5f5f5"
-                                    color="#101010"
-                                    borderRadius=".8rem"
-                                    hover="#dedede"
-                                    onClick={removeStudent}
-                                    width="38%"
-                                >
-                                    <Minus />
-                                </Button>
-                                <input
-                                    type="number"
-                                    id="studentsRequired"
-                                    className={styles.numberOfStudents}
-                                    disabled={true}
-                                    value={studentsRequired}
-                                />
-                                <Button
-                                    width="38%"
-                                    backgroundColor="#f5f5f5"
-                                    color="#101010"
-                                    borderRadius=".8rem"
-                                    hover="#dedede"
-                                    onClick={addStudent}
-                                >
-                                    <Plus />
-                                </Button>
-                            </div>
+                {category !== 'MONOGRAFIA' && (
+                    <div className={styles.numberOfStudentsContainer}>
+                        <label htmlFor="numberOfStudents">
+                            Quantidade de alunos
+                        </label>
+                        <p style={{ color: '#5a5a5a' }}>Determine a quantidade de alunos</p>
+                        <div className={styles.addOrRemoveStudentsContainer}>
+                            <Button
+                                backgroundColor="#f5f5f5"
+                                color="#101010"
+                                borderRadius=".8rem"
+                                hover="#dedede"
+                                onClick={removeStudent}
+                                width="38%"
+                            >
+                                <Minus />
+                            </Button>
+                            <input
+                                type="number"
+                                id="studentsRequired"
+                                className={styles.numberOfStudents}
+                                disabled={true}
+                                value={studentsRequired}
+                            />
+                            <Button
+                                width="38%"
+                                backgroundColor="#f5f5f5"
+                                color="#101010"
+                                borderRadius=".8rem"
+                                hover="#dedede"
+                                onClick={addStudent}
+                            >
+                                <Plus />
+                            </Button>
                         </div>
-                        <div className={styles.projectCategoryContainer}>
-                            <label htmlFor="projectModality">
-                                Modalidade do projeto
-                            </label>
-                            <ul className={styles.modalities}>
-                                <li key={'bolsista'}>
-                                    <input id="bolsista" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("bolsa")} />
-                                    <label
-                                        htmlFor="bolsista"
-                                        className={styles.type}>
-                                        Bolsa
-                                    </label>
-                                </li>
-                                <li key={'voluntario'}>
-                                    <input id="voluntario" className={styles.checkbox} required={false} type="radio" name="projectModality" onClick={() => setModality("voluntário")} />
-                                    <label
-                                        htmlFor="voluntario"
-                                        className={styles.type}>
-                                        Voluntário
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </>
+                    </div>
                 )}
                 <div className={styles.projectCategoryContainer}>
                     <label htmlFor="projectCategory">
-                        Categoria do projeto
+                        Categoria
                     </label>
+                    <p style={{ color: '#5a5a5a' }}> Selecione a categoria da ideia de projeto</p>
                     {isFetchingCat && <Loader />}
-                    <ul className={styles.categories}>
+                    <select name="category" id="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
+                        <option value="" >Selecione</option>
                         {categories?.map((category, index) => (
-                            <li key={index}>
-                                <input
-                                    required={true}
-                                    type="radio"
-                                    id={category.name}
-                                    name="projectCategory"
-                                    className={styles.checkbox}
-                                    onClick={() => setCategory(category.name)}
-                                />
-                                <label
-                                    htmlFor={category.name}
-                                    className={styles.type}
-                                >
-                                    {category.name}
-                                </label>
-                            </li>
+                            <option key={index} value={category.name}>
+                                {category.name}
+                            </option>
                         ))}
-                    </ul>
+                    </select>
                 </div>
+                {category !== 'MONOGRAFIA' && (
+                    <div className={styles.projectCategoryContainer}>
+                        <label htmlFor="projectModality">
+                            Modalidade
+                        </label>
+                        <p style={{ color: '#5a5a5a' }}> Selecione uma modalidade</p>
+                        <select name="modality" id="modality" value={String(selectedModalityValue)} onChange={handleModalitySelected} className={styles.select}>
+                            <option value="">Selecione</option>
+                            {modalities?.map((modality, index) => (
+                                <option key={index} value={modality.name}>
+                                    {modality.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
                 <Button
                     backgroundColor="#f5f5f5"
                     borderRadius=".5rem"
                     color="#101010"
                     hover="#dedede"
                     width="100%"
+                    disabled={isPublishing ? true : false}
                 >
                     {isPublishing ? (
                         <>

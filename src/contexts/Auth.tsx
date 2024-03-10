@@ -58,7 +58,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   
-
   const getNewToken = async (refreshToken: string) => {
     const response = await suapi.post("autenticacao/token/refresh/", {
       refresh: refreshToken,

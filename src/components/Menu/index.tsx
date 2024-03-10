@@ -36,7 +36,7 @@ const Menu: React.FC = () => {
       {isMobile ? (
         <StyledTabBar>
           <NavLink to={"/main"} icon={<Grid />} label="Mural" />
-          {userIsServant() && <NavLink to={"/projects"} icon={<Folder />} label="Meus Projetos" />}
+          {userIsServant() && <NavLink to={"/projects"} icon={<Folder />} label="Minhas Ideias" />}
           <NavLink
             to={"/perfil"}
             icon={<Perfil src={userPhoto} alt="Foto de perfil" />}
@@ -58,7 +58,7 @@ const Menu: React.FC = () => {
             {userIsServant() && <NavLink
               to={"/projects"}
               icon={<Folder />}
-              label="Meus Projetos"
+              label="Minhas Ideias"
               display={"flex"}
             />}
           </StyledNav>

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react"
 import api from "../api/api"
 
-export function useFetch<T = unknown>(url: string, queryParams?: URLSearchParams | null, dependencies: any[] = []) {
-    const [data, setData] = useState<T[] | null>(null)
+export function useFetch<T = unknown>(url: string, dependencies: any[] = []) {
+    const [data, setData] = useState<T | null>(null)
     const [isFetching, setIsFetching] = useState(true)
     const [error, setError] = useState<Error | null>(null)
 
     useEffect(() => {
-        const fullUrl = `${url}${queryParams ? '&' + queryParams.toString()  : ''}`
-        api.get(fullUrl)
+        api.get(url)
             .then(response => {
                 setData(response.data)
             })
@@ -19,7 +18,7 @@ export function useFetch<T = unknown>(url: string, queryParams?: URLSearchParams
                 setIsFetching(false)
             })
         return () => {}
-    }, [url,...dependencies])
+    }, [...dependencies])
 
 
     return { data, setData, isFetching, error }
