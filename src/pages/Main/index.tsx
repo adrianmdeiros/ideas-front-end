@@ -35,26 +35,27 @@ const Main: React.FC = () => {
   const filterMuralProjectIdeas = (filters: URLSearchParams) => {
     const category = filters.get('category')
     const modality = filters.get('modality')
+    const department = filters.get('department')
 
+    let filteredProjectIdeas
 
     if (filters.size === 0) {
       return all
     }
 
-    if (modality && category) {
-      return all?.filter(project =>
-        (project.modality.name === modality.toUpperCase()) && (project.category.name === category.toUpperCase())
-      )
+    if (department) {
+      filteredProjectIdeas = all?.filter(project => project.servant.department.name === department.toUpperCase())
     }
 
     if (category) {
-      return all?.filter(project => project.category.name === category.toUpperCase())
+      filteredProjectIdeas = all?.filter(project => project.category.name === category.toUpperCase())
     }
 
     if (modality) {
-      return all?.filter(project => project.modality.name === modality.toUpperCase())
+      filteredProjectIdeas = all?.filter(project => project.modality.name === modality.toUpperCase())
     }
 
+    return filteredProjectIdeas
 
   }
 

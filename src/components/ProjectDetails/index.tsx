@@ -1,4 +1,3 @@
-import { DollarSign, Mail, Phone, User } from "react-feather";
 import styles from "./styles.module.css";
 
 type ProjectDetailsProps = {
@@ -21,10 +20,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProp
         <div className={styles.container}>
           <div className={styles.projectContainer}>
             <div className={styles.top}>
-              <h4>Autor</h4>
+              <h3>Autor</h3>
               <div className={styles.autor}>
                 <div>
-                  <h3>{props.username}</h3>
+                  <h4>{props.username}</h4>
                   <p>{props.department}</p>
                 </div>
               </div>
@@ -36,33 +35,32 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = (props: ProjectDetailsProp
               <p>
                 {props.description}
               </p>
-              <div className={styles.projectReq}>
-                <div className={styles.projectTypeColor} />
-                <p>{props.category}</p>
-              </div>
+              <h4>Tags</h4>
               <div className={styles.projectReqContainer}>
-                <div >
-                  <div className={styles.projectReq}>
-                    <DollarSign size={18} />
-                    <p>{props.modality ? props.modality : '-'}</p>
-                  </div>
-                  <div className={styles.projectReq}>
-                    <User size={18} />
-                    <p> {props.studentsRequired} aluno(s)</p>
-                  </div>
+                <div className={styles.projectReq}>
+                  🧪
+                  <p>{props.category}</p>
+                </div>
+                <div className={styles.projectReq}>
+                  ✨
+                  <p>{props.modality}</p>
+                </div>
+                <div className={styles.projectReq}>
+                  👨‍🎓
+                  <p> {props.studentsRequired} ALUNO(S)</p>
                 </div>
               </div>
             </div>
             <div className={styles.bottom}>
-              <h4>Contatos</h4>
+              <h3>Contatos do autor</h3>
               <div className={styles.contacts}>
                 <div className={styles.contact}>
-                  <Mail size={18} />
-                  <p>{props.email}</p>
+                  📧
+                  <p>{props.email ?? 'Não adicionou email.'}</p>
                 </div>
                 <div className={styles.contact}>
-                  <Phone size={18} />
-                  <p>{props.phone}</p>
+                  📞
+                  <p>{props.phone ?? 'Não adicionou telefone.'}</p>
                 </div>
               </div>
             </div>

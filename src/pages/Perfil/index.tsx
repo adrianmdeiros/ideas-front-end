@@ -109,7 +109,7 @@ const Perfil: React.FC = () => {
                           <div>
                             <p style={{ display: 'flex', gap: '.8rem', alignItems: 'center', marginBottom: '1rem' }}>  Email </p>
                             <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center', wordBreak: 'break-word' }}>
-                              <Mail size={18} />
+                              <Mail size={18}/>
                               <p>{contacts?.email ? contacts.email : "Adicione seu email"}</p>
                               {isFetchingContacts && <Loader />}
                             </div>
@@ -132,7 +132,7 @@ const Perfil: React.FC = () => {
                           <div>
                             <p style={{ display: 'flex', gap: '.8rem', alignItems: 'center', marginBottom: '1rem' }}> Telefone</p>
                             <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
-                              < Phone size={18} />
+                              <Phone size={18}/>
                               <p>{contacts?.phone ? contacts.phone : "Adicione seu número de telefone"}</p>
                               {isFetchingContacts && <Loader />}
                             </div>

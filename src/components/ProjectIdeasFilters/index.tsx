@@ -18,11 +18,17 @@ type Category = {
     name: string
 }
 
+type Department = {
+    name: string
+}
+
 const ProjectIdeasFilters = () => {
     const [categories, setCategories] = useState<Category[] | null>(null)
     const [modalities, setModalities] = useState<Modality[] | null>(null)
+    const [departments, setDepartments] = useState<Department[] | null>(null)
     const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>()
     const [selectedModalityValue, setSelectedModalityValue] = useState<string | null>()
+    const [selectedDepartmentValue, setSelectedDepartmentValue] = useState<string | null>()
     const [_, setSearchParams] = useSearchParams()
 
     useEffect(() => {
@@ -33,13 +39,17 @@ const ProjectIdeasFilters = () => {
         api.get(`${api.defaults.baseURL}/modalities`)
             .then(response => setModalities(response.data))
             .catch(e => console.error(e.messages))
+
+        api.get(`${api.defaults.baseURL}/departments`)
+            .then(response => setDepartments(response.data))
+            .catch(e => console.error(e.messages))
     }, [])
 
 
     function handleFilterProjectsIdeas(e: any) {
         e.preventDefault()
 
-        const { category, modality } = e.target.elements
+        const { category, modality, department } = e.target.elements
 
         setSearchParams(state => {
             if (category.value !== '')
@@ -57,6 +67,13 @@ const ProjectIdeasFilters = () => {
             return state
         })
 
+        setSearchParams(state => {
+            if (department.value !== '')
+                state.set('department', department.value.toLowerCase())
+            else
+                state.delete('department')
+            return state
+        })
     }
 
     function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
@@ -67,15 +84,21 @@ const ProjectIdeasFilters = () => {
         setSelectedModalityValue(e.target.value)
     }
 
+    function handleDepartmentSelected(e: ChangeEvent<HTMLSelectElement>) {
+        setSelectedDepartmentValue(e.target.value)
+    }
+
     async function cleanFilters(e: any) {
         e.preventDefault()
 
         setSelectedCategoryValue(null)
         setSelectedModalityValue(null)
+        setSelectedDepartmentValue(null)
 
         setSearchParams(state => {
             state.delete('category')
             state.delete('modality')
+            state.delete('department')
             return state
         })
 
@@ -85,7 +108,18 @@ const ProjectIdeasFilters = () => {
         <div className={styles.container}>
             <form className={styles.form} onSubmit={handleFilterProjectsIdeas} >
                 <div>
-                    <label className={styles.p} > <Filter size={18} /> Filtrar por categoria</label>
+                    <label className={styles.p}> <Filter size={18} />Departamento</label>
+                    <select name="department" className={styles.select} value={String(selectedDepartmentValue)} onChange={handleDepartmentSelected}>
+                        <option value={''}>Selecione</option>
+                        {departments?.map((department, index) => (
+                            <option key={index} value={department.name}>
+                                {department.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className={styles.p} > <Filter size={18} />Categoria</label>
                     <select name="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
                         <option value={''}>Selecione</option>
                         {categories?.map((category, index) => (
@@ -96,7 +130,7 @@ const ProjectIdeasFilters = () => {
                     </select>
                 </div>
                 <div>
-                    <label className={styles.p}> <Filter size={18} /> Filtrar por modalidade</label>
+                    <label className={styles.p}> <Filter size={18} />Modalidade</label>
                     <select name="modality" className={styles.select} value={String(selectedModalityValue)} onChange={handleModalitySelected}>
                         <option value={''}>Selecione</option>
                         {modalities?.map((modality, index) => (
