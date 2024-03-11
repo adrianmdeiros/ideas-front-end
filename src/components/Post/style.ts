@@ -20,13 +20,6 @@ export const StyledAutor = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
-
-`
-
-export const StyledUserPhoto = styled.img`
-    width: 3.8rem;
-    height: 3.8rem;
-    border-radius: 50%;
 `
 
 export const StyledTitle = styled.p`
@@ -60,11 +53,11 @@ export const StyledMiddle = styled.div`
     border-radius: .8rem;
     padding: 1rem;
     background-color: #303030;
-    line-break: auto;
-    word-break: break-all;
     max-height: 12rem;
+    max-width: 38rem;
     overflow: hidden;
-
+    line-break: auto;
+    word-break: break-s;
 `
 
 export const StyledReqContainer = styled.div`

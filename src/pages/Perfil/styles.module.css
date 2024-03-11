@@ -3,6 +3,8 @@
 .body {
     height: 100vh;
     width: 100%;
+    margin-bottom: 10rem;
+
 }
 
 .container {
@@ -20,7 +22,7 @@
     font-size: 1.4rem;
     justify-content: space-between;
     background-color: #303030;
-    padding: 1.6rem;
+    padding: 1.4rem;
     border-radius: .8rem;
     margin-top: .6rem;
 }
@@ -73,6 +75,7 @@
 .bottom {
     display: grid;
     gap: 1rem;
+    
 }
 
 .bottom h3 {
@@ -82,7 +85,6 @@
 .actions{
     display: flex;
     align-items: center;
-    gap: .5rem;
 }
 
 .contacts {
@@ -93,7 +95,7 @@
 .contact {
     display: grid;
     align-items: center;
-    padding: .6rem;
+    padding: .4rem;
     border-radius: .8rem;
     font-size: 1.4rem;
 }
@@ -127,6 +129,7 @@
 @media only screen and (min-width: 768px) {
     .body {
         display: flex;
+        margin-bottom: 0;
     }
 
     .card {

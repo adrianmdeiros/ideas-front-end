@@ -54,6 +54,9 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
             setStudentsRequired(1)
             setModality('VOLUNTÁRIO')
         }
+        if(category === 'PIVIC'){
+            setModality('VOLUNTÁRIO')
+          }
     }, [category])
 
 
@@ -93,7 +96,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                 studentsRequired,
                 modality,
                 category,
-                servantId: 123 //trocar depois para auth.user.id do servidor
+                servantId: auth.user?.id
             });
 
 
@@ -158,7 +161,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                                 borderRadius=".8rem"
                                 hover="#dedede"
                                 onClick={removeStudent}
-                                width="38%"
+                                width="32%"
                             >
                                 <Minus />
                             </Button>
@@ -170,7 +173,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                                 value={studentsRequired}
                             />
                             <Button
-                                width="38%"
+                                width="32%"
                                 backgroundColor="#f5f5f5"
                                 color="#101010"
                                 borderRadius=".8rem"
@@ -197,7 +200,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                         ))}
                     </select>
                 </div>
-                {category !== 'MONOGRAFIA' && (
+                {category !== 'MONOGRAFIA' && category !== 'PIVIC' && (
                     <div className={styles.projectCategoryContainer}>
                         <label htmlFor="projectModality">
                             Modalidade

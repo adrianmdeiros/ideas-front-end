@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import {  HardDrive } from "react-feather";
+import { useContext, useEffect, useState } from 'react'
 import { useFetch } from "../../hooks/useFetch";
 import { AuthContext } from "../../contexts/Auth";
 import { ProjectIdea } from '../../contexts/ServantProjectIdeas';
@@ -9,10 +8,14 @@ import Loader from "../../components/Loader";
 import api from "../../api/api";
 import ProjectIdeasFilters from '../../components/ProjectIdeasFilters';
 import styles from "./styles.module.css";
+import { useSearchParams } from 'react-router-dom';
+
 
 
 const Main: React.FC = () => {
   const auth = useContext(AuthContext)
+  const [searchParams, _] = useSearchParams()
+  const [all, setAll] = useState<ProjectIdea[] | null>(null)
 
   const {
     data: muralProjectIdeas,
@@ -20,7 +23,40 @@ const Main: React.FC = () => {
     isFetching
   } = useFetch<ProjectIdea[] | null>(`${api.defaults.baseURL}/project-ideas`)
 
-  
+  useEffect(() => {
+    setAll(muralProjectIdeas)
+  }, [isFetching])
+
+  useEffect(() => {
+    setMuralProjectIdeas(filterMuralProjectIdeas(searchParams)!)
+  }, [searchParams])
+
+
+  const filterMuralProjectIdeas = (filters: URLSearchParams) => {
+    const category = filters.get('category')
+    const modality = filters.get('modality')
+
+
+    if (filters.size === 0) {
+      return all
+    }
+
+    if (modality && category) {
+      return all?.filter(project =>
+        (project.modality.name === modality.toUpperCase()) && (project.category.name === category.toUpperCase())
+      )
+    }
+
+    if (category) {
+      return all?.filter(project => project.category.name === category.toUpperCase())
+    }
+
+    if (modality) {
+      return all?.filter(project => project.modality.name === modality.toUpperCase())
+    }
+
+
+  }
 
   return (
     <div className={styles.body}>
@@ -36,7 +72,6 @@ const Main: React.FC = () => {
             </div>
           </div>
           <ProjectIdeasFilters
-            setMuralProjectIdeas={setMuralProjectIdeas}
           />
         </header>
         <div className={styles.feed}>
@@ -52,7 +87,7 @@ const Main: React.FC = () => {
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
-              <HardDrive size={32} />
+              ✨
               <p>Não foram encontradas ideias de projeto.</p>
             </div>}
           <ul className={styles.postsContainer}>

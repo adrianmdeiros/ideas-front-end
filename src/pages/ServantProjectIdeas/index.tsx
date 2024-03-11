@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { HardDrive, Plus } from "react-feather";
+import { Plus } from "react-feather";
 import Loader from "../../components/Loader";
 import Menu from "../../components/Menu";
 import Modal from "../../components/Modal";

@@ -41,7 +41,7 @@ export const ServantProjectIdeasContext = createContext<ServantProjectsContextPr
 const ServantProjectIdeasProvider: FC<ServantProjectIdeasProviderProps> = ({ children }) => {
   const auth = useContext(AuthContext)
 
-  const { data: servantProjectIdeas, setData: setServantProjectIdeas, isFetching } = useFetch<ProjectIdea[] | null>(`${api.defaults.baseURL}/project-ideas?servantId=${123}`) // trocar para id do usuário autenticado
+  const { data: servantProjectIdeas, setData: setServantProjectIdeas, isFetching } = useFetch<ProjectIdea[] | null>(`${api.defaults.baseURL}/project-ideas?servantId=${auth.user?.id}`)
 
   return (
     <ServantProjectIdeasContext.Provider value={{ servantProjectIdeas, setServantProjectIdeas, isFetching }}>

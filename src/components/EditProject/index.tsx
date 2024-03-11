@@ -76,6 +76,11 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
       setStudentsRequired(1)
       setModality('VOLUNTÁRIO')
     }
+
+    if(category === 'PIVIC'){
+      setModality('VOLUNTÁRIO')
+    }
+    
   }, [category])
 
   const addStudent = (e: any) => {
@@ -130,8 +135,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
       modalClose()
       toast.success('Ideia atulizada com sucesso.')
     } catch (e) {
-      toast.error('Erro ao atualizar o projeto.')
-      alert("Ocorreu um erro ao atualizar o projeto.");
+      toast.error('Erro ao atualizar o projeto. Verifique se todos os campos foram preenchidos')
       setIsPublishing(false);
     }
 
@@ -183,7 +187,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
                 borderRadius=".8rem"
                 hover="#dedede"
                 onClick={removeStudent}
-                width="38%"
+                width="32%"
               >
                 <Minus />
               </Button>
@@ -195,7 +199,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
                 value={studentsRequired}
               />
               <Button
-                width="38%"
+                width="32%"
                 backgroundColor="#f5f5f5"
                 color="#101010"
                 borderRadius=".8rem"
@@ -222,7 +226,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
             ))}
           </select>
         </div>
-        {category !== 'MONOGRAFIA' && (
+        {category !== 'MONOGRAFIA' && category !== 'PIVIC' && (
           <div className={styles.projectCategoryContainer}>
             <label htmlFor="projectModality">
               Modalidade
