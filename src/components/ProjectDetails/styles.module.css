@@ -49,7 +49,7 @@
 .middle > p{
     text-align: justify;
     word-break: normal;
-    line-break: anywhere;
+    line-break: auto;
     max-width: 48rem;
     margin-bottom: 2rem; 
     font-weight: 400;

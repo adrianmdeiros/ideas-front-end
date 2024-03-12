@@ -49,8 +49,7 @@ const ServantProjectIdeas = () => {
                    <div
                    style={{ display: "flex", alignItems: "center", gap: "1rem" }}
                  >
-                   
-                   📂
+                   ✨
                    <p>Você não tem ideias de projeto adicionadas.</p>
                  </div>
                 )}
