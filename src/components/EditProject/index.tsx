@@ -77,7 +77,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
       setModality('VOLUNTÁRIO')
     }
 
-    if(category === 'PIVIC'){
+    if(category === 'PIVIC' || category === 'PIVIT'){
       setModality('VOLUNTÁRIO')
     }
     
@@ -226,7 +226,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
             ))}
           </select>
         </div>
-        {category !== 'MONOGRAFIA' && category !== 'PIVIC' && (
+        {category !== 'MONOGRAFIA' && category !== 'PIVIC' && category !== 'PIVIT' &&(
           <div className={styles.projectCategoryContainer}>
             <label htmlFor="projectModality">
               Modalidade

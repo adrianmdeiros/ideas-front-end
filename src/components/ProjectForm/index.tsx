@@ -54,7 +54,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
             setStudentsRequired(1)
             setModality('VOLUNTÁRIO')
         }
-        if(category === 'PIVIC'){
+        if(category === 'PIVIC' || category === 'PIVIT'){
             setModality('VOLUNTÁRIO')
           }
     }, [category])
@@ -200,7 +200,7 @@ const ProjectForm = (props: ProjectFormModalBehavior) => {
                         ))}
                     </select>
                 </div>
-                {category !== 'MONOGRAFIA' && category !== 'PIVIC' && (
+                {category !== 'MONOGRAFIA' && category !== 'PIVIC' && category !== 'PIVIT' && (
                     <div className={styles.projectCategoryContainer}>
                         <label htmlFor="projectModality">
                             Modalidade
