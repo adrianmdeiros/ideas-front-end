@@ -139,7 +139,8 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
           )}
         </StyledTop>
         <StyledMiddle>
-          <StyledTitle>{props.title}</StyledTitle>
+          <StyledTitle>{props.title ? props.title?.length > 50 ? props.title?.slice(0, 60)
+              + '...' : props.title : "Não há descrição"}</StyledTitle>
           <StyledDescription>
             {props.description ? props.description?.length > 50 ? props.description?.slice(0, 60)
               + '...' : props.description : "Não há descrição"}

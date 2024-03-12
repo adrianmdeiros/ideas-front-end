@@ -23,7 +23,7 @@ export const StyledAutor = styled.div`
 `
 
 export const StyledTitle = styled.p`
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 500;
     line-break: auto;
     word-break: normal;
@@ -37,6 +37,7 @@ export const StyledDescription = styled.p`
     font-size: 1.4rem;
     text-align: start;
     word-break: normal;
+    color: #ccc;
 `
 
 export const StyledProject = styled.div`
