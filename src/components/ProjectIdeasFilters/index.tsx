@@ -1,20 +1,14 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import api from "../../api/api";
+import { ChangeEvent, useState } from "react";
 import styles from './styles.module.css'
 import { Filter, Search } from "react-feather";
 import { useSearchParams } from "react-router-dom";
-
-
-type ProjectIdeasFilters = {
-    category: string
-    modality: string
-}
-
-type Modality = {
-    name: string
-}
+import { useFetch } from "../../hooks/useFetch";
+import api from "../../api/api";
 
 type Category = {
+    name: string
+}
+type Modality = {
     name: string
 }
 
@@ -23,28 +17,27 @@ type Department = {
 }
 
 const ProjectIdeasFilters = () => {
-    const [categories, setCategories] = useState<Category[] | null>(null)
-    const [modalities, setModalities] = useState<Modality[] | null>(null)
-    const [departments, setDepartments] = useState<Department[] | null>(null)
-    const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>()
-    const [selectedModalityValue, setSelectedModalityValue] = useState<string | null>()
+    
+    const { data: categories } = useFetch<Category[] | null>(`${api.defaults.baseURL}/categories`)
+    const { data: modalities } = useFetch<Modality[] | null>(`${api.defaults.baseURL}/modalities`)
+    const { data: departments } = useFetch<Department[] | null>(`${api.defaults.baseURL}/departments`)
+
+    const [selectedCategoryValue, setSelectedCategoryValue]     = useState<string | null>()
+    const [selectedModalityValue, setSelectedModalityValue]     = useState<string | null>()
     const [selectedDepartmentValue, setSelectedDepartmentValue] = useState<string | null>()
     const [_, setSearchParams] = useSearchParams()
 
-    useEffect(() => {
-        api.get(`${api.defaults.baseURL}/categories`)
-            .then(response => setCategories(response.data))
-            .catch(e => console.error(e.messages))
+    function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
+        setSelectedCategoryValue(e.target.value)
+    }
 
-        api.get(`${api.defaults.baseURL}/modalities`)
-            .then(response => setModalities(response.data))
-            .catch(e => console.error(e.messages))
+    function handleModalitySelected(e: ChangeEvent<HTMLSelectElement>) {
+        setSelectedModalityValue(e.target.value)
+    }
 
-        api.get(`${api.defaults.baseURL}/departments`)
-            .then(response => setDepartments(response.data))
-            .catch(e => console.error(e.messages))
-    }, [])
-
+    function handleDepartmentSelected(e: ChangeEvent<HTMLSelectElement>) {
+        setSelectedDepartmentValue(e.target.value)
+    }
 
     function handleFilterProjectsIdeas(e: any) {
         e.preventDefault()
@@ -74,18 +67,6 @@ const ProjectIdeasFilters = () => {
                 state.delete('department')
             return state
         })
-    }
-
-    function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
-        setSelectedCategoryValue(e.target.value)
-    }
-
-    function handleModalitySelected(e: ChangeEvent<HTMLSelectElement>) {
-        setSelectedModalityValue(e.target.value)
-    }
-
-    function handleDepartmentSelected(e: ChangeEvent<HTMLSelectElement>) {
-        setSelectedDepartmentValue(e.target.value)
     }
 
     async function cleanFilters(e: any) {

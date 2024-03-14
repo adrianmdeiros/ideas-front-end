@@ -17,6 +17,8 @@
     font-weight: 500;
     height: 4.2rem;
     margin-bottom: 1rem;
+    border: .2rem solid #303030
+
 }
 
 .input::-webkit-outer-spin-button,

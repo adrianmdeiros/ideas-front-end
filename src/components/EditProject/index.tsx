@@ -1,116 +1,51 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import styles from './styles.module.css'
 import api from "../../api/api"
 import { AuthContext } from "../../contexts/Auth"
 import Button from "../Button"
 import { Minus, Plus } from "react-feather"
 import Loader from "../Loader"
-import toast from "react-hot-toast"
-import { ServantProjectIdeasContext, ProjectIdea } from "../../contexts/ServantProjectIdeas"
+import toast from "react-hot-toast";
+import { ProjectIdea, ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas"
+import { useFetch } from "../../hooks/useFetch"
 
-type Category = {
-  name: string
-}
-
-type Modality = {
-  name: string
-}
 
 type EditProjectProps = {
   id?: string
   modalClose: () => void
 }
 
+type Category = {
+  name: string
+}
+type Modality = {
+  name: string
+}
+
+
 const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
   const auth = useContext(AuthContext);
   const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
-  const [projectIdea, setProjectIdea] = useState<ProjectIdea | null>(null)
-  const [categories, setCategories] = useState<Category[] | null>(null)
-  const [modalities, setModalities] = useState<Modality[] | null>(null)
 
-  const [isFetchingCat, setIsFetchingCat] = useState(true)
-  const [isFetchingProj, setIsFetchingProj] = useState(true)
-
-  useEffect(() => {
-    api.get(`${api.defaults.baseURL}/project-ideas?id=${id}`)
-      .then(response => setProjectIdea(response.data))
-      .catch(e => console.error(e.message))
-      .finally(() => setIsFetchingProj(false))
-
-    api.get(`${api.defaults.baseURL}/categories`)
-      .then(response => setCategories(response.data))
-      .catch(e => console.error(e.messages))
-      .finally(() => setIsFetchingCat(false))
-
-    api.get(`${api.defaults.baseURL}/modalities`)
-      .then(response => setModalities(response.data))
-      .catch(e => console.error(e.messages))
-  }, [])
+  const { data: categories } = useFetch<Category[] | null>(`${api.defaults.baseURL}/categories`)
+  const { data: modalities } = useFetch<Modality[] | null>(`${api.defaults.baseURL}/modalities`)
+  const { data: projectIdeaToEdit, isFetching } = useFetch<ProjectIdea | null>(`${api.defaults.baseURL}/project-ideas?id=${id}`)
 
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [modality, setModality] = useState('');
+  const [category, setCategory] = useState('');
+  const [studentsRequired, setStudentsRequired] = useState(1);
+  
   const [selectedModalityValue, setSelectedModalityValue] = useState<string | null>()
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>()
+  
+  const [isSaving, setIsSaving] = useState(false)
 
-  const [studentsRequired, setStudentsRequired] = useState(1);
-  const [category, setCategory] = useState('');
-  const [isPublishing, setIsPublishing] = useState(false)
-
-  useEffect(() => {
-    if (projectIdea) {
-      setTitle(projectIdea.title);
-      setDescription(projectIdea.description);
-      setStudentsRequired(projectIdea.studentsRequired);
-      setSelectedCategoryValue(projectIdea.category.name)
-      setSelectedModalityValue(projectIdea.modality.name)
-      setCategory(projectIdea.category.name)
-      setModality(projectIdea.modality.name)
-    }
-  }, [projectIdea])
-
-
-  useEffect(() => {
-    if (category === 'MONOGRAFIA') {
-      setStudentsRequired(1)
-      setModality('VOLUNTÁRIO')
-    }
-
-    if(category === 'PIVIC' || category === 'PIVIT'){
-      setModality('VOLUNTÁRIO')
-    }
-    
-  }, [category])
-
-  const addStudent = (e: any) => {
+  const updateProject = async (id: string, e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (studentsRequired < 5) {
-      setStudentsRequired(studentsRequired + 1);
-    }
-  };
-
-  const removeStudent = (e: any) => {
-    e.preventDefault();
-    if (studentsRequired > 1) {
-      setStudentsRequired(studentsRequired - 1);
-    }
-  };
-
-  function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
-    setSelectedCategoryValue(e.target.value)
-    setCategory(e.target.value)
-  }
-
-  function handleModalitySelected(e: ChangeEvent<HTMLSelectElement>) {
-    setSelectedModalityValue(e.target.value)
-    setModality(e.target.value)
-  }
-
-
-  const updateProject = async (id?: string, e?: any) => {
-    e.preventDefault();
-    setIsPublishing(true)
+    setIsSaving(true)
 
 
     try {
@@ -131,21 +66,73 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
 
       servantProjectIdeasContext.setServantProjectIdeas(newList)
 
-      setIsPublishing(false);
+      setIsSaving(false);
       modalClose()
       toast.success('Ideia atulizada com sucesso.')
     } catch (e) {
       toast.error('Erro ao atualizar o projeto. Verifique se todos os campos foram preenchidos')
-      setIsPublishing(false);
+      setIsSaving(false);
     }
 
   }
+  
 
+  useEffect(() => {
+    if (projectIdeaToEdit) {
+      setTitle(projectIdeaToEdit.title);
+      setDescription(projectIdeaToEdit.description);
+      setStudentsRequired(projectIdeaToEdit.studentsRequired);
+      setSelectedCategoryValue(projectIdeaToEdit.category.name)
+      setSelectedModalityValue(projectIdeaToEdit.modality.name)
+      setCategory(projectIdeaToEdit.category.name)
+      setModality(projectIdeaToEdit.modality.name)
+    }
+  }, [projectIdeaToEdit])
+
+
+  useEffect(() => {
+    if (category === 'MONOGRAFIA') {
+      setStudentsRequired(1)
+      setModality('VOLUNTÁRIO')
+    }
+
+    if(category === 'PIVIC' || category === 'PIVITI'){
+      setModality('VOLUNTÁRIO')
+    }
+    
+  }, [category])
+
+  const addStudent = (e: any) => {
+    e.preventDefault();
+    if (studentsRequired < 5) {
+      setStudentsRequired(studentsRequired + 1);
+    }
+  };
+
+  const removeStudent = (e: any) => {
+    if (studentsRequired > 1) {
+      e.preventDefault();
+      setStudentsRequired(studentsRequired - 1);
+    }
+  };
+
+  function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
+    setSelectedCategoryValue(e.target.value)
+    setCategory(e.target.value)
+  }
+
+  function handleModalitySelected(e: ChangeEvent<HTMLSelectElement>) {
+    setSelectedModalityValue(e.target.value)
+    setModality(e.target.value)
+  }
+
+
+  
   return (
     <>
       <h2 className={styles.title}>Editar Projeto</h2>
-      <form className={styles.projectForm} onSubmit={(e) => updateProject(id, e)}>
-        {isFetchingProj && <Loader />}
+      <form className={styles.projectForm} onSubmit={(e: FormEvent<HTMLFormElement>) => updateProject(id!, e) }>
+        {isFetching && <Loader />}
         <div className={styles.projectTitleContainer}>
           <label htmlFor="title">Titulo</label>
           <input
@@ -158,7 +145,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
             className={styles.input}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-          />
+            />
         </div>
         <div className={styles.description}>
           <label htmlFor="descriptionContainer">Descrição</label>
@@ -216,17 +203,16 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
             Categoria
           </label>
           <p style={{ color: '#5a5a5a' }}> Selecione a categoria da ideia de projeto</p>
-          {isFetchingCat && <Loader />}
-          <select name="category" id="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
-            <option value="" >Selecione</option>
-            {categories?.map((category, index) => (
-              <option key={index} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+            <select name="category" id="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
+              <option value="" >Selecione</option>
+              {categories?.map((category, index) => (
+                <option key={index} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
         </div>
-        {category !== 'MONOGRAFIA' && category !== 'PIVIC' && category !== 'PIVIT' &&(
+        {category !== 'MONOGRAFIA' && category !== 'PIVIC' && category !== 'PIVITI' &&(
           <div className={styles.projectCategoryContainer}>
             <label htmlFor="projectModality">
               Modalidade
@@ -249,7 +235,7 @@ const EditProject: React.FC<EditProjectProps> = ({ id, modalClose }) => {
           hover="#dedede"
           width="100%"
         >
-          {isPublishing ? (
+          {isSaving ? (
             <>
               <Loader />
               <p>Salvando...</p>

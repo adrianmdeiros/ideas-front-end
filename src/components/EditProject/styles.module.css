@@ -39,15 +39,13 @@ li{
     resize: none;
     padding: 1rem;
     border-radius: .8rem;
-    font-weight: 400;
+    font-weight: 500;
     color: #f5f5f5;
     height: 10rem;
     width: 100%;
+    border: .2rem solid #303030
 }
 
-.descriptionText::placeholder{
-    color: #4a4a4a
-}
 
 .addOrRemoveStudentsContainer{
     display: flex;
@@ -67,6 +65,7 @@ li{
     text-align: center;
     font-weight: 700;
     font-size: 1.6rem;
+    border: .2rem solid #303030
     
 }
 
@@ -102,6 +101,8 @@ li{
     border: .1rem solid #dedede;
     cursor: pointer;
     width: 100%;
+    border: .2rem solid #303030
+
 }
 
 .select option {
@@ -119,6 +120,8 @@ li{
     font-weight: 500;
     height: 4.2rem;
     width: 100%;
+    border: .2rem solid #303030
+
 }
 
 @media only screen and (min-width: 768px){

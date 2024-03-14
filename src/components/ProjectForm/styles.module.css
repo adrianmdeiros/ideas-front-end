@@ -31,15 +31,14 @@ hr{
     resize: none;
     padding: 1rem;
     border-radius: .8rem;
-    font-weight: 400;
+    font-weight: 500;
     color: #f5f5f5;
     height: 10rem;
     width: 100%;
+    border: .2rem solid #303030
 }
 
-.descriptionText::placeholder{
-    color: #4a4a4a
-}
+
 
 .addOrRemoveStudentsContainer{
     display: flex;
@@ -59,6 +58,7 @@ hr{
     text-align: center;
     font-weight: 700;
     font-size: 1.6rem;
+    border: .2rem solid #303030
 }
 
 .categories{
@@ -92,6 +92,7 @@ hr{
     border: .1rem solid #dedede;
     cursor: pointer;
     width: 100%;
+    border: .2rem solid #303030
 }
 
 .select option {
@@ -108,4 +109,14 @@ hr{
     font-weight: 500;
     height: 4.2rem;
     width: 100%;
+    border: .2rem solid #303030
+}
+
+.fieldErrorMessage {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.4rem;
+    font-weight: lighter;
+    color: rgb(255, 38, 0);
 }

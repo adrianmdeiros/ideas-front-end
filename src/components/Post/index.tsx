@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {  useContext, useState } from "react";
 import {
   StyledPost,
   StyledAutor,
@@ -48,6 +48,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
   const [isExcluding, setIsExcluding] = useState(false)
 
   const location = useLocation();
+  
 
   const deletePost = async (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -68,11 +69,9 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
       setIsModalOpen(false)
       toast.success('Ideia de projeto removida.')
     } catch (e) {
-      console.error('Ocorreu um erro ao excluir o projeto:', e);
       toast.error('Ocorreu um erro ao excluir o projeto.');
       setIsExcluding(false);
     }
-
 
   }
 

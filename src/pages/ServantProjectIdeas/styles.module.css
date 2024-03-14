@@ -1,29 +1,30 @@
-li{
+li {
     list-style: none;
 }
 
-hr{
+hr {
     margin-top: 1rem;
 }
 
-.body{
+.body {
     height: 100vh;
     min-width: 100%;
 }
-.container{
+
+.container {
     width: 100%;
     padding: 2rem;
     overflow-y: auto;
 }
 
 
-.postsContainer{
+.postsContainer {
     display: grid;
     gap: 2.8rem;
 }
 
 
-.projectsContainer{
+.projectsContainer {
     display: grid;
     gap: 1.8rem;
     margin-top: 4rem;
@@ -31,45 +32,50 @@ hr{
     align-items: flex-start;
 }
 
-.addButton{
+.addButton {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 1.4rem;
     border-radius: .8rem;
-    background-color: #f5f5f5;
-    color: #101010;
+    background-color: rgb(7, 146, 0);
+    color: #f5f5f5;
     border: none;
     cursor: pointer;
     font-weight: bold;
 }
 
 
-.addButton:hover{
-    background-color: rgb(7, 146, 0);
-    color: #f5f5f5;
+.addButton:hover {
+    background-color: #f5f5f5;
+    color: rgb(7, 146, 0);
 }
 
-@media only screen and (min-width: 768px){
-    .body{
+@media only screen and (min-width: 768px) {
+    .body {
         display: flex;
         padding: 0;
     }
-    .postsContainer{
+
+    .postsContainer {
         display: flex;
         flex-wrap: wrap;
     }
 }
 
-@media only screen and (max-width: 768px){
-    .addButton{
+@media only screen and (max-width: 768px) {
+    .addButton {
         position: fixed;
         bottom: 9rem;
         right: 1.8rem;
         border-radius: 999rem;
         padding: 1.8rem;
+        box-shadow:
+            12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+            100px 100px 80px rgba(0, 0, 0, 0.07);
     }
-    .addButton > p {
+    
+    .addButton>p {
         display: none;
     }
 }

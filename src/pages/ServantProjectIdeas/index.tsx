@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
+import {  useContext, useState } from "react";
 import { Plus } from "react-feather";
 import Loader from "../../components/Loader";
 import Menu from "../../components/Menu";
 import Modal from "../../components/Modal";
 import Post from "../../components/Post";
-import { ServantProjectIdeasContext, ProjectIdea } from "../../contexts/ServantProjectIdeas";
+import { ProjectIdea, ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
 import styles from "./styles.module.css";
 import ProjectForm from "../../components/ProjectForm";
 import { userIsServant } from "../../utils/userIsServant";
@@ -13,8 +13,9 @@ import Main from "../Main";
 
 
 const ServantProjectIdeas = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   if(!userIsServant()){

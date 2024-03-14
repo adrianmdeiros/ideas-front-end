@@ -43,6 +43,14 @@ const Main: React.FC = () => {
       return all
     }
 
+    if(modality && category){
+     return all?.filter(project => 
+        project.modality.name === modality.toUpperCase() 
+        &&
+        project.category.name === category.toUpperCase()
+        )
+    }
+
     if (department) {
       filteredProjectIdeas = all?.filter(project => project.servant.department.name === department.toUpperCase())
     }
