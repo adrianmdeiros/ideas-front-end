@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./styles.module.css";
 import { Edit, HelpCircle, Info, LogOut, Mail, Phone, Trash2 } from "react-feather";
 import Header from "../../components/Header";
@@ -11,6 +11,8 @@ import Loader from "../../components/Loader";
 import ContactForm from "../../components/ContactForm";
 import toast from "react-hot-toast";
 import { userIsServant } from "../../utils/userIsServant";
+import { useFetch } from "../../hooks/useFetch";
+
 type UserContacts = {
   email: string;
   phone: string;
@@ -18,23 +20,17 @@ type UserContacts = {
 
 const Perfil: React.FC = () => {
   const auth = useContext(AuthContext);
-  const navigate = useNavigate();
+  const userPhoto = auth.user?.url_foto_150x200;
+  
+  const { data: contacts, setData: setContacts, isFetching} = useFetch<UserContacts | null>(`${api.defaults.baseURL}/users/contacts?userId=${auth.user?.id}`)
+
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false)
-  const [contacts, setContacts] = useState<UserContacts | null>(null)
-  const [isFetchingContacts, setFetchingContacts] = useState(true)
-
-  useEffect(() => {
-    api.get(`${api.defaults.baseURL}/users/contacts?userid=${auth.user?.id}`)
-      .then(response => setContacts(response.data))
-      .catch(e => console.error(e.message))
-      .finally(() => setFetchingContacts(false))
-  }, [])
-
-  const userPhoto = auth.user?.url_foto_150x200;
-
+  
+  const navigate = useNavigate();
+  
   const handleLogOut = () => {
     auth.signOut();
     navigate("/login");
@@ -45,7 +41,7 @@ const Perfil: React.FC = () => {
     setIsSaving(true)
 
 
-    const response = await api.put(`/users/contacts?userid=${auth.user?.id}`, {
+    const response = await api.put(`/users/contacts?userId=${auth.user?.id}`, {
       email: email
     })
 
@@ -60,7 +56,7 @@ const Perfil: React.FC = () => {
     e.preventDefault()
     setIsSaving(true)
 
-    const response = await api.put(`/users/contacts?userid=${auth.user?.id}`, {
+    const response = await api.put(`/users/contacts?userId=${auth.user?.id}`, {
       phone: phone
     })
 
@@ -111,7 +107,7 @@ const Perfil: React.FC = () => {
                             <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center', wordBreak: 'break-word' }}>
                               <Mail size={18}/>
                               <p>{contacts?.email ? contacts.email : "-"}</p>
-                              {isFetchingContacts && <Loader />}
+                              {isFetching && <Loader />}
                             </div>
                           </div>
                           <div className={styles.actions}>
@@ -134,7 +130,7 @@ const Perfil: React.FC = () => {
                             <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
                               <Phone size={18}/>
                               <p>{contacts?.phone ? contacts.phone : "-"}</p>
-                              {isFetchingContacts && <Loader />}
+                              {isFetching && <Loader />}
                             </div>
                           </div>
                           <div className={styles.actions}>
