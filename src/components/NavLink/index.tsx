@@ -1,24 +1,34 @@
 import React from "react"
-import { StyledNavLink, StyledLabel} from "./style";
+import styles from "./styles.module.css";
+import { NavLink as Link, useLocation } from "react-router-dom";
 
 export type Props = {
-    label?: string;
-    icon?: React.ReactElement;
-    color?: string
-    to: string
-    onClick?: () => void
-    display?: string;
-    children?: React.ReactNode
-    bgcolor?: string
+  to: string
+  onClick?: () => void
+  icon?: React.ReactElement;
+  label?: string;
+  display?: string;
+  children?: React.ReactNode
 }
 
-const NavLink: React.FC<Props> = ({bgcolor, children, icon, label, to, onClick, display}) => {
+
+const NavLink: React.FC<Props> = ({ children, icon, label, to, onClick, display }) => {
+  const location = useLocation()
+  const isActive = location.pathname === to
+
   return (
-    <StyledNavLink to={to} onClick={onClick} display={display} bgcolor={bgcolor}>
+    <Link
+      to={to}
+      onClick={onClick}
+      className={`${styles.navLink}
+       ${display ? styles.flex : ''} 
+       ${isActive ? styles.active : ''}`
+      }
+    >
       <div>{icon}</div>
-      <StyledLabel>{label}</StyledLabel>
+      <label className={styles.label}>{label}</label>
       {children}
-    </StyledNavLink>
+    </Link>
   )
 }
 

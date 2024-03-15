@@ -9,7 +9,6 @@ import { userIsServant } from "../../utils/userIsServant";
 
 const Menu: React.FC = () => {
   const auth = useContext(AuthContext);
-  
   const userPhoto = auth.user?.url_foto_150x200
   
   const navigate = useNavigate()
@@ -22,14 +21,11 @@ const Menu: React.FC = () => {
 
   useEffect(() => {
     window.innerWidth < 768 ? setIsMobile(true) : setIsMobile(false);
-    
     window.addEventListener('resize', () => {
       window.innerWidth > 768 ? setIsMobile(false) : setIsMobile(true);
     })
 
-
   }, []);
-
 
   return (
     <>
@@ -37,11 +33,7 @@ const Menu: React.FC = () => {
         <StyledTabBar>
           <NavLink to={"/main"} icon={<Grid />} label="Mural" />
           {userIsServant() && <NavLink to={"/projects"} icon={<Folder />} label="Minhas Ideias" />}
-          <NavLink
-            to={"/perfil"}
-            icon={<Perfil src={userPhoto} alt="Foto de perfil" />}
-            label="Perfil"
-          />
+          <NavLink to={"/perfil"} icon={<Perfil src={userPhoto} alt="Foto de perfil" />} label="Perfil" />
         </StyledTabBar>
       ) : (
         <StyledSideMenu>

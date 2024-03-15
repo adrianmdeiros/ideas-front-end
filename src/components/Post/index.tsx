@@ -1,20 +1,5 @@
-import React, {  useContext, useState } from "react";
-import {
-  StyledPost,
-  StyledAutor,
-  StyledTop,
-  StyledTitle,
-  StyledBottom,
-  StyledMiddle,
-  StyledP,
-  StyledProjectReq,
-  StyledReqContainer,
-  StyledProject,
-  StyledDescription,
-  StyledActions,
-  StyledConfirmBox,
-  StyledButtons
-} from "./style";
+import React, { useContext, useState } from "react";
+import styles from './styles.module.css'
 import { AlertOctagon, Edit, Trash2 } from "react-feather";
 import { useLocation } from "react-router-dom";
 import Button from "../Button";
@@ -23,7 +8,7 @@ import Loader from "../Loader";
 import ProjectDetails from "../ProjectDetails";
 import toast from "react-hot-toast";
 import api from "../../api/api";
-import {  ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
+import { ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
 import ProjectForm from "../ProjectForm";
 
 export type PostProps = {
@@ -74,29 +59,27 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
   }
 
   return (
-    <StyledPost>
-      <StyledProject>
-        <StyledTop>
-          <StyledAutor>
-            <div>
-              <StyledTitle>{props.username}</StyledTitle>
-              <StyledP>{props.department}</StyledP>
-            </div>
-          </StyledAutor>
+    <div className={styles.container}>
+      <div className={styles.project}>
+        <div className={styles.top}>
+          <div>
+            <p className={styles.title}>{props.username}</p>
+            <p className={styles.p}>{props.department}</p>
+          </div>
           {location.pathname === "/projects" && (
-            <StyledActions>
+            <div className={styles.actions}>
               <Edit color="#818181" cursor={"pointer"} size={23} onClick={() => setIsEditModalOpen(true)} />
               <Trash2 color="#818181" size={24} cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
               <Modal
                 isOpen={isModalOpen}
                 setOpenModal={() => setIsModalOpen(!isModalOpen)}
               >
-                <StyledConfirmBox>
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                    <AlertOctagon/>
+                <div className={styles.areYouSureModal}>
+                  <div className={styles.areYouSureMessage}>
+                    <AlertOctagon />
                     <p>Tem certeza que deseja excluir essa ideia de projeto?</p>
                   </div>
-                  <StyledButtons>
+                  <div className={styles.areYouSureModalButtons}>
                     <Button
                       borderRadius=".8rem"
                       backgroundColor="transparent"
@@ -124,38 +107,36 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
                         <p>Confirmar</p>
                       )}
                     </Button>
-                  </StyledButtons>
-                </StyledConfirmBox>
+                  </div>
+                </div>
               </Modal>
-                <ProjectForm id={props.id} isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} />
-            </StyledActions>
+              <ProjectForm id={props.id} isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} />
+            </div>
           )}
-        </StyledTop>
-        <StyledMiddle>
-          <StyledTitle>{props.title ? props.title?.length > 50 ? props.title?.slice(0, 60)
-              + '...' : props.title : "Não há descrição"}</StyledTitle>
-          <StyledDescription>
+        </div>
+        <div className={styles.middle}>
+          <p className={styles.title}>{props.title ? props.title?.length > 50 ? props.title?.slice(0, 60)
+            + '...' : props.title : "Não há título"}</p>
+          <p className={styles.description}>
             {props.description ? props.description?.length > 50 ? props.description?.slice(0, 60)
               + '...' : props.description : "Não há descrição"}
-          </StyledDescription>
-        </StyledMiddle>
-        <StyledBottom>
-          <StyledReqContainer>
-            <div style={{ display: 'flex', alignItems: 'end', gap: '1rem', flexWrap: 'wrap' }}>
-              <StyledProjectReq>
-                🧪
-                <StyledP>{props.category}</StyledP>
-              </StyledProjectReq>
-              <StyledProjectReq>
-                ✨
-                <StyledP>{props.modality ? props.modality : '-'}</StyledP>
-              </StyledProjectReq>
-                <StyledProjectReq>
-                  👨‍🎓
-                  <StyledP>{props.studentsRequired} ALUNO(S)</StyledP>
-                </StyledProjectReq>
+          </p>
+        </div>
+        <div className={styles.bottom}>
+          <div className={styles.tags}>
+            <div className={styles.tag}>
+              🧪
+              <p className={styles.p}>{props.category}</p>
             </div>
-          </StyledReqContainer>
+            <div className={styles.tag}>
+              ✨
+              <p className={styles.p}>{props.modality ? props.modality : '-'}</p>
+            </div>
+            <div className={styles.tag}>
+              👨‍🎓
+              <p className={styles.p}>{props.studentsRequired} ALUNO(S)</p>
+            </div>
+          </div>
           <Button
             backgroundColor={"#2c2c2c"}
             color={"#d9d9d9"}
@@ -167,8 +148,10 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
           >
             Detalhes
           </Button>
-        </StyledBottom>
-        <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() => setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}>
+        </div>
+        <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() =>
+          setIsProjectDetailsModalOpen(!IsProjectDetailsModalOpen)}
+        >
           <ProjectDetails
             title={props.title}
             description={props.description}
@@ -181,8 +164,8 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
             department={props.department}
           />
         </Modal>
-      </StyledProject>
-    </StyledPost>
+      </div>
+    </div>
   );
 };
 

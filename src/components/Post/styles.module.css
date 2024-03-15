@@ -1,0 +1,106 @@
+.container {
+  max-width: 38rem;
+  @media (min-width: 768px) {
+    width: 30rem;
+  }
+  border-radius: 0.8rem;
+}
+
+.project {
+  border-radius: 0.8rem;
+  padding: 1.8rem;
+  background-color: #202020;
+  color: #f5f5f5;
+  border: 0.2rem solid #303030;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.8rem;
+}
+
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.areYouSureModal {
+  display: grid;
+  gap: 2rem;
+  margin-top: 3.2rem;
+}
+
+.areYouSureMessage{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.areYouSureModalButtons {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-break: auto;
+  word-break: normal;
+}
+
+.p {
+  font-size: 1.2rem;
+  max-width: 100%;
+}
+
+.description {
+  font-size: 1.4rem;
+  text-align: start;
+  word-break: normal;
+  color: #ccc;
+}
+
+.middle {
+  display: grid;
+  gap: 1.8rem;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  background-color: #303030;
+  max-height: 12rem;
+  max-width: 38rem;
+  overflow: hidden;
+  line-break: auto;
+  word-break: normal;
+}
+
+.bottom {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.tags{
+    display: flex;
+    align-items: start;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.tag{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    width: fit-content;
+    padding: .2rem 1rem;
+    border-radius: 999rem;
+    background-color: #303030;
+    border: .1rem solid #909090;
+    color: #ccc;
+    font-weight: 500;
+}

@@ -13,8 +13,8 @@ export const StyledContainer = styled.div`
 
 export const CloseButton = styled(X)`
     position: absolute;
-    right: 1rem;
-    top: 1rem;
+    right: 2rem;
+    top: 2rem;
     color: #f5f5f5;
     cursor: pointer;
 `
