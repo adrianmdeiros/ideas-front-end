@@ -12,6 +12,7 @@ import ContactForm from "../../components/ContactForm";
 import toast from "react-hot-toast";
 import { userIsServant } from "../../utils/userIsServant";
 import { useFetch } from "../../hooks/useFetch";
+import Button from "../../components/Button";
 
 type UserContacts = {
   email: string;
@@ -21,16 +22,16 @@ type UserContacts = {
 const Perfil: React.FC = () => {
   const auth = useContext(AuthContext);
   const userPhoto = auth.user?.url_foto_150x200;
-  
-  const { data: contacts, setData: setContacts, isFetching} = useFetch<UserContacts | null>(`${api.defaults.baseURL}/users/contacts?userId=${auth.user?.id}`)
+
+  const { data: contacts, setData: setContacts, isFetching } = useFetch<UserContacts | null>(`${api.defaults.baseURL}/users/contacts?userId=${auth.user?.id}`)
 
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false)
-  
+
   const navigate = useNavigate();
-  
+
   const handleLogOut = () => {
     auth.signOut();
     navigate("/login");
@@ -105,7 +106,7 @@ const Perfil: React.FC = () => {
                           <div>
                             <p style={{ display: 'flex', gap: '.8rem', alignItems: 'center', marginBottom: '1rem' }}>  Email </p>
                             <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center', wordBreak: 'break-word' }}>
-                              <Mail size={18}/>
+                              <Mail size={18} />
                               <p>{contacts?.email ? contacts.email : "-"}</p>
                               {isFetching && <Loader />}
                             </div>
@@ -128,7 +129,7 @@ const Perfil: React.FC = () => {
                           <div>
                             <p style={{ display: 'flex', gap: '.8rem', alignItems: 'center', marginBottom: '1rem' }}> Telefone</p>
                             <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center' }}>
-                              <Phone size={18}/>
+                              <Phone size={18} />
                               <p>{contacts?.phone ? contacts.phone : "-"}</p>
                               {isFetching && <Loader />}
                             </div>
@@ -156,7 +157,18 @@ const Perfil: React.FC = () => {
                       <p style={{ textAlign: 'justify', textIndent: '0', color: '#ccccccdc', maxWidth: '38rem' }} >
                         Os contatos adicionados aparecerão em suas ideias de projeto cadastradas. Isso pode ser interessante para facilitar a comunicação com os alunos interessados.
                       </p>
+                      <br />
                     </div>
+                      <Button
+                        height="3.8rem"
+                        width="10rem"
+                        margin="0 0 0 auto"
+                        backgroundColor="#f5f5f5"
+                        borderRadius=".8rem"
+                        color="#101010"
+                        hover="#afafaf"
+                        onClick={() => setIsInfoModalOpen(!isInfoModalOpen)}
+                      >Ok</Button>
                   </Modal>
                 </>
               )}

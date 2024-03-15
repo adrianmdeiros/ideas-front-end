@@ -15,16 +15,16 @@ import {
   StyledConfirmBox,
   StyledButtons
 } from "./style";
-import { AlertTriangle, Edit, Trash2 } from "react-feather";
+import { AlertOctagon, Edit, Trash2 } from "react-feather";
 import { useLocation } from "react-router-dom";
 import Button from "../Button";
 import Modal from "../Modal";
 import Loader from "../Loader";
 import ProjectDetails from "../ProjectDetails";
-import EditProject from "../EditProject";
 import toast from "react-hot-toast";
 import api from "../../api/api";
-import { ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
+import {  ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
+import ProjectForm from "../ProjectForm";
 
 export type PostProps = {
   id?: string
@@ -48,7 +48,6 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
   const [isExcluding, setIsExcluding] = useState(false)
 
   const location = useLocation();
-  
 
   const deletePost = async (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -63,7 +62,6 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
           })
         )
       }
-
 
       setIsExcluding(false);
       setIsModalOpen(false)
@@ -95,26 +93,27 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
               >
                 <StyledConfirmBox>
                   <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                    <AlertTriangle />
-                    <p>Tem certeza que deseja excluir esse projeto?</p>
+                    <AlertOctagon/>
+                    <p>Tem certeza que deseja excluir essa ideia de projeto?</p>
                   </div>
                   <StyledButtons>
                     <Button
-                      backgroundColor="transparent"
-                      color="#f5f5f5"
                       borderRadius=".8rem"
+                      backgroundColor="transparent"
+                      color="#afafaf"
                       hover="transparent"
                       onClick={() => setIsModalOpen(!isModalOpen)}
                     >
                       cancelar
                     </Button>
                     <Button
-                      backgroundColor="#f5f5f5"
-                      color="#101010"
+                      backgroundColor="red"
+                      color="#f5f5f5"
                       borderRadius=".8rem"
-                      hover="#ccc"
+                      hover="#960000"
                       onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => deletePost(props.id!, e)}
                       height="4rem"
+                      disabled={isExcluding}
                     >
                       {isExcluding ? (
                         <>
@@ -128,12 +127,7 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
                   </StyledButtons>
                 </StyledConfirmBox>
               </Modal>
-              <Modal isOpen={isEditModalOpen} setOpenModal={() =>
-                setIsEditModalOpen(!isEditModalOpen)}>
-                <EditProject id={props.id} modalClose={() =>
-                  setIsEditModalOpen(!isEditModalOpen)}
-                />
-              </Modal>
+                <ProjectForm id={props.id} isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} />
             </StyledActions>
           )}
         </StyledTop>

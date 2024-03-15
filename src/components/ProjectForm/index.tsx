@@ -1,5 +1,5 @@
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } from "react";
-import {  Minus, Plus } from "react-feather";
+import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
+import { Info, Minus, Plus } from "react-feather";
 import { AuthContext } from "../../contexts/Auth";
 import api from "../../api/api";
 import toast from "react-hot-toast";
@@ -8,10 +8,13 @@ import Button from "../Button";
 import styles from './styles.module.css'
 
 import { useFetch } from "../../hooks/useFetch";
-import { ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
+import { ProjectIdea, ServantProjectIdeasContext } from "../../contexts/ServantProjectIdeas";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Modal from "../Modal";
 
 
-type ProjectFormModalBehavior = {
+type ProjectFormProps = {
+    id?: string
     isModalOpen: boolean
     setIsModalOpen: Dispatch<SetStateAction<boolean>>
 }
@@ -23,210 +26,280 @@ type Modality = {
     name: string
 }
 
+type FormData = {
+    title: string
+    description: string
+    studentsRequired: number
+    modality: string
+    category: string
+}
 
-const ProjectForm = (props: ProjectFormModalBehavior) => {
+
+const ProjectForm: React.FC<ProjectFormProps> = (props: ProjectFormProps) => {
     const auth = useContext(AuthContext);
     const servantProjectIdeasContext = useContext(ServantProjectIdeasContext)
 
     const { data: categories } = useFetch<Category[] | null>(`${api.defaults.baseURL}/categories`)
     const { data: modalities } = useFetch<Modality[] | null>(`${api.defaults.baseURL}/modalities`)
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [studentsRequired, setStudentsRequired] = useState(1);
-    const [modality, setModality] = useState('');
-    const [category, setCategory] = useState('');
-    const [isPublishing, setIsPublishing] = useState<Boolean>(false)
-    const [selectedModalityValue, setSelectedModalityValue] = useState<string | null>()
-    const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>()
+    const { register,
+        handleSubmit,
+        formState: { isSubmitting, errors },
+        watch,
+        setValue,
+        getValues,
+        reset
+    } = useForm<FormData>({
+        defaultValues: async () => {
+            const response = await api.get(`${api.defaults.baseURL}/project-ideas?id=${props.id}`)            
+            return {
+                title: response?.data.title,
+                description: response?.data.description,
+                studentsRequired: response?.data.studentsRequired,
+                modality: response?.data.modality.name,
+                category: response?.data.category.name
+            } as FormData
+        }
+    })
+    const studentsRequired = watch('studentsRequired', 1)
+    const category = watch('category')
 
     useEffect(() => {
         if (category === 'MONOGRAFIA') {
-            setStudentsRequired(1)
-            setModality('VOLUNTÁRIO')
+            setValue('studentsRequired', 1)
+            setValue('modality', 'VOLUNTÁRIO')
         }
         if (category === 'PIVIC' || category === 'PIVITI') {
-            setModality('VOLUNTÁRIO')
+            setValue('modality', 'VOLUNTÁRIO')
         }
     }, [category])
 
-    function handleCategorySelected(e: ChangeEvent<HTMLSelectElement>) {
-        setSelectedCategoryValue(e.target.value)
-        setCategory(e.target.value)
-    }
 
-    function handleModalitySelected(e: ChangeEvent<HTMLSelectElement>) {
-        setSelectedModalityValue(e.target.value)
-        setModality(e.target.value)
-    }
-
-
-    const addStudent = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        if (studentsRequired < 5) {
-            setStudentsRequired(studentsRequired + 1);
+    const addStudent = (e: any) => {
+        e.preventDefault()
+        const actualValue = Number(getValues('studentsRequired'))
+        if (actualValue < 5) {
+            setValue('studentsRequired', actualValue + 1)
         }
     };
 
-    const removeStudent = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        if (studentsRequired > 1) {
-            setStudentsRequired(studentsRequired - 1);
+    const removeStudent = (e: any) => {
+        e.preventDefault()
+        const actualValue = Number(getValues('studentsRequired'))
+        if (actualValue > 1) {
+            setValue('studentsRequired', actualValue - 1)
         }
     };
 
-
-    const createProject = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsPublishing(true)
-
+    const createProjectIdea: SubmitHandler<FormData> = async (data: FormData) => {
         try {
-            const response = await api.post("/project-ideas", {
-                title,
-                description,
-                studentsRequired,
-                modality,
-                category,
+            const response = await api.post('/project-ideas', {
+                ...data,
                 servantId: auth.user?.id
-            });
-
-
-            toast.success('Ideia de projeto criada!')
-
-            setIsPublishing(false);
-            props.setIsModalOpen(false)
-
+            })
             servantProjectIdeasContext.setServantProjectIdeas(
-                servantProjectIdeasContext.servantProjectIdeas ? [...servantProjectIdeasContext.servantProjectIdeas, response.data] : [response.data]
+                servantProjectIdeasContext.servantProjectIdeas ?
+                    [...servantProjectIdeasContext.servantProjectIdeas, response.data] : [response.data]
             );
-
-        } catch (e) {
-            toast.error("Verifique se todos os campos foram preenchidos. Lembrete: Não pode haver dois projetos com o mesmo título.");
-            setIsPublishing(false);
-            console.log(e);
+            props.setIsModalOpen(false)
+            toast.success('Ideia adicionada com sucesso!')
             
+            reset()
+        } catch (error) {
+            toast.error('Desculpe, ocorreu um erro.')
+            toast.error('Verifique se todos os campos foram preenchidos.')
+            toast.error('Talvez já exista algum projeto com esse título.')
+            console.error(error)
         }
-        setSelectedCategoryValue(null)
-        setSelectedModalityValue(null)
-        setCategory('')
-        setModality('')
-    };
+
+    }
+
+    const updateProject: SubmitHandler<FormData> = async (data: FormData) => {
+        try {
+            const response = await api.put(`/project-ideas/${props.id}`, {
+                ...data,
+                servantId: auth.user?.id
+            })
+
+            const newList = servantProjectIdeasContext.servantProjectIdeas?.map(servantProjectIdea => {
+                return servantProjectIdea.id === props.id ? { ...response.data } : servantProjectIdea
+            }) as ProjectIdea[]
+            servantProjectIdeasContext.setServantProjectIdeas(newList)
+
+            props.setIsModalOpen(false)
+            toast.success('Ideia de projeto atulizada com sucesso!')
+            reset()
+        } catch (error) {
+            toast.error('Desculpe, ocorreu um erro.')
+            toast.error('Verifique se todos os campos foram preenchidos.')
+            toast.error('Talvez já exista algum projeto com esse título.')
+            console.error(error)
+        }
+
+    }
 
     return (
         <>
-            <h2 className={styles.title}>Adicionar Ideia de Projeto</h2>
-            <form className={styles.projectForm} onSubmit={createProject}>
-                <div className={styles.projectTitleContainer}>
-                    <label>Titulo</label>
-                    <input
-                        id="title"
-                        type="text"
-                        required={true}
-                        placeholder="Digite o título da sua ideia..."
-                        maxLength={150}
-                        className={styles.input}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-
-                </div>
-                <div className={styles.description}>
-                    <label htmlFor="descriptionContainer">Descrição</label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Adicione uma breve descrição..."
-                        required={true}
-                        minLength={20}
-                        maxLength={1000}
-                        className={styles.descriptionText}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-
-                </div>
-                {category !== 'MONOGRAFIA' && (
-                    <div className={styles.numberOfStudentsContainer}>
-                        <label htmlFor="numberOfStudents">
-                            Quantidade de alunos
-                        </label>
-                        <p style={{ color: '#5a5a5a' }}>Determine a quantidade de alunos</p>
-                        <div className={styles.addOrRemoveStudentsContainer}>
-                            <Button
-                                backgroundColor="#f5f5f5"
-                                color="#101010"
-                                borderRadius=".8rem"
-                                hover="#afafaf"
-                                onClick={removeStudent}
-                            >
-                                <Minus />
-                            </Button>
-                            <input
-                                type="number"
-                                id="studentsRequired"
-                                className={styles.numberOfStudents}
-                                disabled={true}
-                                value={studentsRequired}
-                            />
-                            <Button
-                                backgroundColor="#f5f5f5"
-                                color="#101010"
-                                borderRadius=".8rem"
-                                hover="#afafaf"
-                                onClick={addStudent}
-                            >
-                                <Plus />
-                            </Button>
-                        </div>
+            <Modal isOpen={props.isModalOpen} setOpenModal={() => props.setIsModalOpen(!props.isModalOpen)}>
+                <h2 className={styles.title}>
+                    {props.id ? 'Editar ideia de projeto' : 'Adicionar ideia de projeto'}
+                </h2>
+                <form
+                    className={styles.projectForm}
+                    onSubmit={
+                        props.id ? handleSubmit(updateProject) : handleSubmit(createProjectIdea)
+                    }
+                >
+                    <div className={styles.projectTitleContainer}>
+                        <label>Titulo</label>
+                        <input
+                            type="text"
+                            className={styles.input}
+                            placeholder="Digite o título da sua ideia..."
+                            {...register('title', { required: true, minLength: 10, maxLength: 150 })}
+                            aria-invalid={errors.title ? 'true' : 'false'}
+                        />
+                        {errors.title?.type === 'required' &&
+                            <p className={styles.fieldErrorMessage}>
+                                <Info size={16} /> Este campo precisa ser preenchido.
+                            </p>
+                        }
+                        {errors.title?.type === 'minLength' &&
+                            <p className={styles.fieldErrorMessage}>
+                                <Info size={16} /> O título deve ter no mínimo 10 caracteres.
+                            </p>
+                        }
+                        {errors.title?.type === 'maxLength' &&
+                            <p className={styles.fieldErrorMessage}>
+                                <Info size={16} /> O título deve ter no máximo 150 caracteres.
+                            </p>
+                        }
                     </div>
-                )}
-                <div className={styles.projectCategoryContainer}>
-                    <label htmlFor="projectCategory">
-                        Categoria
-                    </label>
-                    <p style={{ color: '#5a5a5a' }}> Selecione a categoria da ideia de projeto</p>
-                    <select name="category" id="category" className={styles.select} value={String(selectedCategoryValue)} onChange={handleCategorySelected}>
-                        <option value="" >Selecione</option>
-                        {categories?.map((category, index) => (
-                            <option value={category.name} key={index}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                {category !== 'MONOGRAFIA' && category !== 'PIVIC' && category !== 'PIVITI' && (
+                    <div className={styles.description}>
+                        <label htmlFor="descriptionContainer">Descrição</label>
+                        <textarea
+                            className={styles.descriptionText}
+                            placeholder="Adicione uma breve descrição..."
+                            {...register('description', { required: true, minLength: 20, maxLength: 500 })}
+                            aria-invalid={errors.description ? 'true' : 'false'}
+                        />
+                        {errors.description?.type === 'required' &&
+                            <p className={styles.fieldErrorMessage}>
+                                <Info size={16} /> Este campo precisa ser preenchido.
+                            </p>
+                        }
+                        {errors.description?.type === 'minLength' &&
+                            <p className={styles.fieldErrorMessage}>
+                                <Info size={16} /> A descrição precisa ter no mínimo 20 caracteres.
+                            </p>
+                        }
+                        {errors.description?.type === 'maxLength' &&
+                            <p className={styles.fieldErrorMessage}>
+                                <Info size={16} /> A descrição precisa ter no máximo 500 caracteres.
+                            </p>
+                        }
+                    </div>
+                    {category !== 'MONOGRAFIA' && (
+                        <div className={styles.numberOfStudentsContainer}>
+                            <label htmlFor="numberOfStudents">
+                                Quantidade de alunos
+                            </label>
+                            <p style={{ color: '#5a5a5a' }}>Determine a quantidade de alunos</p>
+                            <div className={styles.addOrRemoveStudentsContainer}>
+                                <Button
+                                    backgroundColor="#f5f5f5"
+                                    color="#101010"
+                                    borderRadius=".8rem"
+                                    hover="#afafaf"
+                                    onClick={removeStudent}
+                                >
+                                    <Minus />
+                                </Button>
+                                <input
+                                    type="number"
+                                    className={styles.numberOfStudents}
+                                    {...register('studentsRequired', { min: 1, max: 5, value: studentsRequired })}
+                                    disabled
+                                />
+                                <Button
+                                    backgroundColor="#f5f5f5"
+                                    color="#101010"
+                                    borderRadius=".8rem"
+                                    hover="#afafaf"
+                                    onClick={addStudent}
+
+                                >
+                                    <Plus />
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                     <div className={styles.projectCategoryContainer}>
-                        <label htmlFor="projectModality">
-                            Modalidade
+                        <label htmlFor="projectCategory">
+                            Categoria
                         </label>
-                        <p style={{ color: '#5a5a5a' }}> Selecione uma modalidade</p>
-                        <select  name="modality" id="modality" value={String(selectedModalityValue)} onChange={handleModalitySelected} className={styles.select} >
+                        <p style={{ color: '#5a5a5a' }}> Selecione a categoria da ideia de projeto</p>
+                        <select className={styles.select}
+                            {...register('category', { required: true, value: category })}
+                            aria-invalid={errors.category ? 'true' : 'false'}
+                        >
                             <option value="">Selecione</option>
-                            {modalities?.map((modality, index) => (
-                                <option key={index} value={modality.name}>
-                                    {modality.name}
+                            {categories?.map((category, index) => (
+                                <option value={category.name} key={index}>
+                                    {category.name}
                                 </option>
                             ))}
                         </select>
+                        {errors.category?.type === 'required' &&
+                            <p className={styles.fieldErrorMessage}>
+                                <Info size={16} /> Este campo precisa ser selecionado.
+                            </p>
+                        }
                     </div>
-                )}
-                <Button
-                    type="submit"
-                    backgroundColor="#f5f5f5"
-                    borderRadius=".5rem"
-                    color="#101010"
-                    hover="#afafaf"
-                    width="100%"
-                    disabled={isPublishing ? true : false}
-                >
-                    {isPublishing ? (
-                        <>
-                            <Loader />
-                            <p>Publicando...</p>
-                        </>
-                    ) : (
-                        <p>Publicar</p>
+                    {category !== 'MONOGRAFIA' && category !== 'PIVIC' && category !== 'PIVITI' && (
+                        <div className={styles.projectCategoryContainer}>
+                            <label htmlFor="projectModality">
+                                Modalidade
+                            </label>
+                            <p style={{ color: '#5a5a5a' }}> Selecione uma modalidade</p>
+                            <select className={styles.select}
+                                {...register('modality', { required: true })}
+                                aria-invalid={errors.modality ? 'true' : 'false'}
+                            >
+                                <option value="">Selecione</option>
+                                {modalities?.map((modality, index) => (
+                                    <option key={index} value={modality.name}>
+                                        {modality.name}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.modality?.type === 'required' &&
+                                <p className={styles.fieldErrorMessage}>
+                                    <Info size={16} /> Este campo precisa ser selecionado.
+                                </p>
+                            }
+                        </div>
                     )}
-                </Button>
-            </form>
+                    <Button
+                        type="submit"
+                        backgroundColor="#f5f5f5"
+                        borderRadius=".5rem"
+                        color="#101010"
+                        hover="#afafaf"
+                        width="100%"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? (
+                            <>
+                                <Loader />
+                                <p>Publicando...</p>
+                            </>
+                        ) : (
+                            <p>Publicar</p>
+                        )}
+                    </Button>
+                </form>
+            </Modal>
         </>
     )
 }
