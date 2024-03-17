@@ -90,17 +90,12 @@ const Login: React.FC = () => {
               </span>
             </div>
             <Button
-              backgroundColor={"#f5f5f5"}
-              color={"#101010"}
-              width={"100%"}
-              height={"68%"}
-              hover={"#ccc"}
-              borderRadius={".8rem"}
+              terciary
+              disabled={isLogging}
             >
               {isLogging ? (
                 <>
                   <Loader />
-                  <p>Entrando</p>
                 </>
               ) : (
                 <p>Entrar</p>

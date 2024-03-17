@@ -9,6 +9,7 @@ import api from "../../api/api";
 import ProjectIdeasFilters from '../../components/ProjectIdeasFilters';
 import styles from "./styles.module.css";
 import { useSearchParams } from 'react-router-dom';
+import Header from '../../components/Header';
 
 
 
@@ -43,12 +44,12 @@ const Main: React.FC = () => {
       return all
     }
 
-    if(modality && category){
-     return all?.filter(project => 
-        project.modality.name === modality.toUpperCase() 
+    if (modality && category) {
+      return all?.filter(project =>
+        project.modality.name === modality.toUpperCase()
         &&
         project.category.name === category.toUpperCase()
-        )
+      )
     }
 
     if (department) {
@@ -67,29 +68,27 @@ const Main: React.FC = () => {
 
   }
 
+
   return (
     <div className={styles.body}>
       <Menu />
       <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.title}>
-            <h1 style={{ marginBottom: '4rem' }}>Mural</h1>
-            <div>
-              <p>{auth.user?.vinculo.curso} </p>
-              <p> Campus - {auth.user?.vinculo.campus}  </p>
-              <p>{auth.user?.vinculo.setor_suap}</p>
-            </div>
+        <Header title={'Mural'}>
+          <div></div>
+          <div className={styles.infos}>
+            <p>{auth.user?.vinculo.setor_suap}</p>
+            <p>{auth.user?.vinculo.curso}</p>
+            <p>{auth.user?.vinculo.campus}  </p>
           </div>
-          <ProjectIdeasFilters
-          />
-        </header>
+        </Header>
+        <ProjectIdeasFilters />
         <div className={styles.feed}>
           {!muralProjectIdeas && !isFetching && (
             <div
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
               ✨
-              <p>Não foram encotradas ideias de projetos.</p>
+              <p>Não foram encontradas ideias de projetos.</p>
             </div>
           )}
           {muralProjectIdeas?.length == 0 &&
@@ -97,7 +96,7 @@ const Main: React.FC = () => {
               style={{ display: "flex", alignItems: "center", gap: "1rem" }}
             >
               ✨
-              <p>Não foram encontradas ideias de projeto.</p>
+              <p>Não foram encontradas ideias de projetos.</p>
             </div>}
           <ul className={styles.postsContainer}>
             {muralProjectIdeas?.map((projectIdea: ProjectIdea, index) =>

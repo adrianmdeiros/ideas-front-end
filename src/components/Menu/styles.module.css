@@ -1,7 +1,6 @@
-import styled from "styled-components";
 
 
-export const StyledTabBar = styled.nav`
+.tabBar{
     height: 7rem;
     position: fixed;
     left: 0;
@@ -12,16 +11,16 @@ export const StyledTabBar = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-around;
-`
+}
 
-export const Perfil = styled.img`
+.img{
     height: 4.2rem;
     width: 4.2rem;
     border-radius: 50%;
     object-fit: cover;
-` 
+} 
 
-export const StyledSideMenu = styled.nav`
+.sideBar{
     width: fit-content;
     min-width: fit-content;
     height: 100vh;
@@ -32,21 +31,20 @@ export const StyledSideMenu = styled.nav`
     justify-content: space-between;
     background-color: #151515;
     font-size: 500;
-`
-export const StyledPerfil = styled.div`
+}
+
+.perfil{
     display: flex;
     gap: 1rem;
     align-items: center;
-`
+}
 
-export const StyledUserInfo = styled.div`
+.userInfo{
     display: grid;
+    text-align: start;
+}
     
-        text-align: start;
-    
-`
-
-export const StyledNav = styled.nav`
+.nav{
     display: grid;
     gap: 1rem;
-`
+}

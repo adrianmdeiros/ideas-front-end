@@ -8,6 +8,7 @@ import styles from "./styles.module.css";
 import ProjectForm from "../../components/ProjectForm";
 import { userIsServant } from "../../utils/userIsServant";
 import Main from "../Main";
+import Header from "../../components/Header";
 
 
 const ServantProjectIdeas = () => {
@@ -25,22 +26,21 @@ const ServantProjectIdeas = () => {
         <div className={styles.body}>
           <Menu />
           <div className={styles.container}>
-            <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between  ', backgroundColor: "#101010" }} >
-              <h1>Minhas Ideias</h1>
+            <Header title={'Minhas ideias'}>
               <button className={styles.addButton}
                 onClick={() => setIsModalOpen(true)}
-              >
+              > 
                 <Plus size={18} />
                 <p> Adicionar </p>
               </button>
-            </header>
+            </Header>
             <div className={styles.projectsContainer}>
               {!servantProjectIdeasContext.servantProjectIdeas && !servantProjectIdeasContext.isFetching && (
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "1rem" }}
                 >
                   ✨
-                  <p>Você ainda não adicionou ideias de projeto.</p>
+                  <p>Você ainda não adicionou ideias de projetos.</p>
                 </div>
               )}
               {servantProjectIdeasContext.servantProjectIdeas?.length == 0 && (

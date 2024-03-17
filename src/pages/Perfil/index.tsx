@@ -12,7 +12,6 @@ import ContactForm from "../../components/ContactForm";
 import toast from "react-hot-toast";
 import { userIsServant } from "../../utils/userIsServant";
 import { useFetch } from "../../hooks/useFetch";
-import Button from "../../components/Button";
 
 type UserContacts = {
   email: string;
@@ -73,8 +72,7 @@ const Perfil: React.FC = () => {
       <div className={styles.body}>
         <Menu />
         <div className={styles.container}>
-          <Header padding="2rem 0" height="9rem">
-            <h1 className={styles.title}>Perfil</h1>
+          <Header title={'Perfil'}>
             <Link to={'/'} onClick={handleLogOut} className={styles.logout}>
               Sair
               <LogOut size={18} />
@@ -88,7 +86,7 @@ const Perfil: React.FC = () => {
                   src={userPhoto}
                   alt="foto de perfil"
                 />
-                <div>
+                <div className={styles.info}>
                   <h3 >{auth.user?.nome_usual}</h3>
                   <p>{auth.user?.vinculo.curso}</p>
                   <p>{auth.user?.vinculo.setor_suap}</p>
@@ -151,24 +149,13 @@ const Perfil: React.FC = () => {
                   </div>
                   <p className={styles.help} onClick={() => setIsInfoModalOpen(true)}><HelpCircle />Por que adicionar meus contatos?</p>
                   <Modal isOpen={isInfoModalOpen} setOpenModal={() => setIsInfoModalOpen(!isInfoModalOpen)}>
-                    <div >
+                    <div>
                       <h3 style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}> <Info /> Contatos</h3>
                       <br />
                       <p style={{ textAlign: 'justify', textIndent: '0', color: '#ccccccdc', maxWidth: '38rem' }} >
                         Os contatos adicionados aparecerão em suas ideias de projeto cadastradas. Isso pode ser interessante para facilitar a comunicação com os alunos interessados.
                       </p>
-                      <br />
                     </div>
-                      <Button
-                        height="3.8rem"
-                        width="10rem"
-                        margin="0 0 0 auto"
-                        backgroundColor="#f5f5f5"
-                        borderRadius=".8rem"
-                        color="#101010"
-                        hover="#afafaf"
-                        onClick={() => setIsInfoModalOpen(!isInfoModalOpen)}
-                      >Ok</Button>
                   </Modal>
                 </>
               )}

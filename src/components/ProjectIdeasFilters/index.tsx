@@ -4,6 +4,7 @@ import { Filter, Search } from "react-feather";
 import { useSearchParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import api from "../../api/api";
+import Button from "../Button";
 
 type Category = {
     name: string
@@ -17,13 +18,13 @@ type Department = {
 }
 
 const ProjectIdeasFilters = () => {
-    
+
     const { data: categories } = useFetch<Category[] | null>(`${api.defaults.baseURL}/categories`)
     const { data: modalities } = useFetch<Modality[] | null>(`${api.defaults.baseURL}/modalities`)
     const { data: departments } = useFetch<Department[] | null>(`${api.defaults.baseURL}/departments`)
 
-    const [selectedCategoryValue, setSelectedCategoryValue]     = useState<string | null>()
-    const [selectedModalityValue, setSelectedModalityValue]     = useState<string | null>()
+    const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>()
+    const [selectedModalityValue, setSelectedModalityValue] = useState<string | null>()
     const [selectedDepartmentValue, setSelectedDepartmentValue] = useState<string | null>()
     const [_, setSearchParams] = useSearchParams()
 
@@ -122,8 +123,13 @@ const ProjectIdeasFilters = () => {
                     </select>
                 </div>
                 <div className={styles.buttonsContainer}>
-                    <button className={styles.button} > <Search size={18} /> Aplicar Filtros </button>
-                    <button className={styles.cleanFiltersBtn} onClick={cleanFilters}>Limpar Filtros </button>
+                    <Button terciary gap>
+                        <Search size={18} />
+                        Aplicar Filtros
+                    </Button>
+                    <Button transparent link onClick={cleanFilters}>
+                        Limpar Filtros
+                    </Button>
                 </div>
             </form>
         </div >

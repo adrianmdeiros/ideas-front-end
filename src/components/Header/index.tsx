@@ -1,21 +1,22 @@
 import React from "react"
-import { StyledHeader } from './style'
+import styles from './styles.module.css'
+import { useLocation } from "react-router-dom"
 
 export type HeaderProps = {
-    children: React.ReactNode
-    height?: string
-    padding?: string
-    position?: string
-    margin?: string
-    backgroundColor?: string
-    zIndex?: string
+  title?: string
+  children: React.ReactNode
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
+  const localtion = useLocation()
+  const page = localtion.pathname
+  
+
   return (
-      <StyledHeader height={props.height} padding={props.padding} position={props.position} margin={props.margin} backgroundColor={props.backgroundColor} zIndex={props.zIndex}>
-        {props.children}
-      </StyledHeader>
+    <header className={`${styles.header} ${page === '/' ? styles.absolute : '' } `}>
+      {props.title ? <h1>{props.title}</h1> : ''}
+      {props.children}
+    </header>
   )
 }
 

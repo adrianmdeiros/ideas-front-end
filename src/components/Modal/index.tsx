@@ -1,4 +1,5 @@
-import { CloseButton, StyledContainer, StyledModal } from "./style";
+import { X } from "react-feather";
+import styles from "./styles.module.css"
 
 type ModalProps = {
   children: React.ReactNode;
@@ -10,12 +11,12 @@ const Modal: React.FC<ModalProps> = ({ setOpenModal, isOpen, children }) => {
   if (isOpen) {
     return (
       <>
-        <StyledContainer>
-          <StyledModal>
-            <CloseButton onClick={setOpenModal}/>
+        <div className={styles.container}>
+          <div className={styles.modal}>
+            <X className={styles.closeButton} onClick={setOpenModal}/>
             {children}
-          </StyledModal>
-        </StyledContainer>
+          </div>
+        </div>
       </>
     );
   }else{

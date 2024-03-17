@@ -1,0 +1,14 @@
+.header{
+    height: 9rem;
+    width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.absolute{
+    position: absolute;
+    z-index: 1;
+}

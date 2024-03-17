@@ -81,21 +81,14 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
                   </div>
                   <div className={styles.areYouSureModalButtons}>
                     <Button
-                      borderRadius=".8rem"
-                      backgroundColor="transparent"
-                      color="#afafaf"
-                      hover="transparent"
+                      transparent
                       onClick={() => setIsModalOpen(!isModalOpen)}
                     >
                       cancelar
                     </Button>
                     <Button
-                      backgroundColor="red"
-                      color="#f5f5f5"
-                      borderRadius=".8rem"
-                      hover="#960000"
+                      danger
                       onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => deletePost(props.id!, e)}
-                      height="4rem"
                       disabled={isExcluding}
                     >
                       {isExcluding ? (
@@ -138,15 +131,10 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
             </div>
           </div>
           <Button
-            backgroundColor={"#2c2c2c"}
-            color={"#d9d9d9"}
-            width={"100%"}
-            height={"100%"}
-            hover={"#252525"}
+            quaternary
             onClick={() => setIsProjectDetailsModalOpen(true)}
-            borderRadius={".8rem"}
           >
-            Detalhes
+           Ver Detalhes
           </Button>
         </div>
         <Modal isOpen={IsProjectDetailsModalOpen} setOpenModal={() =>

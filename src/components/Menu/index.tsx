@@ -1,11 +1,11 @@
 import NavLink from "../NavLink";
 import { LogOut, Folder, Grid } from "react-feather";
-import { Perfil, StyledTabBar, StyledSideMenu, StyledPerfil, StyledUserInfo, StyledNav } from "./style";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/Auth";
 import Logo from "../../assets/LogoHome.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { userIsServant } from "../../utils/userIsServant";
+import styles from './styles.module.css'
 
 const Menu: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -30,14 +30,14 @@ const Menu: React.FC = () => {
   return (
     <>
       {isMobile ? (
-        <StyledTabBar>
+        <nav className={styles.tabBar}>
           <NavLink to={"/main"} icon={<Grid />} label="Mural" />
           {userIsServant() && <NavLink to={"/projects"} icon={<Folder />} label="Minhas Ideias" />}
-          <NavLink to={"/perfil"} icon={<Perfil src={userPhoto} alt="Foto de perfil" />} label="Perfil" />
-        </StyledTabBar>
+          <NavLink to={"/perfil"} icon={<img className={styles.img} src={userPhoto} alt="Foto de perfil" />} label="Perfil" />
+        </nav>
       ) : (
-        <StyledSideMenu>
-          <StyledNav>
+        <nav className={styles.sideBar}>
+          <nav className={styles.nav}>
             <Link to={'/'} >
               <img src={Logo} alt="Logo" />
             </Link>
@@ -53,21 +53,21 @@ const Menu: React.FC = () => {
               label="Minhas Ideias"
               display={"flex"}
             />}
-          </StyledNav>
-          <StyledPerfil>
+          </nav>
+          <div className={styles.perfil}>
             <NavLink
               display="flex"
               to={"/perfil"}
-              icon={<Perfil src={userPhoto} alt="Foto de perfil" />}
+              icon={<img className={styles.img} src={userPhoto} alt="Foto de perfil" />}
               >
-              <StyledUserInfo>
+              <div className={styles.userInfo}>
                 <h4>{auth.user?.nome_usual}</h4>
                 <p>{auth.user?.tipo_vinculo}</p>
-              </StyledUserInfo>
+              </div>
           </NavLink>
               <LogOut size={24} color={'red'} onClick={handleLogOut} cursor={'pointer'} />
-          </StyledPerfil>
-        </StyledSideMenu>
+          </div>
+        </nav>
       )}
     </>
   );

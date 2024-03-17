@@ -8,6 +8,11 @@ hr {
     text-align: end;
 }
 
+.infos{
+    font-size: 1.4rem;
+    color: #909090;
+}
+
 .title{
     display: flex;
     justify-content: space-between;

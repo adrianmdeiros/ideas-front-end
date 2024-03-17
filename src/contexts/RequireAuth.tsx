@@ -22,7 +22,7 @@ export const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
     return (
       <div style={{width:'100%', display:'flex', alignItems:'center',gap:'1rem', padding:'2rem'}}>
         <Loader />
-        <p>Aguarde...</p>
+        <p>Entrando...</p>
       </div>
     )
   }

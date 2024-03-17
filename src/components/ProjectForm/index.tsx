@@ -116,17 +116,18 @@ const ProjectForm: React.FC<ProjectFormProps> = (props: ProjectFormProps) => {
 
     const updateProject: SubmitHandler<FormData> = async (data: FormData) => {
         try {
-            const response = await api.put(`/project-ideas/${props.id}`, {
-                ...data,
-                servantId: auth.user?.id
-            })
-
-            const newList = servantProjectIdeasContext.servantProjectIdeas?.map(servantProjectIdea => {
-                return servantProjectIdea.id === props.id ? { ...response.data } : servantProjectIdea
-            }) as ProjectIdea[]
-            servantProjectIdeasContext.setServantProjectIdeas(newList)
-
-            props.setIsModalOpen(false)
+                const response = await api.put(`/project-ideas/${props.id}`, {
+                    ...data,
+                    servantId: auth.user?.id
+                })
+            
+                
+                const newList = servantProjectIdeasContext.servantProjectIdeas?.map(servantProjectIdea => {
+                    return servantProjectIdea.id === props.id ? { ...response.data } : servantProjectIdea
+                }) as ProjectIdea[]
+                servantProjectIdeasContext.setServantProjectIdeas(newList)
+                
+                props.setIsModalOpen(false)
             toast.success('Ideia de projeto atulizada com sucesso!')
             reset()
         } catch (error) {
@@ -135,7 +136,7 @@ const ProjectForm: React.FC<ProjectFormProps> = (props: ProjectFormProps) => {
             toast.error('Talvez já exista algum projeto com esse título.')
             console.error(error)
         }
-
+    
     }
 
     return (
@@ -207,10 +208,7 @@ const ProjectForm: React.FC<ProjectFormProps> = (props: ProjectFormProps) => {
                             <p style={{ color: '#5a5a5a' }}>Determine a quantidade de alunos</p>
                             <div className={styles.addOrRemoveStudentsContainer}>
                                 <Button
-                                    backgroundColor="#f5f5f5"
-                                    color="#101010"
-                                    borderRadius=".8rem"
-                                    hover="#afafaf"
+                                    terciary
                                     onClick={removeStudent}
                                 >
                                     <Minus />
@@ -222,12 +220,8 @@ const ProjectForm: React.FC<ProjectFormProps> = (props: ProjectFormProps) => {
                                     disabled
                                 />
                                 <Button
-                                    backgroundColor="#f5f5f5"
-                                    color="#101010"
-                                    borderRadius=".8rem"
-                                    hover="#afafaf"
+                                    terciary
                                     onClick={addStudent}
-
                                 >
                                     <Plus />
                                 </Button>
@@ -282,20 +276,15 @@ const ProjectForm: React.FC<ProjectFormProps> = (props: ProjectFormProps) => {
                     )}
                     <Button
                         type="submit"
-                        backgroundColor="#f5f5f5"
-                        borderRadius=".5rem"
-                        color="#101010"
-                        hover="#afafaf"
-                        width="100%"
+                        terciary
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? (
                             <>
                                 <Loader />
-                                <p>Publicando...</p>
                             </>
                         ) : (
-                            <p>Publicar</p>
+                            <p> {props.id ? 'Salvar' : 'Publicar'}</p>
                         )}
                     </Button>
                 </form>

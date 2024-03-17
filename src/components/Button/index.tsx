@@ -1,33 +1,37 @@
 import React, { ButtonHTMLAttributes } from "react";
-import { StyledButton } from "./style";
+import styles from './styles.module.css'
 
 export interface BtnProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   children: React.ReactNode;
-  backgroundColor: string;
-  color: string;
-  width?: string;
-  height?: string;
-  hover: string;
-  borderRadius: string;
-  margin?: string;
-  position?: string;
+  primary?: boolean;
+  secondary?: boolean;
+  terciary?: boolean;
+  quaternary?: boolean
+  danger?: boolean;
+  transparent?: boolean;
+  link?: boolean;
+  gap?: boolean;
 };
 
 const Button: React.FC<BtnProps> = (props: BtnProps) => {
+
+  const classNames = [
+    styles.button, 
+    props.primary && styles.primary, 
+    props.secondary && styles.secondary,
+    props.terciary && styles.terciary,
+    props.quaternary && styles.quaternary,
+    props.transparent && styles.transparent,
+    props.link && styles.link,
+    props.gap && styles.gap,
+    props.danger && styles.danger
+  ]
+    .join(' ')
+
   return (
-    <StyledButton
-      onClick={props.onClick}
-      color={props.color}
-      backgroundColor={props.backgroundColor}
-      width={props.width}
-      height={props.height}
-      hover={props.hover}
-      borderRadius={props.borderRadius}
-      margin={props.margin}
-      position={props.position}
-    >
+    <button className={classNames} onClick={props.onClick}>
       {props.children}
-    </StyledButton>
+    </button>
   );
 };
 

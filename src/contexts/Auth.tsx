@@ -122,8 +122,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 }
 
   const setTokens = (tokens: any) => {
-    cookies.set("token", tokens.access, { secure: true });
-    cookies.set("refresh", tokens.refresh, { secure: true });
+    cookies.set("token", tokens.access , {secure: true});
+    cookies.set("refresh", tokens.refresh, {secure: true});
   };
 
   const signOut = () => {

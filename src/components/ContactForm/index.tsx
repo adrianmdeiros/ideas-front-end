@@ -39,11 +39,10 @@ const ContactForm = (props: ContactFormProps) => {
             <label htmlFor={props.label}>{props.label}</label>
             <input className={styles.input} type={props.label} name={props.label} id={props.label} placeholder={`Digite seu ${props.label}`} onChange={(e) => handleOnChange(e)}
             />
-            <Button backgroundColor="#f5f5f5" hover="#dedede" color="#101010" borderRadius=".8rem">
+            <Button terciary>
                 {props.isSaving ? (
                     <>
                         <Loader />
-                        <p>Salvando</p>
                     </>
                 ) : <p>Salvar</p>
                 }

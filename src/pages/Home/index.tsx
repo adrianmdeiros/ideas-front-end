@@ -6,8 +6,6 @@ import Banner from "../../assets/Banner.png";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import Header from "../../components/Header";
-import { useEffect } from "react";
-import Cookies from "universal-cookie";
 
 const cx = classNames.bind(styles);
 
@@ -15,27 +13,17 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const actualYear = new Date().getFullYear()
 
-  useEffect(() => {
-    const cookies = new Cookies()
-    cookies.remove('token')
-    cookies.remove('refresh')
-  }, [])
-
   return (
     <>
       <div className={styles.container}>
-        <Header height="9rem" padding="0 2rem" position="absolute" zIndex="1">
+        <Header>
           <Link to={'/'}>
             <img src={LogoHome} alt="Logo Projif" />
           </Link>
           <Button
-            backgroundColor={"#FF7A00"}
-            color={"#f5f5f5"}
-            width={"12rem"}
-            height={"4.8rem"}
-            hover={"#e46e00"}
+            primary
+            gap
             onClick={() => navigate("/login")}
-            borderRadius={'.8rem'}
           >
             Entrar
             <LogIn />
@@ -101,14 +89,7 @@ const Home: React.FC = () => {
             </div>
         </main>
         <div className={styles.footer}>
-          {/* <p>
-            Developed by{" "}
-            <a className={styles.link} href="https://github.com/adrianmedeirosdev">
-              adrianmedeirosdev
-            </a>
-          </p> */}
-          <p>Esta plataforma está em estado de testes.</p>
-          <p>PROJIF Beta {actualYear} © - Todos os direitos reservados</p>
+          <p>PROJIF {actualYear} © - Todos os direitos reservados</p>
         </div>
       </div>
     </>
