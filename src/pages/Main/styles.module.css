@@ -9,6 +9,7 @@ hr {
 }
 
 .infos{
+    text-align: end;
     font-size: 1.4rem;
     color: #909090;
 }
