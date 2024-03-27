@@ -38,55 +38,43 @@ const Home: React.FC = () => {
             <h1>Como funciona?</h1>
             <div className={styles.stepsWrapper}>
               <div className={cx("step", "step1")}>
-                <div className={styles.top}>
-                  <h1>01</h1>
-                </div>
                 <div className={styles.middle}>
                   <User size={48} />
                   <h2>Faça Login</h2>
                 </div>
                 <div className={styles.bottom}>
-                  <p>Entre com suas credenciais do SUAP</p>
+                  <p>Entre usando suas credenciais do SUAP!</p>
                 </div>
               </div>
               <div className={cx("step", "step2")}>
-                <div className={styles.top}>
-                  <h1>02</h1>
-                </div>
                 <div className={styles.middle}>
                   <Search size={48} />
                   <h2>Encontre ideias</h2>
                 </div>
                 <div className={styles.bottom}>
-                  <p>Visualize as oportunidades de projeto no seu feed</p>
-                </div>
-              </div>
-              <div className={cx("step", "step3")}>
-                <div className={styles.top}>
-                  <h1>03</h1>
-                </div>
-                <div className={styles.middle}>
-                  <Share2 size={48} />
-                  <h2>Compartilhe sua ideia</h2>
-                </div>
-                <div className={styles.bottom}>
-                  <p>Cadastre uma ideia e encontre pessoas interessadas</p>
+                  <p>Alunos podem encontrar oportunidades de projeto de pesquisa</p>
                 </div>
               </div>
               <div className={cx("step", "step4")}>
-                <div className={styles.top}>
-                  <h1>04</h1>
-                </div>
                 <div className={styles.middle}>
                   <CheckCircle size={48} />
                   <h2>Conecte-se</h2>
                 </div>
                 <div className={styles.bottom}>
-                  <p>Entre em contato com o dono da ideia e mãos a obra!</p>
+                  <p>Alunos podem descobrir como entrar em contato com o professor</p>
+                </div>
+              </div>
+              <div className={cx("step", "step3")}>
+                <div className={styles.middle}>
+                  <Share2 size={48} />
+                  <h2>Compartilhe sua ideia</h2>
+                </div>
+                <div className={styles.bottom}>
+                  <p>Professores podem compartilhar oportunidades de projetos de pesquisa</p>
                 </div>
               </div>
             </div>
-            </div>
+          </div>
         </main>
         <div className={styles.footer}>
           <p>PROJIF {actualYear} © - Todos os direitos reservados</p>

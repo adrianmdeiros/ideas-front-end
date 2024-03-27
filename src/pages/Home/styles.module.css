@@ -13,10 +13,12 @@
     font-style: italic;
 }
 
+
+
 .step{
     width: 100%;
     max-width: 29rem;
-    border-radius: 1.2rem;;
+    border-radius: .8rem;;
     padding: 1.8rem;
 }
 
@@ -62,17 +64,16 @@
 
 
 .step1{
-    border: .2rem solid #FF7A00;
-    
+    border: .3rem solid #FF7A00;
 }
 .step2{
-    border: .2rem solid #00a3ff;
+    border: .3rem solid #00a3ff;
 }
 .step3{
-    border: .2rem solid #ad00ff;
+    border: .3rem solid #ad00ff;
 }
 .step4{
-    border: .2rem solid #2f9e41;
+    border: .3rem solid #2f9e41;
 }
 
 .step1 .top{
@@ -126,9 +127,3 @@
         flex-wrap: wrap;
     }
 }
-
-
-
-
-
-
