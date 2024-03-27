@@ -51,13 +51,17 @@
     width: 100%;
     font-size: 1.6rem;
     border-radius: .8rem;
-    background-color: #101010;
-    border: .1rem solid #f5f5f5;
+    background-color: #252525;
+    border: .2rem solid #303030;
     color: #f5f5f5;
-    padding: 1.2rem;
+    padding: 1rem;
     caret-color: #f5f5f5;
 }
 
+.input:focus{
+    outline-style: .2rem solid;
+    outline-color: #909090;
+}
 
 
 .bottom{

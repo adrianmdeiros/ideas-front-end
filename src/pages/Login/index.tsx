@@ -17,6 +17,7 @@ const Login: React.FC = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLogging, setIsLogging] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(4);
 
   useEffect(() => {
     if (auth.isAuthenticated) {
@@ -35,8 +36,17 @@ const Login: React.FC = () => {
         toast.success('Login realizado com sucesso.')
       }
     } catch (e) {
-      toast.error('Matrícula ou senha incorretas. Tente novamente. Caso o erro persista, verifique se o site do SUAP está funcionando normalmente. Se não estiver, será necessário aguardar o retorno do mesmo para tentar novamente.');
       setIsLogging(false);
+      if(loginAttempts > 0){
+       setLoginAttempts(loginAttempts - 1); 
+      }else{
+        setLoginAttempts(4)
+        window.location.reload()
+        window.open('https://suap.ifma.edu.br/accounts/login', '_blank')
+      }
+      toast.error('Matrícula ou senha incorretas.', {duration: 6000});
+      toast.error(`Você tem ${loginAttempts} tentativas.`, {duration: 6000});
+      toast.error(`Após isso você deverá fazer login no SUAP e retornar.`, {duration: 6000});
     }
   };
 
