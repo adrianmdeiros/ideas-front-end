@@ -2,7 +2,7 @@ import NavLink from "../NavLink";
 import { LogOut, Folder, Grid } from "react-feather";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/Auth";
-import Logo from "../../assets/LogoHome.svg";
+import Logo from "../../assets/LogoHome.png";
 import { Link, useNavigate } from "react-router-dom";
 import { userIsServant } from "../../utils/userIsServant";
 import styles from './styles.module.css'
@@ -39,7 +39,7 @@ const Menu: React.FC = () => {
         <nav className={styles.sideBar}>
           <nav className={styles.nav}>
             <Link to={'/'} >
-              <img src={Logo} alt="Logo" />
+              <img src={Logo} alt="Logo" height={100} style={{display: 'block',margin: "auto"}} />
             </Link>
             <NavLink
               to={"/main"}

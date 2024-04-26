@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import Banner from "../../assets/Banner.png";
-import Logo from "../../assets/LogoHome.svg";
+import Logo from "../../assets/LogoHome.png";
 import Button from "../../components/Button";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
         <div className={styles.loginContainer}>
           <div className={styles.top}>
             <Link to={"/"}>
-              <img src={Logo} alt="Logo do app" />
+              <img src={Logo} alt="Logo do app" height={120} />
             </Link>
             <div className={styles.tip}>
               <Info color="#cecece"/> <p>Entre com matrícula e senha do SUAP.</p>

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { CheckCircle, LogIn, Search, Share2, User } from "react-feather";
-import LogoHome from "../../assets/LogoMain.svg";
+import LogoHome from "../../assets/LogoHome.png";
 import Banner from "../../assets/Banner.png";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
@@ -18,7 +18,7 @@ const Home: React.FC = () => {
       <div className={styles.container}>
         <Header>
           <Link to={'/'}>
-            <img src={LogoHome} alt="Logo Projif" />
+            <img style={{marginTop: '4rem'}} src={LogoHome} alt="Logo Projif" height={120} />
           </Link>
           <Button
             primary
