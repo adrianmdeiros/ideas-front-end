@@ -6,6 +6,7 @@ import Banner from "../../assets/Banner.png";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import Header from "../../components/Header";
+import CookiesPopUp from "../../components/CookiesPopUp";
 
 const cx = classNames.bind(styles);
 
@@ -75,6 +76,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
+          <CookiesPopUp />
         </main>
         <div className={styles.footer}>
           <p>PROJIF {actualYear} © - Todos os direitos reservados</p>

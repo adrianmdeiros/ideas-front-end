@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
     baseURL: 'https://api-projif.vercel.app'
-    // baseURL: 'http://172.22.175.163:3000'
+    // baseURL: 'http://localhost:3000'
 })
 
 
