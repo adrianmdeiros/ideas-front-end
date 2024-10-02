@@ -19,7 +19,8 @@
     "react-hook-form": "^7.51.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.10.0",
-    "universal-cookie": "^6.1.1"
+    "universal-cookie": "^6.1.1",
+    "vercel": "^28.18.5"
   },
   "keywords": [],
   "author": "adrianmedeirosdev",

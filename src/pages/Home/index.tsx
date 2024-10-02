@@ -41,37 +41,37 @@ const Home: React.FC = () => {
               <div className={cx("step", "step1")}>
                 <div className={styles.middle}>
                   <User size={48} />
-                  <h2>Faça Login</h2>
+                  <h2>Fácil acesso</h2>
                 </div>
                 <div className={styles.bottom}>
-                  <p>Entre usando suas credenciais do SUAP!</p>
-                </div>
-              </div>
-              <div className={cx("step", "step2")}>
-                <div className={styles.middle}>
-                  <Search size={48} />
-                  <h2>Encontre ideias</h2>
-                </div>
-                <div className={styles.bottom}>
-                  <p>Alunos podem encontrar oportunidades de projeto de pesquisa</p>
-                </div>
-              </div>
-              <div className={cx("step", "step4")}>
-                <div className={styles.middle}>
-                  <CheckCircle size={48} />
-                  <h2>Conecte-se</h2>
-                </div>
-                <div className={styles.bottom}>
-                  <p>Alunos podem descobrir como entrar em contato com o professor</p>
+                  <p>O acesso é integrado com o SUAP!</p>
                 </div>
               </div>
               <div className={cx("step", "step3")}>
                 <div className={styles.middle}>
                   <Share2 size={48} />
-                  <h2>Compartilhe sua ideia</h2>
+                  <h2>Ideias compartilhadas</h2>
                 </div>
                 <div className={styles.bottom}>
-                  <p>Professores podem compartilhar oportunidades de projetos de pesquisa</p>
+                  <p>Professores compartilham oportunidades de projetos de pesquisa</p>
+                </div>
+              </div>
+              <div className={cx("step", "step2")}>
+                <div className={styles.middle}>
+                  <Search size={48} />
+                  <h2>Projetos disponíveis</h2>
+                </div>
+                <div className={styles.bottom}>
+                  <p>Alunos encontram oportunidades de projeto de pesquisa</p>
+                </div>
+              </div>
+              <div className={cx("step", "step4")}>
+                <div className={styles.middle}>
+                  <CheckCircle size={48} />
+                  <h2>Conexão</h2>
+                </div>
+                <div className={styles.bottom}>
+                  <p>Alunos podem encontrar os contatos do professor.</p>
                 </div>
               </div>
             </div>

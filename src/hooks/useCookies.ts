@@ -16,7 +16,7 @@ export const useCookies = () => {
     }, [])
 
     const agreeCookies = () => {
-        cookies.set('cookiesAgreement', true, { httpOnly: true, secure: true})
+        cookies.set('cookiesAgreement', true, { secure: true })
         setCookiesAgreed(true)
     }
 
