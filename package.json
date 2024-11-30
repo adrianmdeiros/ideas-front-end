@@ -20,7 +20,7 @@
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.10.0",
     "universal-cookie": "^6.1.1",
-    "vercel": "^28.18.5"
+    "vercel": "^39.1.2"
   },
   "keywords": [],
   "author": "adrianmedeirosdev",

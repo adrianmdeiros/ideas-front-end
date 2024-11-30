@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
 
   return (
     <header className={`${styles.header} ${page === '/' ? styles.absolute : '' } `}>
-      {props.title ? <h1>{props.title}</h1> : ''}
+      {props.title ? <h2>{props.title}</h2> : ''}
       {props.children}
     </header>
   )

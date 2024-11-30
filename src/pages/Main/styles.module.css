@@ -29,6 +29,8 @@ hr {
     padding: 2rem;
     overflow-y: auto;
     overflow-x: auto;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 
@@ -54,6 +56,12 @@ hr {
     opacity: 50%;
 }
 
+.themeButtons{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: .5rem;
+}
 
 @media only screen and (min-width: 768px) {
     .body {
