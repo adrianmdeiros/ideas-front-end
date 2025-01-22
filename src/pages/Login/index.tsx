@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import Banner from "../../assets/Banner.png";
+import Banner from "../../assets/Banner.jpg";
 import Logo from "../../assets/LogoHome.png";
 import Button from "../../components/Button";
 import { useContext, useEffect, useState } from "react";

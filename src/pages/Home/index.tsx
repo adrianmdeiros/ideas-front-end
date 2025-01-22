@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { CheckCircle, LogIn, Search, Share2, User } from "react-feather";
 import LogoHome from "../../assets/LogoHome.png";
-import Banner from "../../assets/Banner.png";
+import Banner from "../../assets/Banner.jpg";
 import styles from "./styles.module.css";
 import classNames from "classnames/bind";
 import Header from "../../components/Header";
@@ -19,7 +19,7 @@ const Home: React.FC = () => {
       <div className={styles.container}>
         <Header>
           <Link to={'/'}>
-            <img style={{marginTop: '4rem'}} src={LogoHome} alt="Logo Projif" height={120} />
+            <img style={{marginTop: '4rem'}} src={LogoHome} alt="Logo Projif" height={100} />
           </Link>
           <Button
             primary
@@ -79,11 +79,10 @@ const Home: React.FC = () => {
           <CookiesPopUp />
         </main>
         <div className={styles.footer}>
-          <p>PROJIF {actualYear} © - Todos os direitos reservados</p>
+          <p>iDeas {actualYear} © - Todos os direitos reservados.</p>
         </div>
       </div>
     </>
   );
 };
-
 export default Home;

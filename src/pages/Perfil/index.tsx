@@ -40,30 +40,38 @@ const Perfil: React.FC = () => {
     e.preventDefault()
     setIsSaving(true)
 
+    try {
+      const response = await api.put(`/users/contacts?userId=${auth.user?.id}`, {
+        email: email
+      })
+      setContacts(response.data)
+      toast.success('Salvo com sucesso.')
+      setIsSaving(false)
+      setIsEmailModalOpen(false)
+    } catch {
+      setIsSaving(false)
+      toast.error('Erro ao salvar.')
+    }
 
-    const response = await api.put(`/users/contacts?userId=${auth.user?.id}`, {
-      email: email
-    })
-
-    setIsSaving(false)
-    setIsEmailModalOpen(false)
-
-    setContacts(response.data)
-    if (email != '') toast.success('Email salvo com sucesso.')
   }
 
   const savePhone = async (phone: string, e: any) => {
     e.preventDefault()
     setIsSaving(true)
 
-    const response = await api.put(`/users/contacts?userId=${auth.user?.id}`, {
-      phone: phone
-    })
+    try {
+      const response = await api.put(`/users/contacts?userId=${auth.user?.id}`, {
+        phone: phone
+      })
+      setContacts(response.data)
+      toast.success('Salvo com sucesso.')
+      setIsSaving(false)
+      setIsPhoneModalOpen(false)
+    } catch {
+      setIsSaving(false)
+      toast.error('Erro ao salvar.')
+    }
 
-    setIsPhoneModalOpen(false)
-    setIsSaving(false)
-    setContacts(response.data)
-    if (phone != '') toast.success('Telefone salvo com sucesso.')
   }
 
 
@@ -150,10 +158,10 @@ const Perfil: React.FC = () => {
                   <p className={styles.help} onClick={() => setIsInfoModalOpen(true)}><HelpCircle />Por que adicionar meus contatos?</p>
                   <Modal isOpen={isInfoModalOpen} setOpenModal={() => setIsInfoModalOpen(!isInfoModalOpen)}>
                     <div>
-                      <h3 style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}> <Info /> Contatos</h3>
+                      <h3 style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}> <Info />Contatos do autor</h3>
                       <br />
-                      <p style={{ textAlign: 'justify', textIndent: '0', color: '#ccccccdc', maxWidth: '38rem' }} >
-                        Os contatos adicionados aparecerão em suas ideias de projeto cadastradas. Isso pode ser interessante para facilitar a comunicação com os alunos interessados.
+                      <p style={{ textIndent: '0', color: '#ccccccdc', maxWidth: '38rem' }} >
+                        Os contatos adicionados aparecerão em suas oportunidades de projeto cadastradas no mural. Isso fará com que os alunos interessados em participar do projeto possam entrar em contato com você mais facilmente.
                       </p>
                     </div>
                   </Modal>
