@@ -47,7 +47,7 @@
 }
 
 .middle > p{
-    text-align: justify;
+    text-align: start;
     word-break: normal;
     line-break: auto;
     max-width: 48rem;
