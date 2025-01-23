@@ -15,7 +15,6 @@
     z-index: -1;
     object-fit: cover;
     opacity: 30%;
-    background-image: url(${Banner});
 }
 
 .loginContainer{

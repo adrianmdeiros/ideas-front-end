@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import AuthProvider from "./contexts/Auth";
 import { Toaster } from "react-hot-toast";
-import './styles/global.module.css'
+import './styles/global.css'
 
 function App() {
   return (

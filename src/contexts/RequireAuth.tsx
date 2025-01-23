@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { JSX, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./Auth";
 import Login from "../pages/Login";
 import Loader from "../components/Loader";
