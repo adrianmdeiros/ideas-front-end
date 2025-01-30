@@ -17,8 +17,8 @@
 }
 
 .modal{
-    max-width: 100%;
-    min-width: 28rem;
+    max-width: 48rem;
+    min-width: 34rem;
     background-color: #101010;
     border-radius: .8rem;
     padding: 2rem;
