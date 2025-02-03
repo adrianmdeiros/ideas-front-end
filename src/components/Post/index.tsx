@@ -68,8 +68,8 @@ const Post: React.FC<PostProps> = (props: PostProps) => {
           </div>
           {location.pathname === "/projects" && (
             <div className={styles.actions}>
-              <Edit color="#818181" cursor={"pointer"} size={23} onClick={() => setIsEditModalOpen(true)} />
-              <Trash2 color="#818181" size={24} cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
+              <Edit color="#808080" cursor={"pointer"} size={23} onClick={() => setIsEditModalOpen(true)} />
+              <Trash2 color="#808080" size={24} cursor={"pointer"} onClick={() => setIsModalOpen(true)} />
               <Modal
                 isOpen={isModalOpen}
                 setOpenModal={() => setIsModalOpen(!isModalOpen)}

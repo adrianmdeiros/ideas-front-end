@@ -13,19 +13,19 @@
     align-items: center;
     gap: .8rem;
     margin-bottom: 1rem;
-    color: #909090;
+    color: var(--border-color);
 }
 
 .select {
     text-align: start;
-    background-color: #202020;
-    color: #f5f5f5;
+    background-color: var(--nav-hover);
+    color: var(--border-color);
     width: 22rem;
     padding: 1.4rem 1rem;
     border-radius: .8rem;
     border: none;
     cursor: pointer;
-    border: .2rem solid #303030;
+    border: .2rem solid var(--border-color)
 }
 
 .select option {
@@ -50,7 +50,7 @@
 }
 
 .button:hover {
-    background-color: #dedede;
+    background-color: var(--bg-color);
 }
 
 .cleanFiltersBtn {
@@ -60,7 +60,6 @@
     border-radius: .8rem;
     cursor: pointer;
     border: none;
-    color: #f5f5f5;
     text-decoration: underline;
 }
 

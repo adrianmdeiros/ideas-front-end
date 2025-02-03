@@ -5,17 +5,30 @@
   -webkit-font-smoothing: antialised;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Inter", sans-serif;
-  caret-color: #f5f5f5;
 }
 
 :root {
   font-size: 62.5%;
 }
 
+.light {
+  --bg-color: #f5f5f5;
+  --text-color: #101010;
+  --border-color: #909090;
+  --nav-hover: #dedede;
+}
+
+.dark {
+  --bg-color: #101010;
+  --text-color: #f5f5f5;
+  --border-color: #909090;
+  --nav-hover: #252525;
+}
+
 body {
   font-size: 1.6rem;
-  background-color: #101010;
-  color: #f5f5f5;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 main {

@@ -47,8 +47,7 @@ hr {
 
 
 .addButton:hover {
-    background-color: #f5f5f5;
-    color: rgb(7, 146, 0);
+    background-color: rgb(8, 167, 0);
 }
 
 @media only screen and (min-width: 768px) {

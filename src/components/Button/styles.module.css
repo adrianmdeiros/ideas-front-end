@@ -12,12 +12,12 @@
 }
 
 .primary{
-    background-color: #ff7a00;
+    background-color: #f17500;
     color: #f5f5f5;
 }
 
 .primary:hover{
-    background-color: #df6c00;
+    background-color: #ff7b00;
 }
 
 .secondary{
@@ -36,12 +36,12 @@
 }
 
 .quaternary{
-    background-color: #303030;
-    color: #f5f5f5;
+    background-color: var(--nav-hover);
+    color: var(--text-color);
 }
 
 .quaternary:hover{
-    border: 2px solid #404040;
+    border: 2px solid var(--border-color);
 }
 
 .danger{
@@ -51,21 +51,21 @@
 }
 
 .danger:hover{
-    background-color: #790000;
+    background-color: #a70000;
 }
 
 .terciary:hover{
-    background-color: rgb(6, 116, 0);
+    background-color: rgb(8, 153, 0);
     color: #f5f5f5;
 }
 
 .transparent{
     background-color: transparent;
-    color: #f5f5f5;
+    color: #909090;
 }
 
 .transparent:hover{
-    color: #ccc;
+    color: var(--text-color);
 }
 
 .link{

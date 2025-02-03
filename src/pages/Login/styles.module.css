@@ -4,8 +4,8 @@
     display: grid;
     place-content: center;
     padding: 2rem;
-    background: rgb(10, 10, 10);
-    background: linear-gradient(0deg, rgba(16,16,16,1) 0%, rgba(16, 16, 16, 0.925) 50%, rgba(255,255,255,0) 100%);
+    background-color: var(--bg-color);
+    background: linear-gradient(0deg, rgba(16,16,16,1) 0%, rgba(16, 16, 16, 0.925) 50%, #101010 100%);
 }
 
 .background{
@@ -50,16 +50,16 @@
     width: 100%;
     font-size: 1.6rem;
     border-radius: .8rem;
-    background-color: #252525;
+    background-color: var(--bg-color);
     border: .2rem solid #303030;
-    color: #f5f5f5;
+    color: var(--text-color);
     padding: 1rem;
-    caret-color: #f5f5f5;
+    caret-color: var(--text-color);
 }
 
 .input:focus{
-    outline-style: .2rem solid;
-    outline-color: #909090;
+    outline-style: .1rem solid;
+    outline-color: var(--text-color);
 }
 
 

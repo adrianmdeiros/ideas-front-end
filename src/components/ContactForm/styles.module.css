@@ -8,15 +8,15 @@
 }
 
 .input {
-    background-color: #252525;
+    background-color: var(--bg-color);
     border: none;
     padding: 1rem;
     border-radius: .8rem;
-    color: #f5f5f5;
+    color: var(--text-color);
     font-weight: 500;
     height: 4.2rem;
     margin-bottom: 1rem;
-    border: .2rem solid #303030
+    border: .2rem solid var(--border-color)
 
 }
 

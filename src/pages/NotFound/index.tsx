@@ -7,7 +7,7 @@ const NotFound = () => {
   const handleNavigate = () => navigate(-1)
   return (
     <>
-      <div style={{ padding: '1rem', height: '100vh', backgroundColor: '#101010' }}>
+      <div style={{ padding: '1rem', height: '100vh', backgroundColor: 'var(--bg-color)' }}>
         <button style={{ display: 'flex', alignItems: 'center', gap: '1rem', border: 'none', borderRadius: '.8rem', padding: '.8rem 1.6rem', cursor: 'pointer' }} onClick={handleNavigate}> <ArrowLeft /> <b>Voltar</b></button>
         <br />
         <div style={{ display: " flex", gap: "1rem", alignItems: 'center' }}>

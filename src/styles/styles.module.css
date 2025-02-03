@@ -1,0 +1,25 @@
+.themeButton {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 999rem;
+    padding: .6rem;
+    border: .1rem solid var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 70%;
+    box-shadow: 0 0 10rem var(--text-color);
+    z-index: 99;
+}
+
+@media only screen and (max-width: 768px){
+    .themeButton {
+        left: 1rem;
+        right: auto;
+        bottom: 8rem;
+    }
+}

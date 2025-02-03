@@ -1,16 +1,18 @@
 .container{
     position: fixed;
-    bottom: 1.6rem;
-    right: 1.6rem;
+    bottom: 1.4rem;
+    right: 2rem;
     z-index: 10;
-    background-color: #eeeeee;
+    margin-left: 2rem;
+    background-color: var(--bg-color);
     padding: 1.4rem;
-    color: #101010;
+    color: var(--text-color);
     border-radius: 1rem;
     width: fit-content;
     max-width: 32rem;
     display: grid;
     justify-content: end;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
 }
 
 .header{

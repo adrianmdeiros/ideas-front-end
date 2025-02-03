@@ -160,7 +160,7 @@ const Perfil: React.FC = () => {
                     <div>
                       <h3 style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}> <Info />Contatos do autor</h3>
                       <br />
-                      <p style={{ textIndent: '0', color: '#ccccccdc', maxWidth: '38rem' }} >
+                      <p style={{ textIndent: '0', color: 'var(--text-color)', maxWidth: '38rem' }} >
                         Os contatos adicionados aparecerão em suas oportunidades de projeto cadastradas no mural. Isso fará com que os alunos interessados em participar do projeto possam entrar em contato com você mais facilmente.
                       </p>
                     </div>

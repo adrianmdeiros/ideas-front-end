@@ -1,7 +1,7 @@
 hr {
     border: none;
     height: .1rem;
-    background-color: #252525;
+    background-color: var(--bg-color);
 }
 
 .header{
@@ -36,8 +36,6 @@ hr {
 
 .feed {
     display: grid;
-    /* padding: 2rem; */
-    /* margin-top: 6rem; */
     margin-bottom: 10rem;
 }
 
