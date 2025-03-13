@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const suapi = axios.create({
-  baseURL: 'https://suap.ifma.edu.br/api/v2/'
+  baseURL: import.meta.env.VITE_SUAPI_BASE_URL
 })
 
 export default suapi

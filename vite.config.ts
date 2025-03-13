@@ -11,5 +11,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom'
   },
-  plugins: [react()]
+  plugins: [react()],
+  define: {
+    'process.env.VITE_API_BASE_URL': JSON.stringify(process.env.VITE_API_BASE_URL),
+    'process.env.VITE_SUAPI_BASE_URL': JSON.stringify(process.env.VITE_SUAPI_BASE_URL)
+  }
 })

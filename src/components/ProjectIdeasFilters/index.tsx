@@ -1,10 +1,11 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import styles from './styles.module.css'
 import { Filter, Search } from "react-feather";
 import { useSearchParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import api from "../../api/api";
 import Button from "../Button";
+import { normalizeUrlSearchParam } from "../../utils/userIsServant";
 
 type Category = {
     name: string
@@ -40,10 +41,11 @@ const ProjectIdeasFilters = () => {
         setSelectedDepartmentValue(e.target.value)
     }
 
-    function handleFilterProjectsIdeas(e: any) {
+    function handleFilterProjectsIdeas(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        const { category, modality, department } = e.target.elements
+        const filterForm = e.target as HTMLFormElement
+        const { category, modality, department } = filterForm.elements as any
 
         setSearchParams(state => {
             if (category.value !== '')
@@ -53,11 +55,13 @@ const ProjectIdeasFilters = () => {
             return state
         })
 
-        setSearchParams(state => {
-            if (modality.value !== '')
-                state.set('modality', modality.value.toLowerCase())
-            else
+        setSearchParams((state) => {
+            if (modality.value !== ''){
+                const normalizedModalityValue = normalizeUrlSearchParam(modality.value)
+                state.set('modality', normalizedModalityValue.toLowerCase())
+            }   else{
                 state.delete('modality')
+            }
             return state
         })
 

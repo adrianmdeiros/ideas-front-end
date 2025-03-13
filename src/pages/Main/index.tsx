@@ -10,6 +10,7 @@ import ProjectIdeasFilters from '../../components/ProjectIdeasFilters';
 import styles from "./styles.module.css";
 import { useSearchParams } from 'react-router-dom';
 import Header from '../../components/Header';
+import { normalizeUrlSearchParam } from '../../utils/userIsServant';
 
 
 
@@ -29,42 +30,28 @@ const Main: React.FC = () => {
   }, [isFetching])
 
   useEffect(() => {
-    setMuralProjectIdeas(filterMuralProjectIdeas(searchParams)!)
-  }, [searchParams])
+    if (all) {
+        setMuralProjectIdeas(filterMuralProjectIdeas(searchParams)!);
+    }
+}, [searchParams, all]);
 
 
   const filterMuralProjectIdeas = (filters: URLSearchParams) => {
-    const category = filters.get('category')
-    const modality = filters.get('modality')
-    const department = filters.get('department')
+    const category = filters.get('category')?.toUpperCase();
+    const modality = filters.get('modality')?.toUpperCase();
+    const department = filters.get('department')?.toUpperCase();
 
-    let filteredProjectIdeas
+    if (filters.size === 0){
+      return all; 
+    } 
 
-    if (filters.size === 0) {
-      return all
-    }
+    return all?.filter(project => {
+        const matchesCategory = !category || project.category?.name?.toUpperCase() === category;
+        const matchesModality = !modality || normalizeUrlSearchParam(project.modality?.name) === modality;
+        const matchesDepartment = !department || project.servant?.department?.name?.toUpperCase() === department;
 
-    if (modality && category) {
-      return all?.filter(project =>
-        project.modality.name === modality.toUpperCase()
-        &&
-        project.category.name === category.toUpperCase()
-      )
-    }
-
-    if (department) {
-      filteredProjectIdeas = all?.filter(project => project.servant.department.name === department.toUpperCase())
-    }
-
-    if (category) {
-      filteredProjectIdeas = all?.filter(project => project.category.name === category.toUpperCase())
-    }
-
-    if (modality) {
-      filteredProjectIdeas = all?.filter(project => project.modality.name === modality.toUpperCase())
-    }
-
-    return filteredProjectIdeas
+        return matchesCategory && matchesModality && matchesDepartment;
+    });
 
   }
 

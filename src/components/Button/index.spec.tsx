@@ -1,80 +1,75 @@
-// import { describe, it, expect, vi } from 'vitest'
-// import { render, screen, fireEvent } from '@testing-library/react'
-// import Button from '../Button'
+import { render, fireEvent } from '@testing-library/react';
+import Button from '.';
+import styles from './styles.module.css';
+import { describe, it, expect, vi } from 'vitest';
 
-// // Mock do CSS Modules
-// vi.mock('./styles.module.css', () => ({
-//   default: {
-//     button: 'button-base',
-//     primary: 'primary-class',
-//     secondary: 'secondary-class',
-//     terciary: 'terciary-class',
-//     quaternary: 'quaternary-class',
-//     danger: 'danger-class',
-//     transparent: 'transparent-class',
-//     link: 'link-class',
-//     gap: 'gap-class',
-//   }
-// }))
+describe('<Button />', () => {
+  it('deve renderizar o botão com o conteúdo (children) passado', () => {
+    const { getByText } = render(<Button>Teste</Button>);
+    expect(document.body.contains(getByText('Teste'))).toBe(true)
+  });
 
-// describe('Componente Button', () => {
-//   it('renderiza o botão com children', () => {
-//     render(<Button>Texto do Botão</Button>)
-//     expect(screen.getByRole('button').textContent).toBe('Texto do Botão')
-//   })
+  it('deve chamar a função onClick quando o botão for clicado', () => {
+    const handleClick = vi.fn();
+    const { getByText } = render(
+      <Button onClick={handleClick}>Clique aqui</Button>
+    );
+    const button = getByText('Clique aqui');
+    fireEvent.click(button);
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
 
-//   it('aplica a classe base', () => {
-//     render(<Button>Teste</Button>)
-//     const button = screen.getByRole('button')
-//     expect(button.className.includes('button-base')).toBe(true)
-//   })
+  it('deve aplicar a classe base do botão', () => {
+    const { getByText } = render(<Button>Botão</Button>);
+    const button = getByText('Botão');
+    expect(button.className).toContain(styles.button);
+  });
 
-//   const variants = [
-//     { prop: 'primary', className: 'primary-class' },
-//     { prop: 'secondary', className: 'secondary-class' },
-//     { prop: 'terciary', className: 'terciary-class' },
-//     { prop: 'quaternary', className: 'quaternary-class' },
-//     { prop: 'danger', className: 'danger-class' },
-//     { prop: 'transparent', className: 'transparent-class' },
-//     { prop: 'link', className: 'link-class' },
-//     { prop: 'gap', className: 'gap-class' },
-//   ]
+  it('deve aplicar a classe "primary" quando a prop primary for true', () => {
+    const { getByText } = render(<Button primary>Primary</Button>);
+    const button = getByText('Primary');
+    expect(button.className).toContain(styles.primary);
+  });
 
-//   variants.forEach(({ prop, className }) => {
-//     it(`aplica a classe ${className} para a prop ${prop}`, () => {
-//       render(<Button {...{ [prop]: true }}>Teste</Button>)
-//       const button = screen.getByRole('button')
-//       expect(button.className.includes(className)).toBe(true)
-//     })
-//   })
+  it('deve aplicar a classe "secondary" quando a prop secondary for true', () => {
+    const { getByText } = render(<Button secondary>Secondary</Button>);
+    const button = getByText('Secondary');
+    expect(button.className).toContain(styles.secondary);
+  });
 
-//   it('combina múltiplas classes', () => {
-//     render(<Button primary danger>Teste</Button>)
-//     const button = screen.getByRole('button')
-//     expect(button.className).toMatch(/primary-class/)
-//     expect(button.className).toMatch(/danger-class/)
-//   })
+  it('deve aplicar a classe "terciary" quando a prop terciary for true', () => {
+    const { getByText } = render(<Button terciary>Terciary</Button>);
+    const button = getByText('Terciary');
+    expect(button.className).toContain(styles.terciary);
+  });
 
-//   it('passa atributos nativos corretamente', () => {
-//     const mockClick = vi.fn()
-//     render(
-//       <Button 
-//         disabled 
-//         type="submit"
-//         onClick={mockClick}
-//       >
-//         Teste
-//       </Button>
-//     )
+  it('deve aplicar a classe "quaternary" quando a prop quaternary for true', () => {
+    const { getByText } = render(<Button quaternary>Quaternary</Button>);
+    const button = getByText('Quaternary');
+    expect(button.className).toContain(styles.quaternary);
+  });
 
-//     const button = screen.getByRole('button') as HTMLButtonElement
-    
-//     // Verifica atributos
-//     expect(button.type).toBe('submit')
-//     expect(button.disabled).toBe(true)
-    
-//     // Verifica evento click
-//     fireEvent.click(button)
-//     expect(mockClick).toHaveBeenCalled()
-//   })
-// })
+  it('deve aplicar a classe "transparent" quando a prop transparent for true', () => {
+    const { getByText } = render(<Button transparent>Transparent</Button>);
+    const button = getByText('Transparent');
+    expect(button.className).toContain(styles.transparent);
+  });
+
+  it('deve aplicar a classe "link" quando a prop link for true', () => {
+    const { getByText } = render(<Button link>Link</Button>);
+    const button = getByText('Link');
+    expect(button.className).toContain(styles.link);
+  });
+
+  it('deve aplicar a classe "gap" quando a prop gap for true', () => {
+    const { getByText } = render(<Button gap>Gap</Button>);
+    const button = getByText('Gap');
+    expect(button.className).toContain(styles.gap);
+  });
+
+  it('deve aplicar a classe "danger" quando a prop danger for true', () => {
+    const { getByText } = render(<Button danger>Danger</Button>);
+    const button = getByText('Danger');
+    expect(button.className).toContain(styles.danger);
+  });
+});
